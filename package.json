@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "turborepo-remote-cache": "gcsfuse --foreground --experimental-local-file-cache libclangjs-turborepo-remote-cache node_modules/.cache/turbo"
+  },
+  "packageManager": "pnpm@7.1.0",
+  "devDependencies": {
+    "turbo": "latest"
+  }
+}
