@@ -24,4 +24,4 @@ jobs:
 
       - name: Build
         run: |
-          pwd
+          ./build.sh
