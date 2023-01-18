@@ -11,6 +11,9 @@ jobs:
       image: emscripten/emsdk
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
@@ -19,10 +22,6 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Build
         run: |
           ./build.sh
-          echo $?
