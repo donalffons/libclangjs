@@ -1,5 +1,5 @@
 {
-  "name": "libclangjs",
+  "name": "llvm-project-emscripten",
   "version": "0.0.0",
   "scripts": {
     "build": "ts-node index.ts"

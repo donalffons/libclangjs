@@ -8,7 +8,7 @@ importers:
     devDependencies:
       turbo: 1.7.0
 
-  packages/libclangjs:
+  packages/llvm-project-emscripten:
     specifiers:
       '@types/node': ^18.11.18
       '@types/shelljs': ^0.8.11
