@@ -11,6 +11,14 @@ jobs:
       image: emscripten/emsdk
 
     steps:
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_CREDENTIALS }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
       - name: Checkout
         uses: actions/checkout@v3
 
