@@ -42,7 +42,7 @@ declare namespace Emscripten {
   }
 }
 
-export default interface EmscriptenModule {
+export interface EmscriptenModule {
   print(str: string): void;
   printErr(str: string): void;
   arguments: string[];
@@ -116,6 +116,8 @@ export default interface EmscriptenModule {
 type EmscriptenModuleFactory<T extends EmscriptenModule = EmscriptenModule> = (
   moduleOverrides?: Partial<T>,
 ) => Promise<T>;
+
+export type FS = typeof FS;
 
 declare namespace FS {
   interface Lookup {
