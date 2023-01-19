@@ -16,30 +16,30 @@ const distPath = path.join(__dirname, "dist");
 }
 {
   // Configure
-  if (!fs.existsSync(distPath)) {
-    fs.mkdirSync("dist");
-    const res = exec(`
-        emcmake cmake -S llvm -B "${distPath}" -G Ninja ${[
-        "-DCMAKE_BUILD_TYPE=Release",
-        "-DLLVM_TARGETS_TO_BUILD=WebAssembly",
-        "-DLLVM_BUILD_LLVM_DYLIB=OFF",
-        "-DLLVM_INCLUDE_TESTS=OFF",
-        "-DLLVM_ENABLE_PROJECTS=clang",
-      ].join(" ")}
-      `, {
-      env: {
-        ...env,
-        "CXXFLAGS": "-Dwait4=__syscall_wait4",
-      },
-      cwd: buildPath,
-    });
-    if (res.code !== 0) throw new Error(res.stderr);
-  } else {
-    console.log("dist directory already exists, skipping configure...");
-  }
+  const res = exec(`
+      emcmake cmake -S llvm -B build -G Ninja ${[
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DLLVM_TARGETS_TO_BUILD=WebAssembly",
+      "-DLLVM_INCLUDE_TESTS=OFF",
+      "-DLLVM_ENABLE_PROJECTS=clang",
+    ].join(" ")}
+    `, {
+    env: {
+      ...env,
+      "CXXFLAGS": "-Dwait4=__syscall_wait4",
+    },
+    cwd: buildPath,
+  });
+  if (res.code !== 0) throw new Error(res.stderr);
 }
 {
   // Run build
-  const res = exec(`cmake --build .`, { cwd: distPath });
+  const res = exec(`cmake --build build`, { cwd: buildPath });
+  if (res.code !== 0) throw new Error(res.stderr);
+}
+{
+  // Install
+  fs.mkdirSync("dist", { recursive: true });
+  const res = exec(`cmake -DCMAKE_INSTALL_PREFIX="${distPath}" -P build/cmake_install.cmake`, { cwd: buildPath });
   if (res.code !== 0) throw new Error(res.stderr);
 }
