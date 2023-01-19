@@ -2,7 +2,8 @@
   "name": "llvm-project-emscripten",
   "version": "0.0.0",
   "scripts": {
-    "build": "ts-node index.ts"
+    "clean": "ts-node clean.ts",
+    "build": "ts-node build.ts"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
