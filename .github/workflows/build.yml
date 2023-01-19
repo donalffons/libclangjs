@@ -14,6 +14,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
