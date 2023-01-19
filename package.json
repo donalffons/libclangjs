@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "test": "turbo run test",
     "clean": "turbo run clean",
     "upload-build-cache": "gsutil rsync -d -r node_modules/.cache/turbo gs://libclangjs-turborepo-remote-cache",
     "download-build-cache": "gsutil rsync -d -r gs://libclangjs-turborepo-remote-cache node_modules/.cache/turbo/"

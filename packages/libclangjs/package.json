@@ -1,6 +1,8 @@
 {
   "name": "libclangjs",
   "version": "0.0.0",
+  "main": "dist/libclangjs.js",
+  "types": "dist/libclangjs.d.ts",
   "scripts": {
     "clean": "ts-node clean.ts",
     "build": "ts-node build.ts"
