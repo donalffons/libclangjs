@@ -48,7 +48,7 @@ std::string cxStringToStdString(CXString str) {
   return result;
 }
 
-EMSCRIPTEN_BINDINGS(my_module) {
+EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function(
       "clang_createIndex",
       emscripten::optional_override(
@@ -79,9 +79,10 @@ EMSCRIPTEN_BINDINGS(my_module) {
                        }));
   emscripten::function(
       "clang_CXIndex_setInvocationEmissionPathOption",
-      emscripten::optional_override([](Pointer &index, std::string path) {
-        return clang_CXIndex_setInvocationEmissionPathOption(index.ptr,
-                                                             path.c_str());
+      emscripten::optional_override([](Pointer &index, emscripten::val path) {
+        return clang_CXIndex_setInvocationEmissionPathOption(
+            index.ptr,
+            path.isNull() ? nullptr : path.as<std::string>().c_str());
       }));
   emscripten::function(
       "clang_getFileName", emscripten::optional_override([](Pointer &SFile) {

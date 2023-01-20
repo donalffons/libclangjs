@@ -1,8 +1,12 @@
 import { EmscriptenModule, FS } from "./emscripten";
 
-type CXIndex = {};
+export type CXIndex = {};
 
-type LibClang = {
+export type EnumEntry = {
+  value: number;
+};
+
+export type LibClang = EmscriptenModule & {
   /**
    * Provides a shared context for creating translation units.
    * 
@@ -45,7 +49,78 @@ type LibClang = {
    */
   clang_createIndex: (excludeDeclarationsFromPCH: number, displayDiagnostics: number) => CXIndex;
 
+  /**
+   * Destroy the given index.
+   *
+   * The index must not be destroyed until all of the translation units created
+   * within that index have been destroyed.
+   */
+  clang_disposeIndex: (index: CXIndex) => void;
+
+  CXGlobalOptFlags: {
+    /**
+     * Used to indicate that no special CXIndex options are needed.
+     */
+    None: EnumEntry;
+
+    /**
+     * Used to indicate that threads that libclang creates for indexing
+     * purposes should use background priority.
+     *
+     * Affects #clang_indexSourceFile, #clang_indexTranslationUnit,
+     * #clang_parseTranslationUnit, #clang_saveTranslationUnit.
+     */
+    ThreadBackgroundPriorityForIndexing: EnumEntry;
+
+    /**
+     * Used to indicate that threads that libclang creates for editing
+     * purposes should use background priority.
+     *
+     * Affects #clang_reparseTranslationUnit, #clang_codeCompleteAt,
+     * #clang_annotateTokens
+     */
+    ThreadBackgroundPriorityForEditing: EnumEntry;
+
+    /**
+     * Used to indicate that all threads that libclang creates should use
+     * background priority.
+     */
+    ThreadBackgroundPriorityForAll: EnumEntry;
+  };
+
+  /**
+   * Sets general options associated with a CXIndex.
+   *
+   * For example:
+   * ```cpp
+   * CXIndex idx = ...;
+   * clang_CXIndex_setGlobalOptions(idx,
+   *     clang_CXIndex_getGlobalOptions(idx) |
+   *     CXGlobalOpt_ThreadBackgroundPriorityForIndexing);
+   * ```
+   *
+   * @param options A bitmask of options, a bitwise OR of CXGlobalOpt_XXX flags.
+   */
+  clang_CXIndex_setGlobalOptions: (index: CXIndex, options: number) => void;
+
+  /**
+   * Gets the general options associated with a CXIndex.
+   *
+   * @returns A bitmask of options, a bitwise OR of CXGlobalOpt_XXX flags that
+   * are associated with the given CXIndex object.
+   */
+  clang_CXIndex_getGlobalOptions: (index: CXIndex) => number;
+
+  /**
+   * Sets the invocation emission path option in a CXIndex.
+   *
+   * The invocation emission path specifies a path which will contain log
+   * files for certain libclang invocations. A null value (default) implies that
+   * libclang invocations are not logged..
+   */
+  clang_CXIndex_setInvocationEmissionPathOption: (index: CXIndex, path: string | null) => void;
+
   FS: FS;
 };
 
-export default function init(module?: EmscriptenModule): EmscriptenModule & LibClang;
+export default function init(module?: EmscriptenModule): LibClang;
