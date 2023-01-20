@@ -6,5 +6,5 @@ class TestClass {
 public:
   TestClass();
   ~TestClass();
-  TestStruct Something();
+  TestStruct *Something();
 };

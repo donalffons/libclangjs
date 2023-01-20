@@ -1,4 +1,4 @@
-import init, { CXIndex, LibClang } from "libclangjs";
+import init, { CXIndex, CXTranslationUnit, LibClang } from "libclangjs";
 import path from "path";
 import fs from "fs";
 
@@ -26,6 +26,20 @@ test(`call "clang_CXIndex_setInvocationEmissionPathOption" with both string and 
   libclangjs.clang_CXIndex_setInvocationEmissionPathOption(index, path.join(cwd, "log"));
 });
 
+let tu: CXTranslationUnit;
+
 test(`call "clang_parseTranslationUnit"`, async () => {
-  libclangjs.clang_parseTranslationUnit(index, path.join(cwd, "main.cpp"), null, null, 0);
+  const nullTu = libclangjs.clang_parseTranslationUnit(index, "nonexistingfile", null, null, 0);
+  expect(libclangjs.isNullPointer(nullTu)).toBeTruthy();
+  tu = libclangjs.clang_parseTranslationUnit(index, path.join(cwd, "main.cpp"), [`-I${path.join(cwd, "dir")}`], null, 0);
+  expect(libclangjs.isNullPointer(tu)).toBeFalsy();
+  const cursor = libclangjs.clang_getTranslationUnitCursor(tu);
+  let foundCookie = false;
+  libclangjs.clang_visitChildren(cursor, (c, p) => {
+    if (libclangjs.clang_getCursorSpelling(c) === "cookie") {
+      foundCookie = true;
+    }
+    return libclangjs.CXChildVisitResult.Continue;
+  });
+  expect(foundCookie).toBeTruthy();
 });
