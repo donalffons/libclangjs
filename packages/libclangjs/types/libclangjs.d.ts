@@ -1,6 +1,41 @@
 import { EmscriptenModule, FS } from "./emscripten";
 
+/**
+ * An "index" that consists of a set of translation units that would
+ * typically be linked together into an executable or library.
+ */
 export type CXIndex = {};
+
+/**
+ * A particular source file that is part of a translation unit.
+ */
+export type CXFile = {};
+
+/**
+ * A single translation unit, which resides in an index.
+ */
+export type CXTranslationUnit = {};
+
+/**
+ * Provides the contents of a file that has not yet been saved to disk.
+ *
+ * Each CXUnsavedFile instance provides the name of a file on the
+ * system along with the current contents of that file that have not
+ * yet been saved to disk.
+ */
+export type CXUnsavedFile = {
+  /**
+   * The file whose contents have not yet been saved.
+   *
+   * This file must already exist in the file system.
+   */
+  filename: string;
+
+  /**
+   * A buffer containing the unsaved contents of this file.
+   */
+  contents: string;
+};
 
 export type EnumEntry = {
   value: number;
@@ -119,6 +154,48 @@ export type LibClang = EmscriptenModule & {
    * libclang invocations are not logged..
    */
   clang_CXIndex_setInvocationEmissionPathOption: (index: CXIndex, path: string | null) => void;
+
+  /**
+   * Retrieve the complete file and path name of the given file.
+   */
+  clang_getFileName: (SFile: CXFile) => string;
+
+  /**
+   * Retrieve the last modification time of the given file.
+   */
+  clang_getFileTime: (SFile: CXFile) => number;
+
+  // skipped CXFileUniqueID
+  // skipped clang_getFileUniqueID
+
+  /**
+   * Determine whether the given header is guarded against
+   * multiple inclusions, either with the conventional
+   * `#ifndef #define #endif` macro guards or with `#pragma once`.
+   */
+  clang_isFileMultipleIncludeGuarded: (tu: CXTranslationUnit, file: CXFile) => number;
+
+  /**
+   * Retrieve a file handle within the given translation unit.
+   *
+   * @param tu the translation unit
+   *
+   * @param file_name the name of the file.
+   *
+   * @returns the file handle for the named file in the translation unit `tu`,
+   * or a NULL file handle if the file was not a part of this translation unit.
+   */
+  clang_getFile: (tu: CXTranslationUnit, file_name: string | null) => CXFile;
+
+  // ################# TODO: skipped some functions
+
+  /**
+   * Same as `clang_parseTranslationUnit2`, but returns
+   * the `CXTranslationUnit` instead of an error code.  In case of an error this
+   * routine returns a `NULL` `CXTranslationUnit`, without further detailed
+   * error codes.
+   */
+  clang_parseTranslationUnit: (CIdx: CXIndex, source_filename: string | null, command_line_args: string[] | null, unsaved_files: CXUnsavedFile[] | null, options: number) => CXTranslationUnit;
 
   FS: FS;
 };

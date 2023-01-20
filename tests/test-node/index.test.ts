@@ -25,3 +25,7 @@ test(`call "clang_CXIndex_setInvocationEmissionPathOption" with both string and 
   fs.mkdirSync(path.join("testSrc", "log"), { recursive: true });
   libclangjs.clang_CXIndex_setInvocationEmissionPathOption(index, path.join(cwd, "log"));
 });
+
+test(`call "clang_parseTranslationUnit"`, async () => {
+  libclangjs.clang_parseTranslationUnit(index, path.join(cwd, "main.cpp"), null, null, 0);
+});
