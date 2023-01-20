@@ -7,6 +7,7 @@
   "devDependencies": {
     "@types/emscripten": "^1.39.6",
     "@types/jest": "^29.2.6",
+    "@types/node": "^18.11.18",
     "jest": "^29.3.1",
     "libclangjs": "workspace:*",
     "ts-jest": "^29.0.5",

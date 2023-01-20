@@ -98,6 +98,10 @@ export interface EmscriptenModule {
 
   _malloc(size: number): number;
   _free(ptr: number): void;
+
+  MEMFS: Emscripten.FileSystemType;
+  NODEFS: Emscripten.FileSystemType;
+  IDBFS: Emscripten.FileSystemType;
 }
 
 /**
@@ -116,8 +120,6 @@ export interface EmscriptenModule {
 type EmscriptenModuleFactory<T extends EmscriptenModule = EmscriptenModule> = (
   moduleOverrides?: Partial<T>,
 ) => Promise<T>;
-
-export type FS = typeof FS;
 
 declare namespace FS {
   interface Lookup {
@@ -252,10 +254,7 @@ declare namespace FS {
     canOwn: boolean,
   ): FSNode;
 }
-
-declare var MEMFS: Emscripten.FileSystemType;
-declare var NODEFS: Emscripten.FileSystemType;
-declare var IDBFS: Emscripten.FileSystemType;
+export type FS = typeof FS;
 
 // https://emscripten.org/docs/porting/connecting_cpp_and_javascript/Interacting-with-code.html
 type StringToType<R extends any> = R extends Emscripten.JSType
