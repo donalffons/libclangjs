@@ -1,5 +1,0 @@
----
-"libclangjs": patch
----
-
-Improved documentation
