@@ -1,5 +1,4 @@
 {
-  "private": true,
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",
@@ -9,6 +8,7 @@
   },
   "packageManager": "pnpm@7.25.1",
   "devDependencies": {
+    "@changesets/cli": "^2.26.0",
     "turbo": "^1.7.0"
   }
 }
