@@ -18,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          token: $GH_PAT
+          token: ${{ secrets.GH_PAT }}
 
       - name: Fix GH actions issue https://github.com/actions/checkout/issues/363
         run: |
