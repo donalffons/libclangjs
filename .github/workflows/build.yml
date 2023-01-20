@@ -38,7 +38,7 @@ jobs:
         run: |
           pwd
           ls -al
-          git config --global --add safe.directory $(realpath .)
+          chown -R root:root .
           git config user.name "github-actions[bot]"
 
       - name: Create Release Pull Request or Publish to npm
