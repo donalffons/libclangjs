@@ -153,13 +153,13 @@ export type CXCursorKind = {
   CXCursor_VarDecl: EnumEntry<CXCursorKind>;
   /** A function or method parameter. */
   CXCursor_ParmDecl: EnumEntry<CXCursorKind>;
-  /** An Objective-C \@interface. */
+  /** An Objective-C interface. */
   CXCursor_ObjCInterfaceDecl: EnumEntry<CXCursorKind>;
-  /** An Objective-C \@interface for a category. */
+  /** An Objective-C interface for a category. */
   CXCursor_ObjCCategoryDecl: EnumEntry<CXCursorKind>;
-  /** An Objective-C \@protocol declaration. */
+  /** An Objective-C protocol declaration. */
   CXCursor_ObjCProtocolDecl: EnumEntry<CXCursorKind>;
-  /** An Objective-C \@property declaration. */
+  /** An Objective-C property declaration. */
   CXCursor_ObjCPropertyDecl: EnumEntry<CXCursorKind>;
   /** An Objective-C instance variable. */
   CXCursor_ObjCIvarDecl: EnumEntry<CXCursorKind>;
@@ -167,9 +167,9 @@ export type CXCursorKind = {
   CXCursor_ObjCInstanceMethodDecl: EnumEntry<CXCursorKind>;
   /** An Objective-C class method. */
   CXCursor_ObjCClassMethodDecl: EnumEntry<CXCursorKind>;
-  /** An Objective-C \@implementation. */
+  /** An Objective-C implementation. */
   CXCursor_ObjCImplementationDecl: EnumEntry<CXCursorKind>;
-  /** An Objective-C \@implementation for a category. */
+  /** An Objective-C implementation for a category. */
   CXCursor_ObjCCategoryImplDecl: EnumEntry<CXCursorKind>;
   /** A typedef. */
   CXCursor_TypedefDecl: EnumEntry<CXCursorKind>;
@@ -205,9 +205,9 @@ export type CXCursorKind = {
   CXCursor_UsingDeclaration: EnumEntry<CXCursorKind>;
   /** A C++ alias declaration */
   CXCursor_TypeAliasDecl: EnumEntry<CXCursorKind>;
-  /** An Objective-C \@synthesize definition. */
+  /** An Objective-C synthesize definition. */
   CXCursor_ObjCSynthesizeDecl: EnumEntry<CXCursorKind>;
-  /** An Objective-C \@dynamic definition. */
+  /** An Objective-C dynamic definition. */
   CXCursor_ObjCDynamicDecl: EnumEntry<CXCursorKind>;
   /** An access specifier. */
   CXCursor_CXXAccessSpecifier: EnumEntry<CXCursorKind>;
@@ -226,10 +226,10 @@ export type CXCursorKind = {
    * A type reference occurs anywhere where a type is named but not
    * declared. For example, given:
    *
-   * \code
+   * ```cpp
    * typedef unsigned size_type;
    * size_type size;
-   * \endcode
+   * ```
    *
    * The typedef is a declaration of size_type (CXCursor_TypedefDecl),
    * while the type of the variable "size" is referenced. The cursor
@@ -257,12 +257,12 @@ export type CXCursorKind = {
    * This cursor kind is used to describe the jump to "start_over" in the
    * goto statement in the following example:
    *
-   * \code
+   * ```cpp
    *   start_over:
    *     ++counter;
    *
    *     goto start_over;
-   * \endcode
+   * ```
    *
    * A label reference cursor refers to a label statement.
    */
@@ -275,7 +275,7 @@ export type CXCursorKind = {
    * An overloaded declaration reference cursor occurs in C++ templates where
    * a dependent name refers to a function. For example:
    *
-   * \code
+   * ```cpp
    * template<typename T> void swap(T&, T&);
    *
    * struct X { ... };
@@ -291,7 +291,7 @@ export type CXCursorKind = {
    *
    * struct Y { };
    * void swap(Y&, Y&);
-   * \endcode
+   * ```
    *
    * Here, the identifier "swap" is associated with an overloaded declaration
    * reference. In the template definition, "swap" refers to either of the two
@@ -300,8 +300,8 @@ export type CXCursorKind = {
    * argument-dependent lookup (e.g., the "swap" function at the end of the
    * example).
    *
-   * The functions \c clang_getNumOverloadedDecls() and
-   * \c clang_getOverloadedDecl() can be used to retrieve the definitions
+   * The functions {@link LibClang.clang_getNumOverloadedDecls | clang_getNumOverloadedDecls()} and
+   * {@link LibClang.clang_getOverloadedDecl | clang_getOverloadedDecl()} can be used to retrieve the definitions
    * referenced by this cursor.
    */
   CXCursor_OverloadedDeclRef: EnumEntry<CXCursorKind>;
@@ -463,9 +463,9 @@ export type CXCursorKind = {
    * notion (C++ [expr.type.conv]).
    *
    * Example:
-   * \code
+   * ```cpp
    *   x = int(0.5);
-   * \endcode
+   * ```
    */
   CXCursor_CXXFunctionalCastExpr: EnumEntry<CXCursorKind>;
 
@@ -510,24 +510,24 @@ export type CXCursorKind = {
    */
   CXCursor_ObjCStringLiteral: EnumEntry<CXCursorKind>;
 
-  /** An Objective-C \@encode expression.
+  /** An Objective-C encode expression.
    */
   CXCursor_ObjCEncodeExpr: EnumEntry<CXCursorKind>;
 
-  /** An Objective-C \@selector expression.
+  /** An Objective-C selector expression.
    */
   CXCursor_ObjCSelectorExpr: EnumEntry<CXCursorKind>;
 
-  /** An Objective-C \@protocol expression.
+  /** An Objective-C protocol expression.
    */
   CXCursor_ObjCProtocolExpr: EnumEntry<CXCursorKind>;
 
   /** An Objective-C "bridged" cast expression, which casts between
    * Objective-C pointers and C pointers, transferring ownership in the process.
    *
-   * \code
+   * ```cpp
    *   NSString *str = (__bridge_transfer NSString *)CFCreateString();
-   * \endcode
+   * ```
    */
   CXCursor_ObjCBridgedCastExpr: EnumEntry<CXCursorKind>;
 
@@ -537,38 +537,38 @@ export type CXCursorKind = {
    * A pack expansion expression contains a pattern (which itself is an
    * expression) followed by an ellipsis. For example:
    *
-   * \code
+   * ```cpp
    * template<typename F, typename ...Types>
    * void forward(F f, Types &&...args) {
    *  f(static_cast<Types&&>(args)...);
    * }
-   * \endcode
+   * ```
    */
   CXCursor_PackExpansionExpr: EnumEntry<CXCursorKind>;
 
   /** Represents an expression that computes the length of a parameter
    * pack.
    *
-   * \code
+   * ```cpp
    * template<typename ...Types>
    * struct count {
    *   static const unsigned value = sizeof...(Types);
    * };
-   * \endcode
+   * ```
    */
   CXCursor_SizeOfPackExpr: EnumEntry<CXCursorKind>;
 
   /* Represents a C++ lambda expression that produces a local function
    * object.
    *
-   * \code
+   * ```cpp
    * void abssort(float *x, unsigned N) {
    *   std::sort(x, x + N,
    *             [](float a, float b) {
    *               return std::abs(a) < std::abs(b);
    *             });
    * }
-   * \endcode
+   * ```
    */
   CXCursor_LambdaExpr: EnumEntry<CXCursorKind>;
 
@@ -626,10 +626,10 @@ export type CXCursorKind = {
    * This cursor kind is used to describe the "start_over:" label statement in
    * the following example:
    *
-   * \code
+   * ```cpp
    *   start_over:
    *     ++counter;
-   * \endcode
+   * ```
    *
    */
   CXCursor_LabelStmt: EnumEntry<CXCursorKind>;
@@ -694,23 +694,23 @@ export type CXCursorKind = {
   CXCursor_GCCAsmStmt: EnumEntry<CXCursorKind>;
   CXCursor_AsmStmt: EnumEntry<CXCursorKind>;
 
-  /** Objective-C's overall \@try-\@catch-\@finally statement.
+  /** Objective-C's overall try-catch-finally statement.
    */
   CXCursor_ObjCAtTryStmt: EnumEntry<CXCursorKind>;
 
-  /** Objective-C's \@catch statement.
+  /** Objective-C's catch statement.
    */
   CXCursor_ObjCAtCatchStmt: EnumEntry<CXCursorKind>;
 
-  /** Objective-C's \@finally statement.
+  /** Objective-C's finally statement.
    */
   CXCursor_ObjCAtFinallyStmt: EnumEntry<CXCursorKind>;
 
-  /** Objective-C's \@throw statement.
+  /** Objective-C's throw statement.
    */
   CXCursor_ObjCAtThrowStmt: EnumEntry<CXCursorKind>;
 
-  /** Objective-C's \@synchronized statement.
+  /** Objective-C's synchronized statement.
    */
   CXCursor_ObjCAtSynchronizedStmt: EnumEntry<CXCursorKind>;
 
@@ -1110,6 +1110,19 @@ export type CXCursorKind = {
   CXCursor_OverloadCandidate: EnumEntry<CXCursorKind>;
 };
 
+/**
+ * Visitor invoked for each cursor found by a traversal.
+ *
+ * This visitor function will be invoked for each cursor found by
+ * {@link LibClang.clang_visitCursorChildren | clang_visitCursorChildren()}. Its first argument is the cursor being
+ * visited, its second argument is the parent visitor for that cursor,
+ * and its third argument is the client data provided to
+ * clang_visitCursorChildren().
+ *
+ * The visitor should return one of the {@link CXChildVisitResult} values
+ * to direct clang_visitCursorChildren().
+ */
+type CXCursorVisitor = (cursor: CXCursor, parent: CXCursor) => CXChildVisitResult[keyof CXChildVisitResult];
 
 export type LibClang = EmscriptenModule & {
   /**
@@ -1248,7 +1261,7 @@ export type LibClang = EmscriptenModule & {
 
   // ################# TODO: skipped some functions
 
-  clang_visitChildren: (parent: CXCursor, visitor: (cursor: CXCursor, parent: CXCursor) => CXChildVisitResult[keyof CXChildVisitResult]) => number;
+  clang_visitChildren: (parent: CXCursor, visitor: CXCursorVisitor) => number;
 
   // ################# TODO: skipped some functions
 
@@ -1267,7 +1280,7 @@ export type LibClang = EmscriptenModule & {
    * cursor should proceed after visiting a particular child cursor.
    *
    * A value of this enumeration type should be returned by each
-   * \c CXCursorVisitor to indicate how clang_visitChildren() proceed.
+   * {@link CXCursorVisitor} to indicate how {@link LibClang.clang_visitChildren | clang_visitChildren()} proceed.
    */
   CXChildVisitResult: CXChildVisitResult;
 };
