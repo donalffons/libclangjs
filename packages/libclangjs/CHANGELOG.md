@@ -1,5 +1,12 @@
 # libclangjs
 
+## 0.1.2
+
+### Patch Changes
+
+- 44b8c7d: Added changeset action for automatic versioning and publishing of packages
+- 28b803f: Improved documentation
+
 ## 0.1.1
 
 ### Patch Changes
