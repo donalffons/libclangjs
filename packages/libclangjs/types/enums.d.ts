@@ -1296,3 +1296,24 @@ export type CXReparse_Flags = {
    */
   CXReparse_None: EnumEntry<CXReparse_Flags>;
 };
+
+export type CXTUResourceUsageKind = {
+  CXTUResourceUsage_AST: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_Identifiers: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_Selectors: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_GlobalCompletionResults: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_SourceManagerContentCache: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_AST_SideTables: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_SourceManager_Membuffer_Malloc: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_SourceManager_Membuffer_MMap: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_ExternalASTSource_Membuffer_MMap: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_Preprocessor: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_PreprocessingRecord: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_SourceManager_DataStructures: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_Preprocessor_HeaderSearch: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_MEMORY_IN_BYTES_BEGIN: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_MEMORY_IN_BYTES_END: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_First: EnumEntry<CXTUResourceUsageKind>;
+  CXTUResourceUsage_Last: EnumEntry<CXTUResourceUsageKind>;
+};
