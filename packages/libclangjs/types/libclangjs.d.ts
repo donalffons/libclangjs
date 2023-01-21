@@ -82,6 +82,17 @@ export type CXSourceRange = {
   end_int_data: number;
 };
 
+/**
+ * A single diagnostic, containing the diagnostic's severity,
+ * location, text, source ranges, and fix-it hints.
+ */
+export type CXDiagnostic = {};
+
+/**
+ * A group of CXDiagnostics.
+ */
+export type CXDiagnosticSet = {};
+
 export type EnumEntry<T> = {
   value: number;
   /**
@@ -1133,6 +1144,70 @@ export type CXCursorKind = {
 };
 
 /**
+ * Describes the severity of a particular diagnostic.
+ */
+export type CXDiagnosticSeverity = {
+  /**
+   * A diagnostic that has been suppressed, e.g., by a command-line
+   * option.
+   */
+  CXDiagnostic_Ignored: EnumEntry<CXDiagnosticSeverity>;
+
+  /**
+   * This diagnostic is a note that should be attached to the
+   * previous (non-note) diagnostic.
+   */
+  CXDiagnostic_Note: EnumEntry<CXDiagnosticSeverity>;
+
+  /**
+   * This diagnostic indicates suspicious code that may not be
+   * wrong.
+   */
+  CXDiagnostic_Warning: EnumEntry<CXDiagnosticSeverity>;
+
+  /**
+   * This diagnostic indicates that the code is ill-formed.
+   */
+  CXDiagnostic_Error: EnumEntry<CXDiagnosticSeverity>;
+
+  /**
+   * This diagnostic indicates that the code is ill-formed such
+   * that future parser recovery is unlikely to produce useful
+   * results.
+   */
+  CXDiagnostic_Fatal: EnumEntry<CXDiagnosticSeverity>;
+};
+
+/**
+ * Describes the kind of error that occurred (if any) in a call to
+ * {@link clang_loadDiagnostics}.
+ */
+export type CXLoadDiag_Error = {
+  /**
+   * Indicates that no error occurred.
+   */
+  CXLoadDiag_None: EnumEntry<CXLoadDiag_Error>;
+
+  /**
+   * Indicates that an unknown error occurred while attempting to
+   * deserialize diagnostics.
+   */
+  CXLoadDiag_Unknown: EnumEntry<CXLoadDiag_Error>;
+
+  /**
+   * Indicates that the file containing the serialized diagnostics
+   * could not be opened.
+   */
+  CXLoadDiag_CannotLoad: EnumEntry<CXLoadDiag_Error>;
+
+  /**
+   * Indicates that the serialized diagnostics file is invalid or
+   * corrupt.
+   */
+  CXLoadDiag_InvalidFile: EnumEntry<CXLoadDiag_Error>;
+};
+
+/**
  * Visitor invoked for each cursor found by a traversal.
  *
  * This visitor function will be invoked for each cursor found by
@@ -1369,6 +1444,56 @@ export type LibClang = EmscriptenModule & {
   // skipped clang_getSkippedRanges
   // skipped clang_getAllSkippedRanges
   // skipped clang_disposeSourceRangeList
+
+  /**
+   * Determine the number of diagnostics in a {@link CXDiagnosticSet}.
+   */
+  clang_getNumDiagnosticsInSet: (Diags: CXDiagnosticSet) => number;
+
+  /**
+   * Retrieve a diagnostic associated with the given {@link CXDiagnosticSet}.
+   *
+   * @param Diags the CXDiagnosticSet to query.
+   * @param Index the zero-based diagnostic number to retrieve.
+   *
+   * @returns the requested diagnostic. This diagnostic must be freed
+   * via a call to {@link LibClang.clang_disposeDiagnostic | clang_disposeDiagnostic()}.
+   */
+  clang_getDiagnosticInSet: (Diags: CXDiagnosticSet, Index: number) => CXDiagnostic;
+
+  // skipped clang_loadDiagnostics
+
+  /**
+   * Release a CXDiagnosticSet and all of its contained diagnostics.
+   */
+  clang_disposeDiagnosticSet: (Diags: CXDiagnosticSet) => void;
+
+  /**
+   * Retrieve the child diagnostics of a CXDiagnostic.
+   *
+   * This CXDiagnosticSet does not need to be released by
+   * {@link clang_disposeDiagnosticSet}.
+   */
+  clang_getChildDiagnostics: (D: CXDiagnostic) => CXDiagnosticSet;
+
+  // skipped clang_getNumDiagnostics
+  // skipped clang_getDiagnostic
+  // skipped clang_getDiagnosticSetFromTU
+  // skipped clang_disposeDiagnostic
+  // skipped CXDiagnosticDisplayOptions
+  // skipped clang_formatDiagnostic
+  // skipped clang_defaultDiagnosticDisplayOptions
+  // skipped clang_getDiagnosticSeverity
+  // skipped clang_getDiagnosticLocation
+  // skipped clang_getDiagnosticSpelling
+  // skipped clang_getDiagnosticOption
+  // skipped clang_getDiagnosticCategory
+  // skipped clang_getDiagnosticCategoryName
+  // skipped clang_getDiagnosticCategoryText
+  // skipped clang_getDiagnosticNumRanges
+  // skipped clang_getDiagnosticRange
+  // skipped clang_getDiagnosticNumFixIts
+  // skipped clang_getDiagnosticFixIt
 
   // ################# TODO: skipped some functions
 
