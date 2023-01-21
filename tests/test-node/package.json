@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev": "jest --watchAll"
   },
   "devDependencies": {
     "@types/emscripten": "^1.39.6",
