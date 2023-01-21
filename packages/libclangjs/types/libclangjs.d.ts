@@ -60,6 +60,28 @@ export type CXCursor = {
   xdata: number;
 };
 
+/**
+ * Identifies a specific source location within a translation
+ * unit.
+ *
+ * Use {@link LibClang.clang_getExpansionLocation | clang_getExpansionLocation()} or {@link LibClang.clang_getSpellingLocation | clang_getSpellingLocation()}
+ * to map a source location to a particular file, line, and column.
+ */
+export type CXSourceLocation = {
+  int_data: number;
+};
+
+/**
+ * Identifies a half-open character range in the source code.
+ *
+ * Use {@link LibClang.clang_getRangeStart | clang_getRangeStart()} and {@link LibClang.clang_getRangeEnd | clang_getRangeEnd()} to retrieve the
+ * starting and end locations from a source range, respectively.
+ */
+export type CXSourceRange = {
+  begin_int_data: number;
+  end_int_data: number;
+};
+
 export type EnumEntry<T> = {
   value: number;
   /**
@@ -1250,6 +1272,57 @@ export type LibClang = EmscriptenModule & {
    * `file`, or a NULL pointer when the file is not loaded.
    */
   clang_getFileContents: (tu: CXTranslationUnit, file: CXFile) => string;
+
+  /**
+   * Returns non-zero if the `file1` and `file2` point to the same file,
+   * or they are both NULL.
+   */
+  clang_File_isEqual: (file1: CXFile, file2: CXFile) => number;
+
+  /**
+   * Returns the real path name of \c file.
+   *
+   * An empty string may be returned. Use \c clang_getFileName() in that case.
+   */
+  clang_File_tryGetRealPathName: (file: CXFile) => string;
+
+  /**
+   * Retrieve a NULL (invalid) source location.
+   */
+  clang_getNullLocation: () => CXSourceLocation;
+
+  /**
+   * Determine whether two source locations, which must refer into
+   * the same translation unit, refer to exactly the same point in the source
+   * code.
+   *
+   * @returns non-zero if the source locations refer to the same location, zero
+   * if they refer to different locations.
+   */
+  clang_equalLocations: (loc1: CXSourceLocation, loc2: CXSourceLocation) => number;
+
+  /**
+   * Retrieves the source location associated with a given file/line/column
+   * in a particular translation unit.
+   */
+  clang_getLocation: (tu: CXTranslationUnit, file: CXFile, line: number, column: number) => CXSourceLocation;
+
+  /**
+  * Retrieves the source location associated with a given character offset
+  * in a particular translation unit.
+  */
+  clang_getLocationForOffset: (tu: CXTranslationUnit, file: CXFile, offset: number) => CXSourceLocation;
+
+  /**
+  * Returns non-zero if the given source location is in a system header.
+  */
+  clang_Location_isInSystemHeader: (location: CXSourceLocation) => number;
+
+  /**
+  * Returns non-zero if the given source location is in the main file of
+  * the corresponding translation unit.
+  */
+  clang_Location_isFromMainFile: (location: CXSourceLocation) => number;
 
   // ################# TODO: skipped some functions
 

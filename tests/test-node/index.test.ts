@@ -1,4 +1,4 @@
-import init, { CXIndex, CXTranslationUnit, LibClang } from "libclangjs";
+import init, { CXFile, CXIndex, CXTranslationUnit, LibClang } from "libclangjs";
 import path from "path";
 import fs from "fs";
 
@@ -44,8 +44,20 @@ test(`call "clang_parseTranslationUnit"`, async () => {
   expect(foundCookie).toBeTruthy();
 });
 
+let mainFile: CXFile;
+
 test("can get file contents", () => {
-  const file = libclangjs.clang_getFile(tu, path.join(cwd, "main.cpp"));
-  const fileContents = libclangjs.clang_getFileContents(tu, file);
+  mainFile = libclangjs.clang_getFile(tu, path.join(cwd, "main.cpp"));
+  const fileContents = libclangjs.clang_getFileContents(tu, mainFile);
   expect(fileContents).toBe(fs.readFileSync(path.join("testSrc", "main.cpp")).toString());
+});
+
+test("can make simple calls regarding CXSourceLocation", () => {
+  const nullLoc = libclangjs.clang_getNullLocation();
+  const loc1 = libclangjs.clang_getLocation(tu, mainFile, 0, 1);
+  const loc2 = libclangjs.clang_getLocation(tu, mainFile, 0, 2);
+  const loc3 = libclangjs.clang_getLocation(tu, mainFile, 3, 1);
+  expect(libclangjs.clang_equalLocations(nullLoc, loc3)).toBe(0);
+  expect(libclangjs.clang_equalLocations(loc1, loc2)).not.toBe(0);
+  expect(libclangjs.clang_equalLocations(loc1, loc3)).toBe(0);
 });
