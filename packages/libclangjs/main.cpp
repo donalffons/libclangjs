@@ -1135,30 +1135,35 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
                        }));
   emscripten::function(
       "clang_constructUSR_ObjCClass",
-      emscripten::optional_override([](std::string class_name) {
-        return cxStringToStdString(
-            clang_constructUSR_ObjCClass(class_name.c_str()));
+      emscripten::optional_override([](emscripten::val class_name) {
+        return cxStringToStdString(clang_constructUSR_ObjCClass(
+            class_name.isNull() ? nullptr
+                                : class_name.as<std::string>().c_str()));
       }));
   emscripten::function(
       "clang_constructUSR_ObjCCategory",
-      emscripten::optional_override(
-          [](std::string class_name, std::string category_name) {
-            return cxStringToStdString(clang_constructUSR_ObjCCategory(
-                class_name.c_str(), category_name.c_str()));
-          }));
+      emscripten::optional_override([](emscripten::val class_name,
+                                       emscripten::val category_name) {
+        return cxStringToStdString(clang_constructUSR_ObjCCategory(
+            class_name.isNull() ? nullptr
+                                : class_name.as<std::string>().c_str(),
+            category_name.isNull() ? nullptr
+                                   : category_name.as<std::string>().c_str()));
+      }));
   emscripten::function(
       "clang_constructUSR_ObjCProtocol",
-      emscripten::optional_override([](std::string protocol_name) {
-        return cxStringToStdString(
-            clang_constructUSR_ObjCProtocol(protocol_name.c_str()));
+      emscripten::optional_override([](emscripten::val protocol_name) {
+        return cxStringToStdString(clang_constructUSR_ObjCProtocol(
+            protocol_name.isNull() ? nullptr
+                                   : protocol_name.as<std::string>().c_str()));
       }));
+  // skipped clang_constructUSR_ObjCIvar
+  // skipped clang_constructUSR_ObjCMethod
+  // skipped clang_constructUSR_ObjCProperty
   emscripten::function("clang_getCursorSpelling",
                        emscripten::optional_override([](CXCursor C) {
                          return cxStringToStdString(clang_getCursorSpelling(C));
                        }));
-  // skipped clang_constructUSR_ObjCIvar
-  // skipped clang_constructUSR_ObjCMethod
-  // skipped clang_constructUSR_ObjCProperty
   emscripten::function("clang_Cursor_getSpellingNameRange",
                        &clang_Cursor_getSpellingNameRange);
   emscripten::enum_<CXPrintingPolicyProperty>("CXPrintingPolicyProperty")
