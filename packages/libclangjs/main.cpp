@@ -385,7 +385,8 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function(
       "clang_getTUResourceUsageName",
       emscripten::optional_override([](CXTUResourceUsageKind kind) {
-        return std::string(clang_getTUResourceUsageName(kind));
+        const char *ret = clang_getTUResourceUsageName(kind);
+        return ret == nullptr ? nullptr : std::string(ret);
       }));
   // skipped CXTUResourceUsageEntry
   // skipped CXTUResourceUsage

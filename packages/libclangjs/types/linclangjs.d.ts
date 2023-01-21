@@ -475,7 +475,25 @@ export type LibClang = EmscriptenModule & {
    */
   clang_reparseTranslationUnit: (TU: CXTranslationUnit, unsaved_files: CXUnsavedFile[] | null, options: number) => number;
 
-  // ################# TODO: skipped some functions
+  /**
+   * Returns the human-readable null-terminated C string that represents
+   *  the name of the memory category.  This string should never be freed.
+   */
+  clang_getTUResourceUsageName: (kind: CXTUResourceUsageKind) => string | null;
+
+  // skipped CXTUResourceUsageEntry
+  // skipped CXTUResourceUsage
+  // skipped clang_getCXTUResourceUsage
+  // skipped clang_disposeCXTUResourceUsage
+  // skipped clang_getTranslationUnitTargetInfo
+  // skipped clang_TargetInfo_dispose
+  // skipped clang_TargetInfo_getTriple
+  // skipped clang_TargetInfo_getPointerWidth
+
+  /**
+   * Retrieve the NULL cursor, which represents no entity.
+   */
+  clang_getNullCursor: () => CXCursor;
 
   /**
    * Retrieve the cursor that represents the given translation unit.
@@ -483,7 +501,96 @@ export type LibClang = EmscriptenModule & {
    * The translation unit cursor can be used to start traversing the
    * various declarations within the given translation unit.
    */
-  clang_getTranslationUnitCursor: (tu: CXTranslationUnit) => CXCursor;
+  clang_getTranslationUnitCursor: (TU: CXTranslationUnit) => CXCursor;
+
+  /**
+   * Determine whether two cursors are equivalent.
+   */
+  clang_equalCursors: (c1: CXCursor, c2: CXCursor) => number;
+
+  /**
+   * Returns non-zero if \p cursor is null.
+   */
+  clang_Cursor_isNull: (cursor: CXCursor) => number;
+
+  /**
+   * Compute a hash value for the given cursor.
+   */
+  clang_hashCursor: (cursor: CXCursor) => number;
+
+  /**
+   * Retrieve the kind of the given cursor.
+   */
+  clang_getCursorKind: (cursor: CXCursor) => CXCursorKind;
+
+  /**
+   * Determine whether the given cursor kind represents a declaration.
+   */
+  clang_isDeclaration: (kind: CXCursorKind) => number;
+
+  /**
+   * Determine whether the given declaration is invalid.
+   *
+   * A declaration is invalid if it could not be parsed successfully.
+   *
+   * @returns non-zero if the cursor represents a declaration and it is
+   * invalid, otherwise NULL.
+   */
+  clang_isInvalidDeclaration: (cursor: CXCursor) => number;
+
+  /**
+   * Determine whether the given cursor kind represents a simple
+   * reference.
+   *
+   * Note that other kinds of cursors (such as expressions) can also refer to
+   * other cursors. Use {@link LibClang.clang_getCursorReferenced | clang_getCursorReferenced()} to determine whether a
+   * particular cursor refers to another entity.
+   */
+  clang_isReference: (kind: CXCursorKind) => number;
+
+  /**
+   * Determine whether the given cursor kind represents an expression.
+   */
+  clang_isExpression: (kind: CXCursorKind) => number;
+
+  /**
+   * Determine whether the given cursor kind represents a statement.
+   */
+  clang_isStatement: (kind: CXCursorKind) => number;
+
+  /**
+   * Determine whether the given cursor kind represents an attribute.
+   */
+  clang_isAttribute: (kind: CXCursorKind) => number;
+
+  /**
+   * Determine whether the given cursor has any attributes.
+   */
+  clang_Cursor_hasAttrs: (C: CXCursor) => number;
+
+  /**
+   * Determine whether the given cursor kind represents an invalid
+   * cursor.
+   */
+  clang_isInvalid: (kind: CXCursorKind) => number;
+
+  /**
+   * Determine whether the given cursor kind represents a translation
+   * unit.
+   */
+  clang_isTranslationUnit: (kind: CXCursorKind) => number;
+
+  /***
+   * Determine whether the given cursor represents a preprocessing
+   * element, such as a preprocessor directive or macro instantiation.
+   */
+  clang_isPreprocessing: (kind: CXCursorKind) => number;
+
+  /***
+   * Determine whether the given cursor represents a currently
+   *  unexposed piece of the AST (e.g., CXCursor_UnexposedStmt).
+   */
+  clang_isUnexposed: (kind: CXCursorKind) => number;
 
   // ################# TODO: skipped some functions
 
