@@ -1655,3 +1655,33 @@ export type CX_StorageClass = {
   Auto: EnumEntry<CX_StorageClass>;
   Register: EnumEntry<CX_StorageClass>;
 };
+
+export type CXPrintingPolicyProperty = {
+  Indentation: EnumEntry<CXPrintingPolicyProperty>;
+  SuppressSpecifiers: EnumEntry<CXPrintingPolicyProperty>;
+  SuppressTagKeyword: EnumEntry<CXPrintingPolicyProperty>;
+  IncludeTagDefinition: EnumEntry<CXPrintingPolicyProperty>;
+  SuppressScope: EnumEntry<CXPrintingPolicyProperty>;
+  SuppressUnwrittenScope: EnumEntry<CXPrintingPolicyProperty>;
+  SuppressInitializers: EnumEntry<CXPrintingPolicyProperty>;
+  ConstantArraySizeAsWritten: EnumEntry<CXPrintingPolicyProperty>;
+  AnonymousTagLocations: EnumEntry<CXPrintingPolicyProperty>;
+  SuppressStrongLifetime: EnumEntry<CXPrintingPolicyProperty>;
+  SuppressLifetimeQualifiers: EnumEntry<CXPrintingPolicyProperty>;
+  SuppressTemplateArgsInCXXConstructors: EnumEntry<CXPrintingPolicyProperty>;
+  Bool: EnumEntry<CXPrintingPolicyProperty>;
+  Restrict: EnumEntry<CXPrintingPolicyProperty>;
+  Alignof: EnumEntry<CXPrintingPolicyProperty>;
+  UnderscoreAlignof: EnumEntry<CXPrintingPolicyProperty>;
+  UseVoidForZeroParams: EnumEntry<CXPrintingPolicyProperty>;
+  TerseOutput: EnumEntry<CXPrintingPolicyProperty>;
+  PolishForDeclaration: EnumEntry<CXPrintingPolicyProperty>;
+  Half: EnumEntry<CXPrintingPolicyProperty>;
+  MSWChar: EnumEntry<CXPrintingPolicyProperty>;
+  IncludeNewlines: EnumEntry<CXPrintingPolicyProperty>;
+  MSVCFormatting: EnumEntry<CXPrintingPolicyProperty>;
+  ConstantsAsWritten: EnumEntry<CXPrintingPolicyProperty>;
+  SuppressImplicitBase: EnumEntry<CXPrintingPolicyProperty>;
+  FullyQualifiedName: EnumEntry<CXPrintingPolicyProperty>;
+  LastProperty: EnumEntry<CXPrintingPolicyProperty>;
+};
