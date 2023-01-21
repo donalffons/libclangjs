@@ -111,8 +111,9 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function(
       "clang_getFileContents",
       emscripten::optional_override([](Pointer &tu, Pointer &file) {
-        return std::string(clang_getFileContents(
-            static_cast<CXTranslationUnit>(tu.ptr), file.ptr, nullptr));
+        const char *ret = clang_getFileContents(
+            static_cast<CXTranslationUnit>(tu.ptr), file.ptr, nullptr);
+        return ret == nullptr ? nullptr : std::string(ret);
       }));
   emscripten::function(
       "clang_File_isEqual",

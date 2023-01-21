@@ -1239,6 +1239,18 @@ export type LibClang = EmscriptenModule & {
    */
   clang_getFile: (tu: CXTranslationUnit, file_name: string | null) => CXFile;
 
+  /**
+   * Retrieve the buffer associated with the given file.
+   *
+   * @param tu the translation unit
+   *
+   * @param file the file for which to retrieve the buffer.
+   *
+   * @returns a pointer to the buffer in memory that holds the contents of
+   * `file`, or a NULL pointer when the file is not loaded.
+   */
+  clang_getFileContents: (tu: CXTranslationUnit, file: CXFile) => string;
+
   // ################# TODO: skipped some functions
 
   /**
