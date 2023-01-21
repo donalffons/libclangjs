@@ -1,6 +1,6 @@
 import { EmscriptenModule, FS } from "./emscripten";
-import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXRefQualifierKind, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CX_CXXAccessSpecifier, CX_StorageClass } from "./enums";
-import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXSourceLocation, CXSourceRange, CXTranslationUnit, CXType, CXUnsavedFile } from "./structs";
+import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXPrintingPolicyProperty, CXRefQualifierKind, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CX_CXXAccessSpecifier, CX_StorageClass } from "./enums";
+import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXPrintingPolicy, CXSourceLocation, CXSourceRange, CXTranslationUnit, CXType, CXUnsavedFile } from "./structs";
 
 /**
  * Visitor invoked for each cursor found by a traversal.
@@ -1407,9 +1407,201 @@ export type LibClang = EmscriptenModule & {
 
   // skipped clang_visitChildrenWithBlock
 
-  // ################# TODO: skipped some functions
+  /**
+   * Retrieve a Unified Symbol Resolution (USR) for the entity referenced
+   * by the given cursor.
+   *
+   * A Unified Symbol Resolution (USR) is a string that identifies a particular
+   * entity (function, class, variable, etc.) within a program. USRs can be
+   * compared across translation units to determine, e.g., when references in
+   * one translation refer to an entity defined in another translation unit.
+   */
+  clang_getCursorUSR: (C: CXCursor) => string;
+
+  /**
+   * Construct a USR for a specified Objective-C class.
+   */
+  clang_constructUSR_ObjCClass: (class_name: string | null) => string;
+
+  /**
+   * Construct a USR for a specified Objective-C category.
+   */
+  clang_constructUSR_ObjCCategory: (class_name: string | null, category_name: string | null) => string;
+
+  /**
+   * Construct a USR for a specified Objective-C protocol.
+   */
+  clang_constructUSR_ObjCProtocol: (protocol_name: string | null) => string;
+
+  // skipped clang_constructUSR_ObjCIvar
+  // skipped clang_constructUSR_ObjCMethod
+  // skipped clang_constructUSR_ObjCProperty
 
   clang_getCursorSpelling: (cursor: CXCursor) => string;
+
+  /**
+   * Retrieve a range for a piece that forms the cursors spelling name.
+   * Most of the times there is only one range for the complete spelling but for
+   * Objective-C methods and Objective-C message expressions, there are multiple
+   * pieces for each selector identifier.
+   *
+   * @param pieceIndex the index of the spelling name piece. If this is greater
+   * than the actual number of pieces, it will return a NULL (invalid) range.
+   *
+   * @param options Reserved.
+   */
+  clang_Cursor_getSpellingNameRange: (C: CXCursor, pieceIndex: number, options: number) => CXSourceRange;
+
+  /**
+   * Get a property value for the given printing policy.
+   */
+
+  clang_PrintingPolicy_getProperty: (Policy: CXPrintingPolicy, Property: CXPrintingPolicyProperty) => number;
+
+  /**
+   * Set a property value for the given printing policy.
+   */
+  clang_PrintingPolicy_setProperty: (Policy: CXPrintingPolicy, Property: CXPrintingPolicyProperty, Value: number) => void;
+
+  /**
+   * Retrieve the default policy for the cursor.
+   *
+   * The policy should be released after use with {@link LibClang.clang_PrintingPolicy_dispose | clang_PrintingPolicy_dispose}.
+   */
+  clang_getCursorPrintingPolicy: (C: CXCursor) => CXPrintingPolicy;
+
+  /**
+   * Release a printing policy.
+   */
+  clang_PrintingPolicy_dispose: (Policy: CXPrintingPolicy) => void;
+
+  /**
+   * Pretty print declarations.
+   *
+   * @param Cursor The cursor representing a declaration.
+   *
+   * @param Policy The policy to control the entities being printed. If
+   * NULL, a default policy is used.
+   *
+   * @returns The pretty printed declaration or the empty string for
+   * other cursors.
+   */
+  clang_getCursorPrettyPrinted: (Cursor: CXCursor, Policy: CXPrintingPolicy) => string;
+
+  /**
+   * Retrieve the display name for the entity referenced by this cursor.
+   *
+   * The display name contains extra information that helps identify the cursor,
+   * such as the parameters of a function or template or the arguments of a
+   * class template specialization.
+   */
+  clang_getCursorDisplayName: (c: CXCursor) => string;
+
+  /** For a cursor that is a reference, retrieve a cursor representing the
+   * entity that it references.
+   *
+   * Reference cursors refer to other entities in the AST. For example, an
+   * Objective-C superclass reference cursor refers to an Objective-C class.
+   * This function produces the cursor for the Objective-C class from the
+   * cursor for the superclass reference. If the input cursor is a declaration or
+   * definition, it returns that declaration or definition unchanged.
+   * Otherwise, returns the NULL cursor.
+   */
+  clang_getCursorReferenced: (C: CXCursor) => CXCursor;
+
+  /**
+   *  For a cursor that is either a reference to or a declaration
+   *  of some entity, retrieve a cursor that describes the definition of
+   *  that entity.
+   *
+   *  Some entities can be declared multiple times within a translation
+   *  unit, but only one of those declarations can also be a
+   *  definition. For example, given:
+   *
+   *  ```cpp
+   *  int f(int, int);
+   *  int g(int x, int y) { return f(x, y); }
+   *  int f(int a, int b) { return a + b; }
+   *  int f(int, int);
+   *  ```
+   *
+   *  there are three declarations of the function "f", but only the
+   *  second one is a definition. The clang_getCursorDefinition()
+   *  function will take any cursor pointing to a declaration of "f"
+   *  (the first or fourth lines of the example) or a cursor referenced
+   *  that uses "f" (the call to "f' inside "g") and will return a
+   *  declaration cursor pointing to the definition (the second "f"
+   *  declaration).
+   *
+   *  If given a cursor for which there is no corresponding definition,
+   *  e.g., because there is no definition of that entity within this
+   *  translation unit, returns a NULL cursor.
+   */
+  clang_getCursorDefinition: (C: CXCursor) => CXCursor;
+
+  /**
+   * Determine whether the declaration pointed to by this cursor
+   * is also a definition of that entity.
+   */
+  clang_isCursorDefinition: (C: CXCursor) => number;
+
+  /**
+   * Retrieve the canonical cursor corresponding to the given cursor.
+   *
+   * In the C family of languages, many kinds of entities can be declared several
+   * times within a single translation unit. For example, a structure type can
+   * be forward-declared (possibly multiple times) and later defined:
+   *
+   * ```cpp
+   * struct X;
+   * struct X;
+   * struct X {
+   *   int member;
+   * };
+   * ```
+   *
+   * The declarations and the definition of \c X are represented by three
+   * different cursors, all of which are declarations of the same underlying
+   * entity. One of these cursor is considered the "canonical" cursor, which
+   * is effectively the representative for the underlying entity. One can
+   * determine if two cursors are declarations of the same underlying entity by
+   * comparing their canonical cursors.
+   *
+   * @returns The canonical cursor for the entity referred to by the given cursor.
+   */
+  clang_getCanonicalCursor: (C: CXCursor) => CXCursor;
+
+  /**
+   * If the cursor points to a selector identifier in an Objective-C
+   * method or message expression, this returns the selector index.
+   *
+   * After getting a cursor with #clang_getCursor, this can be called to
+   * determine if the location points to a selector identifier.
+   *
+   * @returns The selector index if the cursor is an Objective-C method or message
+   * expression and the cursor is pointing to a selector identifier, or -1
+   * otherwise.
+   */
+  clang_Cursor_getObjCSelectorIndex: (c: CXCursor) => number;
+
+  /**
+   * Given a cursor pointing to a C++ method call or an Objective-C
+   * message, returns non-zero if the method/message is "dynamic", meaning:
+   *
+   * For a C++ method: the call is virtual.
+   * For an Objective-C message: the receiver is an object instance, not 'super'
+   * or a specific class.
+   *
+   * If the method/message is "static" or the cursor does not point to a
+   * method/message, it will return zero.
+   */
+  clang_Cursor_isDynamicCall: (C: CXCursor) => number;
+
+  /**
+   * Given a cursor pointing to an Objective-C message or property
+   * reference, or C++ method call, returns the CXType of the receiver.
+   */
+  clang_Cursor_getReceiverType: (C: CXCursor) => CXType;
 
   // ################# TODO: skipped some functions
 
@@ -1549,6 +1741,13 @@ export type LibClang = EmscriptenModule & {
    * was added for the case that the passed cursor in not a declaration.
    */
   CX_StorageClass: CX_StorageClass;
+
+  /**
+   * Properties for the printing policy.
+   *
+   * See \c clang::PrintingPolicy for more information.
+   */
+  CXPrintingPolicyProperty: CXPrintingPolicyProperty;
 };
 
 export default function init(module?: EmscriptenModule): LibClang;

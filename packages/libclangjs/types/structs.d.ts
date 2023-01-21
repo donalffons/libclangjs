@@ -106,3 +106,9 @@ export type CXCursorSetImpl = {};
 export type CXType = {
   kind: CXTypeKind;
 };
+
+/**
+ * Opaque pointer representing a policy that controls pretty printing
+ * for {@link LibClang.clang_getCursorPrettyPrinted | clang_getCursorPrettyPrinted}.
+ */
+export type CXPrintingPolicy = {};
