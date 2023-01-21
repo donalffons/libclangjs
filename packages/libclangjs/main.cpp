@@ -243,10 +243,13 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
           }));
   emscripten::function(
       "clang_createTranslationUnit",
-      emscripten::optional_override([](Pointer CIdx, std::string ast_filename) {
-        return Pointer(
-            {clang_createTranslationUnit(CIdx.ptr, ast_filename.c_str())});
-      }));
+      emscripten::optional_override(
+          [](Pointer CIdx, emscripten::val ast_filename) {
+            return Pointer({clang_createTranslationUnit(
+                CIdx.ptr, ast_filename.isNull()
+                              ? nullptr
+                              : ast_filename.as<std::string>().c_str())});
+          }));
   // skipped clang_createTranslationUnit2
   emscripten::enum_<CXTranslationUnit_Flags>("CXTranslationUnit_Flags")
       .value("None", CXTranslationUnit_None)
