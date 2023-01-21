@@ -1382,3 +1382,249 @@ export type CXTLSKind = {
   Dynamic: EnumEntry<CXTLSKind>;
   Static: EnumEntry<CXTLSKind>;
 };
+
+export type CXTypeKind = {
+  /**
+   * Represents an invalid type (e.g., where no type is available).
+   */
+  Invalid: EnumEntry<CXTypeKind>;
+
+  /**
+   * A type whose specific kind is not exposed via this
+   * interface.
+   */
+  Unexposed: EnumEntry<CXTypeKind>;
+
+  /* Builtin types */
+  Void: EnumEntry<CXTypeKind>;
+  Bool: EnumEntry<CXTypeKind>;
+  Char_U: EnumEntry<CXTypeKind>;
+  UChar: EnumEntry<CXTypeKind>;
+  Char16: EnumEntry<CXTypeKind>;
+  Char32: EnumEntry<CXTypeKind>;
+  UShort: EnumEntry<CXTypeKind>;
+  UInt: EnumEntry<CXTypeKind>;
+  ULong: EnumEntry<CXTypeKind>;
+  ULongLong: EnumEntry<CXTypeKind>;
+  UInt128: EnumEntry<CXTypeKind>;
+  Char_S: EnumEntry<CXTypeKind>;
+  SChar: EnumEntry<CXTypeKind>;
+  WChar: EnumEntry<CXTypeKind>;
+  Short: EnumEntry<CXTypeKind>;
+  Int: EnumEntry<CXTypeKind>;
+  Long: EnumEntry<CXTypeKind>;
+  LongLong: EnumEntry<CXTypeKind>;
+  Int128: EnumEntry<CXTypeKind>;
+  Float: EnumEntry<CXTypeKind>;
+  Double: EnumEntry<CXTypeKind>;
+  LongDouble: EnumEntry<CXTypeKind>;
+  NullPtr: EnumEntry<CXTypeKind>;
+  Overload: EnumEntry<CXTypeKind>;
+  Dependent: EnumEntry<CXTypeKind>;
+  ObjCId: EnumEntry<CXTypeKind>;
+  ObjCClass: EnumEntry<CXTypeKind>;
+  ObjCSel: EnumEntry<CXTypeKind>;
+  Float128: EnumEntry<CXTypeKind>;
+  Half: EnumEntry<CXTypeKind>;
+  Float16: EnumEntry<CXTypeKind>;
+  ShortAccum: EnumEntry<CXTypeKind>;
+  Accum: EnumEntry<CXTypeKind>;
+  LongAccum: EnumEntry<CXTypeKind>;
+  UShortAccum: EnumEntry<CXTypeKind>;
+  UAccum: EnumEntry<CXTypeKind>;
+  ULongAccum: EnumEntry<CXTypeKind>;
+  BFloat16: EnumEntry<CXTypeKind>;
+  Ibm128: EnumEntry<CXTypeKind>;
+  FirstBuiltin: EnumEntry<CXTypeKind>;
+  LastBuiltin: EnumEntry<CXTypeKind>;
+
+  Complex: EnumEntry<CXTypeKind>;
+  Pointer: EnumEntry<CXTypeKind>;
+  BlockPointer: EnumEntry<CXTypeKind>;
+  LValueReference: EnumEntry<CXTypeKind>;
+  RValueReference: EnumEntry<CXTypeKind>;
+  Record: EnumEntry<CXTypeKind>;
+  Enum: EnumEntry<CXTypeKind>;
+  Typedef: EnumEntry<CXTypeKind>;
+  ObjCInterface: EnumEntry<CXTypeKind>;
+  ObjCObjectPointer: EnumEntry<CXTypeKind>;
+  FunctionNoProto: EnumEntry<CXTypeKind>;
+  FunctionProto: EnumEntry<CXTypeKind>;
+  ConstantArray: EnumEntry<CXTypeKind>;
+  Vector: EnumEntry<CXTypeKind>;
+  IncompleteArray: EnumEntry<CXTypeKind>;
+  VariableArray: EnumEntry<CXTypeKind>;
+  DependentSizedArray: EnumEntry<CXTypeKind>;
+  MemberPointer: EnumEntry<CXTypeKind>;
+  Auto: EnumEntry<CXTypeKind>;
+
+  /**
+   * Represents a type that was referred to using an elaborated type keyword.
+   *
+   * E.g., struct S, or via a qualified name, e.g., N::M::type, or both.
+   */
+  Elaborated: EnumEntry<CXTypeKind>;
+
+  /* OpenCL PipeType. */
+  Pipe: EnumEntry<CXTypeKind>;
+
+  /* OpenCL builtin types. */
+  OCLImage1dRO: EnumEntry<CXTypeKind>;
+  OCLImage1dArrayRO: EnumEntry<CXTypeKind>;
+  OCLImage1dBufferRO: EnumEntry<CXTypeKind>;
+  OCLImage2dRO: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayRO: EnumEntry<CXTypeKind>;
+  OCLImage2dDepthRO: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayDepthRO: EnumEntry<CXTypeKind>;
+  OCLImage2dMSAARO: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayMSAARO: EnumEntry<CXTypeKind>;
+  OCLImage2dMSAADepthRO: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayMSAADepthRO: EnumEntry<CXTypeKind>;
+  OCLImage3dRO: EnumEntry<CXTypeKind>;
+  OCLImage1dWO: EnumEntry<CXTypeKind>;
+  OCLImage1dArrayWO: EnumEntry<CXTypeKind>;
+  OCLImage1dBufferWO: EnumEntry<CXTypeKind>;
+  OCLImage2dWO: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayWO: EnumEntry<CXTypeKind>;
+  OCLImage2dDepthWO: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayDepthWO: EnumEntry<CXTypeKind>;
+  OCLImage2dMSAAWO: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayMSAAWO: EnumEntry<CXTypeKind>;
+  OCLImage2dMSAADepthWO: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayMSAADepthWO: EnumEntry<CXTypeKind>;
+  OCLImage3dWO: EnumEntry<CXTypeKind>;
+  OCLImage1dRW: EnumEntry<CXTypeKind>;
+  OCLImage1dArrayRW: EnumEntry<CXTypeKind>;
+  OCLImage1dBufferRW: EnumEntry<CXTypeKind>;
+  OCLImage2dRW: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayRW: EnumEntry<CXTypeKind>;
+  OCLImage2dDepthRW: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayDepthRW: EnumEntry<CXTypeKind>;
+  OCLImage2dMSAARW: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayMSAARW: EnumEntry<CXTypeKind>;
+  OCLImage2dMSAADepthRW: EnumEntry<CXTypeKind>;
+  OCLImage2dArrayMSAADepthRW: EnumEntry<CXTypeKind>;
+  OCLImage3dRW: EnumEntry<CXTypeKind>;
+  OCLSampler: EnumEntry<CXTypeKind>;
+  OCLEvent: EnumEntry<CXTypeKind>;
+  OCLQueue: EnumEntry<CXTypeKind>;
+  OCLReserveID: EnumEntry<CXTypeKind>;
+
+  ObjCObject: EnumEntry<CXTypeKind>;
+  ObjCTypeParam: EnumEntry<CXTypeKind>;
+  Attributed: EnumEntry<CXTypeKind>;
+
+  OCLIntelSubgroupAVCMcePayload: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCImePayload: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCRefPayload: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCSicPayload: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCMceResult: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCImeResult: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCRefResult: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCSicResult: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCImeResultSingleRefStreamout: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCImeResultDualRefStreamout: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCImeSingleRefStreamin: EnumEntry<CXTypeKind>;
+
+  OCLIntelSubgroupAVCImeDualRefStreamin: EnumEntry<CXTypeKind>;
+
+  ExtVector: EnumEntry<CXTypeKind>;
+  Atomic: EnumEntry<CXTypeKind>;
+};
+
+export type CXCallingConv = {
+  Default: EnumEntry<CXTypeKind>;
+  C: EnumEntry<CXTypeKind>;
+  X86StdCall: EnumEntry<CXTypeKind>;
+  X86FastCall: EnumEntry<CXTypeKind>;
+  X86ThisCall: EnumEntry<CXTypeKind>;
+  X86Pascal: EnumEntry<CXTypeKind>;
+  AAPCS: EnumEntry<CXTypeKind>;
+  AAPCS_VFP: EnumEntry<CXTypeKind>;
+  X86RegCall: EnumEntry<CXTypeKind>;
+  IntelOclBicc: EnumEntry<CXTypeKind>;
+  Win64: EnumEntry<CXTypeKind>;
+  /* Alias for compatibility with older versions of API. */
+  X86_64Win64: EnumEntry<CXTypeKind>;
+  X86_64SysV: EnumEntry<CXTypeKind>;
+  X86VectorCall: EnumEntry<CXTypeKind>;
+  Swift: EnumEntry<CXTypeKind>;
+  PreserveMost: EnumEntry<CXTypeKind>;
+  PreserveAll: EnumEntry<CXTypeKind>;
+  AArch64VectorCall: EnumEntry<CXTypeKind>;
+  SwiftAsync: EnumEntry<CXTypeKind>;
+
+  Invalid: EnumEntry<CXTypeKind>;
+  Unexposed: EnumEntry<CXTypeKind>;
+};
+
+export type CXTemplateArgumentKind = {
+  Null: EnumEntry<CXTemplateArgumentKind>;
+  Type: EnumEntry<CXTemplateArgumentKind>;
+  Declaration: EnumEntry<CXTemplateArgumentKind>;
+  NullPtr: EnumEntry<CXTemplateArgumentKind>;
+  Integral: EnumEntry<CXTemplateArgumentKind>;
+  Template: EnumEntry<CXTemplateArgumentKind>;
+  TemplateExpansion: EnumEntry<CXTemplateArgumentKind>;
+  Expression: EnumEntry<CXTemplateArgumentKind>;
+  Pack: EnumEntry<CXTemplateArgumentKind>;
+  /* Indicates an error case, preventing the kind from being deduced. */
+  Invalid: EnumEntry<CXTemplateArgumentKind>;
+};
+
+export type CXTypeNullabilityKind = {
+  /**
+   * Values of this type can never be null.
+   */
+  NonNull: EnumEntry<CXTypeNullabilityKind>;
+  /**
+   * Values of this type can be null.
+   */
+  Nullable: EnumEntry<CXTypeNullabilityKind>;
+  /**
+   * Whether values of this type can be null is (explicitly)
+   * unspecified. This captures a (fairly rare) case where we
+   * can't conclude anything about the nullability of the type even
+   * though it has been considered.
+   */
+  Unspecified: EnumEntry<CXTypeNullabilityKind>;
+  /**
+   * Nullability is not applicable to this type.
+   */
+  Invalid: EnumEntry<CXTypeNullabilityKind>;
+
+  /**
+   * Generally behaves like Nullable, except when used in a block parameter that
+   * was imported into a swift async method. There, swift will assume that the
+   * parameter can get null even if no error occured. _Nullable parameters are
+   * assumed to only get null on error.
+   */
+  NullableResult: EnumEntry<CXTypeNullabilityKind>;
+};
+
+export type CXTypeLayoutError = {
+  /**
+   * Type is of kind CXType_Invalid.
+   */
+  Invalid: EnumEntry<CXTypeLayoutError>;
+  /**
+   * The type is an incomplete Type.
+   */
+  Incomplete: EnumEntry<CXTypeLayoutError>;
+  /**
+   * The type is a dependent Type.
+   */
+  Dependent: EnumEntry<CXTypeLayoutError>;
+  /**
+   * The type is not a constant size type.
+   */
+  NotConstantSize: EnumEntry<CXTypeLayoutError>;
+  /**
+   * The Field name is not valid for this record.
+   */
+  InvalidFieldName: EnumEntry<CXTypeLayoutError>;
+  /**
+   * The type is undeduced.
+   */
+  Undeduced: EnumEntry<CXTypeLayoutError>;
+};
