@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.1.3
+
+### Patch Changes
+
+- 03e9661: npmignore irrelevant files
+
 ## 0.1.2
 
 ### Patch Changes
