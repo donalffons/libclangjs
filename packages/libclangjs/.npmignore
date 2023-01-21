@@ -1,0 +1,6 @@
+/.turbo
+/build
+/CMakeLists.txt
+/build.ts
+/clean.ts
+/main.cpp
