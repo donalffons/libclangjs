@@ -1324,6 +1324,52 @@ export type LibClang = EmscriptenModule & {
   */
   clang_Location_isFromMainFile: (location: CXSourceLocation) => number;
 
+  /**
+   * Retrieve a NULL (invalid) source range.
+   */
+  clang_getNullRange: () => CXSourceRange;
+
+  /**
+   * Retrieve a source range given the beginning and ending source
+   * locations.
+   */
+  clang_getRange: (begin: CXSourceLocation, end: CXSourceLocation) => CXSourceRange;
+
+  /**
+   * Determine whether two ranges are equivalent.
+   *
+   * @returns non-zero if the ranges are the same, zero if they differ.
+   */
+  clang_equalRanges: (range1: CXSourceRange, range2: CXSourceRange) => number;
+
+  /**
+   * @returns non-zero if `range` is null.
+   */
+  clang_Range_isNull: (range: CXSourceRange) => number;
+
+  // skipped clang_getExpansionLocation
+  // skipped clang_getPresumedLocation
+  // skipped clang_getInstantiationLocation
+  // skipped clang_getSpellingLocation
+  // skipped clang_getFileLocation
+
+  /**
+   * Retrieve a source location representing the first character within a
+   * source range.
+   */
+  clang_getRangeStart: (range: CXSourceRange) => CXSourceLocation;
+
+  /**
+   * Retrieve a source location representing the last character within a
+   * source range.
+   */
+  clang_getRangeEnd: (range: CXSourceRange) => CXSourceLocation;
+
+  // skipped CXSourceRangeList
+  // skipped clang_getSkippedRanges
+  // skipped clang_getAllSkippedRanges
+  // skipped clang_disposeSourceRangeList
+
   // ################# TODO: skipped some functions
 
   /**
