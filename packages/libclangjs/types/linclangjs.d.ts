@@ -1,5 +1,5 @@
 import { EmscriptenModule, FS } from "./emscripten";
-import { CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLoadDiag_Error, CXTranslationUnit_Flags } from "./enums";
+import { CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLoadDiag_Error, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTranslationUnit_Flags } from "./enums";
 import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXSourceLocation, CXSourceRange, CXTranslationUnit, CXUnsavedFile } from "./structs";
 
 /**
@@ -369,6 +369,59 @@ export type LibClang = EmscriptenModule & {
    */
   clang_parseTranslationUnit: (CIdx: CXIndex, source_filename: string | null, command_line_args: string[] | null, unsaved_files: CXUnsavedFile[] | null, options: number) => CXTranslationUnit;
 
+  // skipped clang_parseTranslationUnit2
+  // skipped clang_parseTranslationUnit2FullArgv
+
+  /**
+   * Returns the set of flags that is suitable for saving a translation
+   * unit.
+   *
+   * The set of flags returned provide options for
+   * {@link LibClang.clang_saveTranslationUnit | clang_saveTranslationUnit()} by default. The returned flag
+   * set contains an unspecified set of options that save translation units with
+   * the most commonly-requested data.
+   */
+  clang_defaultSaveOptions: (TU: CXTranslationUnit) => number;
+
+  /**
+   * Saves a translation unit into a serialized representation of
+   * that translation unit on disk.
+   *
+   * Any translation unit that was parsed without error can be saved
+   * into a file. The translation unit can then be deserialized into a
+   * new {@link CXTranslationUnit} with {@link LibClang.clang_createTranslationUnit | clang_createTranslationUnit()} or,
+   * if it is an incomplete translation unit that corresponds to a
+   * header, used as a precompiled header when parsing other translation
+   * units.
+   *
+   * @param TU The translation unit to save.
+   *
+   * @param FileName The file to which the translation unit will be saved.
+   *
+   * @param options A bitmask of options that affects how the translation unit
+   * is saved. This should be a bitwise OR of the
+   * CXSaveTranslationUnit_XXX flags.
+   *
+   * @returns A value that will match one of the enumerators of the CXSaveError
+   * enumeration. Zero (CXSaveError_None) indicates that the translation unit was
+   * saved successfully, while a non-zero value indicates that a problem occurred.
+   */
+  clang_saveTranslationUnit: (TU: CXTranslationUnit, FileName: string | null, options: number) => number;
+
+  /**
+  * Suspend a translation unit in order to free memory associated with it.
+  *
+  * A suspended translation unit uses significantly less memory but on the other
+  * side does not support any other calls than {@link LibClang.clang_reparseTranslationUnit | clang_reparseTranslationUnit}
+  * to resume it or {@link LibClang.clang_disposeTranslationUnit | clang_disposeTranslationUnit} to dispose it completely.
+  */
+  clang_suspendTranslationUnit: (TU: CXTranslationUnit) => number;
+
+  /**
+  * Destroy the specified CXTranslationUnit object.
+  */
+  clang_disposeTranslationUnit: (TU: CXTranslationUnit) => void;
+
   // ################# TODO: skipped some functions
 
   /**
@@ -428,6 +481,30 @@ export type LibClang = EmscriptenModule & {
    * constructing the translation unit.
    */
   CXTranslationUnit_Flags: CXTranslationUnit_Flags;
+
+  /**
+   * Flags that control how translation units are saved.
+   *
+   * The enumerators in this enumeration type are meant to be bitwise
+   * ORed together to specify which options should be used when
+   * saving the translation unit.
+   */
+  CXSaveTranslationUnit_Flags: CXSaveTranslationUnit_Flags;
+
+  /**
+   * Describes the kind of error that occurred (if any) in a call to
+   * {@link LibClang.clang_saveTranslationUnit | clang_saveTranslationUnit()}.
+   */
+  CXSaveError: CXSaveError;
+
+  /**
+   * Flags that control the reparsing of translation units.
+   *
+   * The enumerators in this enumeration type are meant to be bitwise
+   * ORed together to specify which options should be used when
+   * reparsing the translation unit.
+   */
+  CXReparse_Flags: CXReparse_Flags;
 };
 
 export default function init(module?: EmscriptenModule): LibClang;
