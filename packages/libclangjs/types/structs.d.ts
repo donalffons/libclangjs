@@ -112,3 +112,5 @@ export type CXType = {
  * for {@link LibClang.clang_getCursorPrettyPrinted | clang_getCursorPrettyPrinted}.
  */
 export type CXPrintingPolicy = {};
+
+export type CXModule = {};

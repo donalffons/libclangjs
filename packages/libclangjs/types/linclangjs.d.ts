@@ -1,6 +1,6 @@
 import { EmscriptenModule, FS } from "./emscripten";
-import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXPrintingPolicyProperty, CXRefQualifierKind, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CX_CXXAccessSpecifier, CX_StorageClass } from "./enums";
-import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXPrintingPolicy, CXSourceLocation, CXSourceRange, CXTranslationUnit, CXType, CXUnsavedFile } from "./structs";
+import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXObjCDeclQualifierKind, CXObjCPropertyAttrKind, CXPrintingPolicyProperty, CXRefQualifierKind, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CX_CXXAccessSpecifier, CX_StorageClass } from "./enums";
+import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXModule, CXPrintingPolicy, CXSourceLocation, CXSourceRange, CXTranslationUnit, CXType, CXUnsavedFile } from "./structs";
 
 /**
  * Visitor invoked for each cursor found by a traversal.
@@ -1603,6 +1603,141 @@ export type LibClang = EmscriptenModule & {
    */
   clang_Cursor_getReceiverType: (C: CXCursor) => CXType;
 
+  /**
+   * Given a cursor that represents a property declaration, return the
+   * associated property attributes. The bits are formed from
+   * {@link CXObjCPropertyAttrKind}.
+   *
+   * @param reserved Reserved for future use, pass 0.
+   */
+  clang_Cursor_getObjCPropertyAttributes: (C: CXCursor, reserved: number) => number;
+
+  /**
+   * Given a cursor that represents a property declaration, return the
+   * name of the method that implements the getter.
+   */
+  clang_Cursor_getObjCPropertyGetterName: (C: CXCursor) => string;
+
+  /**
+   * Given a cursor that represents a property declaration, return the
+   * name of the method that implements the setter, if any.
+   */
+  clang_Cursor_getObjCPropertySetterName: (C: CXCursor) => string;
+
+  /**
+   * Given a cursor that represents an Objective-C method or parameter
+   * declaration, return the associated Objective-C qualifiers for the return
+   * type or the parameter respectively. The bits are formed from
+   * {@link CXObjCDeclQualifierKind}.
+   */
+  clang_Cursor_getObjCDeclQualifiers: (C: CXCursor) => number;
+
+  /**
+   * Given a cursor that represents an Objective-C method or property
+   * declaration, return non-zero if the declaration was affected by "@optional".
+   * Returns zero if the cursor is not such a declaration or it is "@required".
+   */
+  clang_Cursor_isObjCOptional: (C: CXCursor) => number;
+
+  /**
+   * Returns non-zero if the given cursor is a variadic function or method.
+   */
+  clang_Cursor_isVariadic: (C: CXCursor) => number;
+
+  // skipped clang_Cursor_isExternalSymbol
+
+  /**
+   * Given a cursor that represents a declaration, return the associated
+   * comment's source range.  The range may include multiple consecutive comments
+   * with whitespace in between.
+   */
+  clang_Cursor_getCommentRange: (C: CXCursor) => CXSourceRange;
+
+  /**
+   * Given a cursor that represents a declaration, return the associated
+   * comment text, including comment markers.
+   */
+  clang_Cursor_getRawCommentText: (C: CXCursor) => string;
+
+  /**
+   * Given a cursor that represents a documentable entity (e.g.,
+   * declaration), return the associated \paragraph; otherwise return the
+   * first paragraph.
+   */
+  clang_Cursor_getBriefCommentText: (C: CXCursor) => string;
+
+  /**
+   * Retrieve the CXString representing the mangled name of the cursor.
+   */
+  clang_Cursor_getMangling: (C: CXCursor) => string;
+
+  // skipped clang_Cursor_getCXXManglings
+  // skipped clang_Cursor_getObjCManglings
+
+  /**
+   * Given a CXCursor_ModuleImportDecl cursor, return the associated module.
+   */
+  clang_Cursor_getModule: (C: CXCursor) => CXModule;
+
+  /**
+   * Given a CXFile header file, return the module that contains it, if one
+   * exists.
+   */
+  clang_getModuleForFile: (TU: CXTranslationUnit, F: CXFile) => CXModule;
+
+  /**
+   * @param Module a module object.
+   *
+   * @returns the module file where the provided module object came from.
+   */
+  clang_Module_getASTFile: (Module: CXModule) => CXFile;
+
+  /**
+   * @param Module a module object.
+   *
+   * @returns the parent of a sub-module or NULL if the given module is top-level,
+   * e.g. for 'std.vector' it will return the 'std' module.
+   */
+  clang_Module_getParent: (Module: CXModule) => CXModule;
+
+  /**
+   * @param Module a module object.
+   *
+   * @returns the name of the module, e.g. for the 'std.vector' sub-module it
+   * will return "vector".
+   */
+  clang_Module_getName: (Module: CXModule) => string;
+
+  /**
+   * @param Module a module object.
+   *
+   * @returns the full name of the module, e.g. "std.vector".
+   */
+  clang_Module_getFullName: (Module: CXModule) => string;
+
+  /**
+   * @param Module a module object.
+   *
+   * @returns non-zero if the module is a system one.
+   */
+  clang_Module_isSystem: (Module: CXModule) => number;
+
+  /**
+   * @param Module a module object.
+   *
+   * @returns the number of top level headers associated with this module.
+   */
+  clang_Module_getNumTopLevelHeaders: (TU: CXTranslationUnit, Module: CXModule) => number;
+
+  /**
+   * @param Module a module object.
+   *
+   * @param Index top level header index (zero-based).
+   *
+   * @returns the specified top level header associated with the module.
+   */
+  clang_Module_getTopLevelHeader: (TU: CXTranslationUnit, Module: CXModule, Index: number) => CXFile;
+
   // ################# TODO: skipped some functions
 
   isNullPointer: (pointer: any) => boolean;
@@ -1748,6 +1883,17 @@ export type LibClang = EmscriptenModule & {
    * See \c clang::PrintingPolicy for more information.
    */
   CXPrintingPolicyProperty: CXPrintingPolicyProperty;
+
+  /**
+   * Property attributes for a {@link CXCursor_ObjCPropertyDecl}.
+   */
+  CXObjCPropertyAttrKind: CXObjCPropertyAttrKind;
+
+  /**
+   * 'Qualifiers' written next to the return and parameter types in
+   * Objective-C method declarations.
+   */
+  CXObjCDeclQualifierKind: CXObjCDeclQualifierKind;
 };
 
 export default function init(module?: EmscriptenModule): LibClang;

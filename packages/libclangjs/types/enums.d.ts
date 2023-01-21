@@ -1685,3 +1685,30 @@ export type CXPrintingPolicyProperty = {
   FullyQualifiedName: EnumEntry<CXPrintingPolicyProperty>;
   LastProperty: EnumEntry<CXPrintingPolicyProperty>;
 };
+
+export type CXObjCPropertyAttrKind = {
+  noattr: EnumEntry<CXObjCPropertyAttrKind>;
+  readonly: EnumEntry<CXObjCPropertyAttrKind>;
+  getter: EnumEntry<CXObjCPropertyAttrKind>;
+  assign: EnumEntry<CXObjCPropertyAttrKind>;
+  readwrite: EnumEntry<CXObjCPropertyAttrKind>;
+  retain: EnumEntry<CXObjCPropertyAttrKind>;
+  copy: EnumEntry<CXObjCPropertyAttrKind>;
+  nonatomic: EnumEntry<CXObjCPropertyAttrKind>;
+  setter: EnumEntry<CXObjCPropertyAttrKind>;
+  atomic: EnumEntry<CXObjCPropertyAttrKind>;
+  weak: EnumEntry<CXObjCPropertyAttrKind>;
+  strong: EnumEntry<CXObjCPropertyAttrKind>;
+  unsafe_unretained: EnumEntry<CXObjCPropertyAttrKind>;
+  class: EnumEntry<CXObjCPropertyAttrKind>;
+};
+
+export type CXObjCDeclQualifierKind = {
+  None: EnumEntry<CXObjCDeclQualifierKind>;
+  In: EnumEntry<CXObjCDeclQualifierKind>;
+  Inout: EnumEntry<CXObjCDeclQualifierKind>;
+  Out: EnumEntry<CXObjCDeclQualifierKind>;
+  Bycopy: EnumEntry<CXObjCDeclQualifierKind>;
+  Byref: EnumEntry<CXObjCDeclQualifierKind>;
+  Oneway: EnumEntry<CXObjCDeclQualifierKind>;
+};
