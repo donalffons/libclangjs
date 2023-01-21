@@ -1,4 +1,4 @@
-import { CXCursorKind, CXTypeKind } from "./enums";
+import { CXCursorKind, CXIdxAttrKind, CXIdxEntityCXXTemplateKind, CXIdxEntityKind, CXIdxEntityLanguage, CXIdxEntityRefKind, CXIdxObjCContainerKind, CXSymbolRole, CXTypeKind } from "./enums";
 
 /**
  * An "index" that consists of a set of translation units that would
@@ -114,3 +114,205 @@ export type CXType = {
 export type CXPrintingPolicy = {};
 
 export type CXModule = {};
+
+/**
+ * Describes a single preprocessing token.
+ */
+export type CXToken = {};
+
+/**
+ * A semantic string that describes a code-completion result.
+ *
+ * A semantic string that describes the formatting of a code-completion
+ * result as a single "template" of text that should be inserted into the
+ * source buffer when a particular code-completion result is selected.
+ * Each semantic string is made up of some number of "chunks", each of which
+ * contains some text along with a description of what that text means, e.g.,
+ * the name of the entity being referenced, whether the text chunk is part of
+ * the template, or whether it is a "placeholder" that the user should replace
+ * with actual code,of a specific kind. See \c CXCompletionChunkKind for a
+ * description of the different kinds of chunks.
+ */
+export type CXCompletionString = {};
+
+/**
+ * A single result of code completion.
+ */
+export type CXCompletionResult = {
+  /**
+   * The kind of entity that this completion refers to.
+   *
+   * The cursor kind will be a macro, keyword, or a declaration (one of the
+   * *Decl cursor kinds), describing the entity that the completion is
+   * referring to.
+   *
+   * @todo In the future, we would like to provide a full cursor, to allow
+   * the client to extract additional information from declaration.
+   */
+  CursorKind: CXCursorKind;
+
+  /**
+   * The code-completion string that describes how to insert this
+   * code-completion result into the editing buffer.
+   */
+  CompletionString: CXCompletionString;
+};
+
+/**
+ * The client's data object that is associated with a CXFile.
+ */
+export type CXIdxClientFile = {};
+
+/**
+ * The client's data object that is associated with a semantic entity.
+ */
+export type CXIdxClientEntity = {};
+
+/**
+ * The client's data object that is associated with a semantic container
+ * of entities.
+ */
+export type CXIdxClientContainer = {};
+
+/**
+ * The client's data object that is associated with an AST file (PCH
+ * or module).
+ */
+export type CXIdxClientASTFile = {};
+
+/**
+ * Source location passed to index callbacks.
+ */
+export type CXIdxLoc = {
+  int_data: number;
+};
+
+/**
+ * Data for ppIncludedFile callback.
+ */
+export type CXIdxIncludedFileInfo = {
+  /**
+   * Location of '#' in the \#include/\#import directive.
+   */
+  hashLoc: CXIdxLoc;
+  /**
+   * The actual file that the \#include/\#import directive resolved to.
+   */
+  file: CXFile;
+  isImport: number;
+  isAngled: number;
+  /**
+   * Non-zero if the directive was automatically turned into a module
+   * import.
+   */
+  isModuleImport: number;
+};
+
+/**
+ * Data for IndexerCallbacks#importedASTFile.
+ */
+export type CXIdxImportedASTFileInfo = {
+  /**
+   * Top level AST file containing the imported PCH, module or submodule.
+   */
+  file: CXFile;
+  /**
+   * The imported module or NULL if the AST file is a PCH.
+   */
+  module: CXModule;
+  /**
+   * Location where the file is imported. Applicable only for modules.
+   */
+  loc: CXIdxLoc;
+  /**
+   * Non-zero if an inclusion directive was automatically turned into
+   * a module import. Applicable only for modules.
+   */
+  isImplicit: number;
+};
+
+export type CXIdxAttrInfo = {
+  kind: CXIdxAttrKind;
+  cursor: CXCursor;
+  loc: CXIdxLoc;
+};
+
+export type CXIdxEntityInfo = {
+  kind: CXIdxEntityKind;
+  templateKind: CXIdxEntityCXXTemplateKind;
+  lang: CXIdxEntityLanguage;
+  cursor: CXCursor;
+  numAttributes: number;
+};
+
+export type CXIdxContainerInfo = {
+  cursor: CXCursor;
+};
+
+export type CXIdxIBOutletCollectionAttrInfo = {
+  classCursor: CXCursor;
+  classLoc: CXIdxLoc;
+};
+
+export type CXIdxDeclInfo = {
+  cursor: CXCursor;
+  loc: CXIdxLoc;
+  isRedeclaration: number;
+  isDefinition: number;
+  isContainer: number;
+  /**
+   * Whether the declaration exists in code or was created implicitly
+   * by the compiler, e.g. implicit Objective-C methods for properties.
+   */
+  isImplicit: number;
+  numAttributes: number;
+  flags: number;
+};
+
+export type CXIdxObjCContainerDeclInfo = {
+  kind: CXIdxObjCContainerKind;
+};
+
+export type CXIdxBaseClassInfo = {
+  cursor: CXCursor;
+  loc: CXIdxLoc;
+};
+
+export type CXIdxObjCProtocolRefInfo = {
+  cursor: CXCursor;
+  loc: CXIdxLoc;
+};
+
+export type CXIdxObjCProtocolRefListInfo = {
+  numProtocols: number;
+};
+
+export type CXIdxObjCInterfaceDeclInfo = {};
+
+export type CXIdxObjCCategoryDeclInfo = {
+  classCursor: CXCursor;
+  classLoc: CXIdxLoc;
+};
+
+export type CXIdxObjCPropertyDeclInfo = {};
+
+export type CXIdxCXXClassDeclInfo = {
+  numBases: number;
+};
+
+/**
+ * Data for IndexerCallbacks#indexEntityReference.
+ */
+export type CXIdxEntityRefInfo = {
+  kind: CXIdxEntityRefKind;
+  /**
+   * Reference cursor.
+   */
+  cursor: CXCursor;
+  loc: CXIdxLoc;
+
+  /**
+   * Sets of symbol roles of the reference.
+   */
+  role: CXSymbolRole;
+};
