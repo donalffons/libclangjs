@@ -1628,3 +1628,30 @@ export type CXTypeLayoutError = {
    */
   Undeduced: EnumEntry<CXTypeLayoutError>;
 };
+
+export type CXRefQualifierKind = {
+  /** No ref-qualifier was provided. */
+  None: EnumEntry<CXRefQualifierKind>;
+  /** An lvalue ref-qualifier was provided (\c &). */
+  LValue: EnumEntry<CXRefQualifierKind>;
+  /** An rvalue ref-qualifier was provided (\c &&). */
+  RValue: EnumEntry<CXRefQualifierKind>;
+};
+
+export type CX_CXXAccessSpecifier = {
+  InvalidAccessSpecifier: EnumEntry<CX_CXXAccessSpecifier>;
+  Public: EnumEntry<CX_CXXAccessSpecifier>;
+  Protected: EnumEntry<CX_CXXAccessSpecifier>;
+  Private: EnumEntry<CX_CXXAccessSpecifier>;
+};
+
+export type CX_StorageClass = {
+  Invalid: EnumEntry<CX_StorageClass>;
+  None: EnumEntry<CX_StorageClass>;
+  Extern: EnumEntry<CX_StorageClass>;
+  Static: EnumEntry<CX_StorageClass>;
+  PrivateExtern: EnumEntry<CX_StorageClass>;
+  OpenCLWorkGroupLocal: EnumEntry<CX_StorageClass>;
+  Auto: EnumEntry<CX_StorageClass>;
+  Register: EnumEntry<CX_StorageClass>;
+};

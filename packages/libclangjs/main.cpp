@@ -1128,6 +1128,7 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
             },
             &callback);
       }));
+  // skipped clang_visitChildrenWithBlock
   emscripten::function("clang_getCursorUSR",
                        emscripten::optional_override([](CXCursor C) {
                          return cxStringToStdString(clang_getCursorUSR(C));
