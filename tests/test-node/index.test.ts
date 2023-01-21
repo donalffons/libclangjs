@@ -61,3 +61,18 @@ test("can make simple calls regarding CXSourceLocation", () => {
   expect(libclangjs.clang_equalLocations(loc1, loc2)).not.toBe(0);
   expect(libclangjs.clang_equalLocations(loc1, loc3)).toBe(0);
 });
+
+test("can make simple calls regarding CXSourceRange", () => {
+  const nullRange = libclangjs.clang_getNullRange();
+  const loc1 = libclangjs.clang_getLocation(tu, mainFile, 0, 1);
+  const loc2 = libclangjs.clang_getLocation(tu, mainFile, 0, 2);
+  const loc3 = libclangjs.clang_getLocation(tu, mainFile, 3, 1);
+  const loc4 = libclangjs.clang_getLocation(tu, mainFile, 3, 2);
+  const loc5 = libclangjs.clang_getLocation(tu, mainFile, 5, 1);
+  const loc6 = libclangjs.clang_getLocation(tu, mainFile, 5, 2);
+  const range1 = libclangjs.clang_getRange(loc1, loc3);
+  const range2 = libclangjs.clang_getRange(loc2, loc4);
+  const range3 = libclangjs.clang_getRange(loc5, loc6);
+  expect(libclangjs.clang_equalRanges(range1, range2)).not.toBe(0)
+  expect(libclangjs.clang_equalRanges(range1, range3)).toBe(0);
+});
