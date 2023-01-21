@@ -1,5 +1,5 @@
 import { EmscriptenModule, FS } from "./emscripten";
-import { CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLoadDiag_Error, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTUResourceUsageKind, CXTranslationUnit_Flags } from "./enums";
+import { CXAvailabilityKind, CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTLSKind, CXTUResourceUsageKind, CXTranslationUnit_Flags, CXVisibilityKind } from "./enums";
 import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXSourceLocation, CXSourceRange, CXTranslationUnit, CXUnsavedFile } from "./structs";
 
 /**
@@ -592,6 +592,159 @@ export type LibClang = EmscriptenModule & {
    */
   clang_isUnexposed: (kind: CXCursorKind) => number;
 
+  /**
+   * Determine the linkage of the entity referred to by a given cursor.
+   */
+  clang_getCursorLinkage: (cursor: CXCursor) => CXLinkageKind;
+
+  /**
+   * Describe the visibility of the entity referred to by a cursor.
+   *
+   * This returns the default visibility if not explicitly specified by
+   * a visibility attribute. The default visibility may be changed by
+   * commandline arguments.
+   *
+   * @param cursor The cursor to query.
+   *
+   * @returns The visibility of the cursor.
+   */
+  clang_getCursorVisibility: (cursor: CXCursor) => CXVisibilityKind;
+
+  /**
+   * Determine the availability of the entity that this cursor refers to,
+   * taking the current target platform into account.
+   *
+   * @param cursor The cursor to query.
+   *
+   * @returns The availability of the cursor.
+   */
+  clang_getCursorAvailability: (cursor: CXCursor) => CXAvailabilityKind;
+
+  // skipped CXPlatformAvailability
+  // skipped clang_getCursorPlatformAvailability
+  // skipped clang_disposeCXPlatformAvailability
+
+  /**
+   * If cursor refers to a variable declaration and it has initializer returns
+   * cursor referring to the initializer otherwise return null cursor.
+   */
+  clang_Cursor_getVarDeclInitializer: (cursor: CXCursor) => CXCursor;
+
+  /**
+   * If cursor refers to a variable declaration that has global storage returns 1.
+   * If cursor refers to a variable declaration that doesn't have global storage
+   * returns 0. Otherwise returns -1.
+   */
+  clang_Cursor_hasVarDeclGlobalStorage: (cursor: CXCursor) => number;
+
+  /**
+   * If cursor refers to a variable declaration that has external storage
+   * returns 1. If cursor refers to a variable declaration that doesn't have
+   * external storage returns 0. Otherwise returns -1.
+   */
+  clang_Cursor_hasVarDeclExternalStorage: (cursor: CXCursor) => number;
+
+  /**
+   * Determine the "language" of the entity referred to by a given cursor.
+   */
+  clang_getCursorLanguage: (cursor: CXCursor) => CXLanguageKind;
+
+  /**
+   * Determine the "thread-local storage (TLS) kind" of the declaration
+   * referred to by a cursor.
+   */
+  clang_getCursorTLSKind: (cursor: CXCursor) => CXTLSKind;
+
+  /**
+   * Returns the translation unit that a cursor originated from.
+   */
+  clang_Cursor_getTranslationUnit: (cursor: CXCursor) => CXTranslationUnit;
+
+  // skipped clang_createCXCursorSet
+  // skipped clang_disposeCXCursorSet
+  // skipped clang_CXCursorSet_contains
+  // skipped clang_CXCursorSet_insert
+
+  /**
+   * Determine the semantic parent of the given cursor.
+   *
+   * The semantic parent of a cursor is the cursor that semantically contains
+   * the given \p cursor. For many declarations, the lexical and semantic parents
+   * are equivalent (the lexical parent is returned by
+   * {@link libclang.clang_getCursorLexicalParent | clang_getCursorLexicalParent()}). They diverge when declarations or
+   * definitions are provided out-of-line. For example:
+   *
+   * ```cpp
+   * class C {
+   *  void f();
+   * };
+   *
+   * void C::f() { }
+   * ```
+   *
+   * In the out-of-line definition of \c C::f, the semantic parent is
+   * the class \c C, of which this function is a member. The lexical parent is
+   * the place where the declaration actually occurs in the source code; in this
+   * case, the definition occurs in the translation unit. In general, the
+   * lexical parent for a given entity can change without affecting the semantics
+   * of the program, and the lexical parent of different declarations of the
+   * same entity may be different. Changing the semantic parent of a declaration,
+   * on the other hand, can have a major impact on semantics, and redeclarations
+   * of a particular entity should all have the same semantic context.
+   *
+   * In the example above, both declarations of \c C::f have \c C as their
+   * semantic context, while the lexical context of the first \c C::f is \c C
+   * and the lexical context of the second \c C::f is the translation unit.
+   *
+   * For global declarations, the semantic parent is the translation unit.
+   */
+  clang_getCursorSemanticParent: (cursor: CXCursor) => CXCursor;
+
+  /**
+   * Determine the lexical parent of the given cursor.
+   *
+   * The lexical parent of a cursor is the cursor in which the given \p cursor
+   * was actually written. For many declarations, the lexical and semantic parents
+   * are equivalent (the semantic parent is returned by
+   * {@link LibClang.clang_getCursorSemanticParent | clang_getCursorSemanticParent()}). They diverge when declarations or
+   * definitions are provided out-of-line. For example:
+   *
+   * ```cpp
+   * class C {
+   *  void f();
+   * };
+   *
+   * void C::f() { }
+   * ```
+   *
+   * In the out-of-line definition of \c C::f, the semantic parent is
+   * the class \c C, of which this function is a member. The lexical parent is
+   * the place where the declaration actually occurs in the source code; in this
+   * case, the definition occurs in the translation unit. In general, the
+   * lexical parent for a given entity can change without affecting the semantics
+   * of the program, and the lexical parent of different declarations of the
+   * same entity may be different. Changing the semantic parent of a declaration,
+   * on the other hand, can have a major impact on semantics, and redeclarations
+   * of a particular entity should all have the same semantic context.
+   *
+   * In the example above, both declarations of \c C::f have \c C as their
+   * semantic context, while the lexical context of the first \c C::f is \c C
+   * and the lexical context of the second \c C::f is the translation unit.
+   *
+   * For declarations written in the global scope, the lexical parent is
+   * the translation unit.
+   */
+  clang_getCursorLexicalParent: (cursor: CXCursor) => CXCursor;
+
+  // skipped clang_getOverriddenCursors
+  // skipped clang_disposeOverriddenCursors
+
+  /**
+   * Retrieve the file that is included by the given inclusion directive
+   * cursor.
+   */
+  clang_getIncludedFile: (cursor: CXCursor) => CXFile;
+
   // ################# TODO: skipped some functions
 
   clang_visitChildren: (parent: CXCursor, visitor: CXCursorVisitor) => number;
@@ -670,6 +823,31 @@ export type LibClang = EmscriptenModule & {
    * Categorizes how memory is being used by a translation unit.
    */
   CXTUResourceUsageKind: CXTUResourceUsageKind;
+
+  /**
+   * Describe the linkage of the entity referred to by a cursor.
+   */
+  CXLinkageKind: CXLinkageKind;
+
+  CXVisibilityKind: CXVisibilityKind;
+
+  /**
+   * Describes the availability of a particular entity, which indicates
+   * whether the use of this entity will result in a warning or error due to
+   * it being deprecated or unavailable.
+   */
+  CXAvailabilityKind: CXAvailabilityKind;
+
+  /**
+   * Describe the "language" of the entity referred to by a cursor.
+   */
+  CXLanguageKind: CXLanguageKind;
+
+  /**
+   * Describe the "thread-local storage (TLS) kind" of the declaration
+   * referred to by a cursor.
+   */
+  CXTLSKind: CXTLSKind;
 };
 
 export default function init(module?: EmscriptenModule): LibClang;
