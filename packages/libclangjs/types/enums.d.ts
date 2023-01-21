@@ -1251,3 +1251,48 @@ export type CXTranslationUnit_Flags = {
    */
   CXTranslationUnit_RetainExcludedConditionalBlocks: EnumEntry<CXTranslationUnit_Flags>;
 };
+
+export type CXSaveTranslationUnit_Flags = {
+  /**
+   * Used to indicate that no special saving options are needed.
+   */
+  CXSaveTranslationUnit_None: EnumEntry<CXSaveTranslationUnit_Flags>;
+};
+
+export type CXSaveError = {
+  /**
+   * Indicates that no error occurred while saving a translation unit.
+   */
+  CXSaveError_None: EnumEntry<CXSaveError>;
+
+  /**
+   * Indicates that an unknown error occurred while attempting to save
+   * the file.
+   *
+   * This error typically indicates that file I/O failed when attempting to
+   * write the file.
+   */
+  CXSaveError_Unknown: EnumEntry<CXSaveError>;
+
+  /**
+   * Indicates that errors during translation prevented this attempt
+   * to save the translation unit.
+   *
+   * Errors that prevent the translation unit from being saved can be
+   * extracted using {@link LibClang.clang_getNumDiagnostics | clang_getNumDiagnostics()} and {@link LibClang.clang_getNumDiagnostics | clang_getNumDiagnostics()}.
+   */
+  CXSaveError_TranslationErrors: EnumEntry<CXSaveError>;
+
+  /**
+   * Indicates that the translation unit to be saved was somehow
+   * invalid (e.g., NULL).
+   */
+  CXSaveError_InvalidTU: EnumEntry<CXSaveError>;
+};
+
+export type CXReparse_Flags = {
+  /**
+   * Used to indicate that no special reparsing options are needed.
+   */
+  CXReparse_None: EnumEntry<CXReparse_Flags>;
+};
