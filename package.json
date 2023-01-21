@@ -3,6 +3,7 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "clean": "turbo run clean",
+    "dev": "turbo run dev",
     "upload-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -d -r node_modules/.cache/turbo gs://libclangjs-turborepo-remote-cache",
     "download-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -d -r gs://libclangjs-turborepo-remote-cache node_modules/.cache/turbo"
   },
