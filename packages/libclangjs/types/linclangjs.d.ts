@@ -1,5 +1,5 @@
 import { EmscriptenModule, FS } from "./emscripten";
-import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind } from "./enums";
+import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXRefQualifierKind, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CX_CXXAccessSpecifier, CX_StorageClass } from "./enums";
 import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXSourceLocation, CXSourceRange, CXTranslationUnit, CXType, CXUnsavedFile } from "./structs";
 
 /**
@@ -1295,9 +1295,117 @@ export type LibClang = EmscriptenModule & {
    */
   clang_Cursor_isInlineNamespace: (C: CXCursor) => number;
 
-  // ################# TODO: skipped some functions
+  /**
+   * Returns the number of template arguments for given template
+   * specialization, or -1 if type \c T is not a template specialization.
+   */
+  clang_Type_getNumTemplateArguments: (T: CXType) => number;
 
+  /**
+   * Returns the type template argument of a template class specialization
+   * at given index.
+   *
+   * This function only returns template type arguments and does not handle
+   * template template arguments or variadic packs.
+   */
+  clang_Type_getTemplateArgumentAsType: (T: CXType, i: number) => CXType;
+
+  /**
+   * Retrieve the ref-qualifier kind of a function or method.
+   *
+   * The ref-qualifier is returned for C++ functions or methods. For other types
+   * or non-C++ declarations, CXRefQualifier_None is returned.
+   */
+  clang_Type_getCXXRefQualifier: (T: CXType) => CXRefQualifierKind;
+
+  /**
+   * Returns non-zero if the cursor specifies a Record member that is a
+   *   bitfield.
+   */
+  clang_Cursor_isBitField: (C: CXCursor) => number;
+
+  /**
+   * Returns 1 if the base class specified by the cursor with kind
+   *   CX_CXXBaseSpecifier is virtual.
+   */
+  clang_isVirtualBase: (C: CXCursor) => number;
+
+  /**
+   * Returns the access control level for the referenced object.
+   *
+   * If the cursor refers to a C++ declaration, its access control level within
+   * its parent scope is returned. Otherwise, if the cursor refers to a base
+   * specifier or access specifier, the specifier itself is returned.
+   */
+  clang_getCXXAccessSpecifier: (C: CXCursor) => CX_CXXAccessSpecifier;
+
+  /**
+   * Returns the storage class for a function or variable declaration.
+   *
+   * If the passed in Cursor is not a function or variable declaration,
+   * CX_SC_Invalid is returned else the storage class.
+   */
+  clang_Cursor_getStorageClass: (C: CXCursor) => CX_StorageClass;
+
+  /**
+   * Determine the number of overloaded declarations referenced by a
+   * {@link LibClang.CXCursor_OverloadedDeclRef | CXCursor_OverloadedDeclRef} cursor.
+   *
+   * @param cursor The cursor whose overloaded declarations are being queried.
+   *
+   * @returns The number of overloaded declarations referenced by \c cursor. If it
+   * is not a {@link LibClang.CXCursor_OverloadedDeclRef | CXCursor_OverloadedDeclRef} cursor, returns 0.
+   */
+  clang_getNumOverloadedDecls: (cursor: CXCursor) => number;
+
+  /**
+   * Retrieve a cursor for one of the overloaded declarations referenced
+   * by a {@link LibClang.CXCursor_OverloadedDeclRef | CXCursor_OverloadedDeclRef} cursor.
+   *
+   * @param cursor The cursor whose overloaded declarations are being queried.
+   *
+   * @param index The zero-based index into the set of overloaded declarations in
+   * the cursor.
+   *
+   * @returns A cursor representing the declaration referenced by the given
+   * \c cursor at the specified \c index. If the cursor does not have an
+   * associated set of overloaded declarations, or if the index is out of bounds,
+   * returns {@link LibClang.clang_getNullCursor | clang_getNullCursor()};
+   */
+  clang_getOverloadedDecl: (cursor: CXCursor, index: number) => CXCursor;
+
+  /**
+   * For cursors representing an iboutletcollection attribute,
+   *  this function returns the collection element type.
+   *
+   */
+  clang_getIBOutletCollectionType: (C: CXCursor) => CXType;
+
+  /**
+   * Visit the children of a particular cursor.
+   *
+   * This function visits all the direct children of the given cursor,
+   * invoking the given \p visitor function with the cursors of each
+   * visited child. The traversal may be recursive, if the visitor returns
+   * \c CXChildVisit_Recurse. The traversal may also be ended prematurely, if
+   * the visitor returns \c CXChildVisit_Break.
+   *
+   * @param parent the cursor whose child may be visited. All kinds of
+   * cursors can be visited, including invalid cursors (which, by
+   * definition, have no children).
+   *
+   * @param visitor the visitor function that will be invoked for each
+   * child of \p parent.
+   *
+   * @param client_data pointer data supplied by the client, which will
+   * be passed to the visitor each time it is invoked.
+   *
+   * @returns a non-zero value if the traversal was terminated
+   * prematurely by the visitor returning \c CXChildVisit_Break.
+   */
   clang_visitChildren: (parent: CXCursor, visitor: CXCursorVisitor) => number;
+
+  // skipped clang_visitChildrenWithBlock
 
   // ################# TODO: skipped some functions
 
@@ -1427,6 +1535,20 @@ export type LibClang = EmscriptenModule & {
    * a valid argument to sizeof, alignof or offsetof.
    */
   CXTypeLayoutError: CXTypeLayoutError;
+
+  CXRefQualifierKind: CXRefQualifierKind;
+
+  /**
+   * Represents the C++ access control level to a base class for a
+   * cursor with kind CX_CXXBaseSpecifier.
+   */
+  CX_CXXAccessSpecifier: CX_CXXAccessSpecifier;
+
+  /**
+   * Represents the storage classes as declared in the source. CX_SC_Invalid
+   * was added for the case that the passed cursor in not a declaration.
+   */
+  CX_StorageClass: CX_StorageClass;
 };
 
 export default function init(module?: EmscriptenModule): LibClang;
