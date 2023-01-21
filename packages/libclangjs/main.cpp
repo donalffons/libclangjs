@@ -1056,8 +1056,9 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function("clang_Type_getSizeOf", &clang_Type_getSizeOf);
   emscripten::function(
       "clang_Type_getOffsetOf",
-      emscripten::optional_override([](CXType T, std::string S) {
-        return clang_Type_getOffsetOf(T, S.c_str());
+      emscripten::optional_override([](CXType T, emscripten::val S) {
+        return clang_Type_getOffsetOf(
+            T, S.isNull() ? nullptr : S.as<std::string>().c_str());
       }));
   emscripten::function("clang_Type_getModifiedType",
                        &clang_Type_getModifiedType);
