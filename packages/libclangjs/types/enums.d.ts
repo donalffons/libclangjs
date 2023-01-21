@@ -1712,3 +1712,328 @@ export type CXObjCDeclQualifierKind = {
   Byref: EnumEntry<CXObjCDeclQualifierKind>;
   Oneway: EnumEntry<CXObjCDeclQualifierKind>;
 };
+
+export type CXNameRefFlags = {
+  /**
+   * Include the nested-name-specifier, e.g. Foo:: in x.Foo::y, in the
+   * range.
+   */
+  WantQualifier: EnumEntry<CXNameRefFlags>;
+
+  /**
+   * Include the explicit template arguments, e.g. \<int> in x.f<int>,
+   * in the range.
+   */
+  WantTemplateArgs: EnumEntry<CXNameRefFlags>;
+
+  /**
+   * If the name is non-contiguous, return the full spanning range.
+   *
+   * Non-contiguous names occur in Objective-C when a selector with two or more
+   * parameters is used, or in C++ when using an operator:
+   * ```cpp
+   * [object doSomething:here withValue:there]; // Objective-C
+   * return some_vector[1]; // C++
+   * ```
+   */
+  WantSinglePiece: EnumEntry<CXNameRefFlags>;
+};
+
+export type CXTokenKind = {
+  /**
+   * A token that contains some kind of punctuation.
+   */
+  Punctuation: EnumEntry<CXTokenKind>;
+
+  /**
+   * A language keyword.
+   */
+  Keyword: EnumEntry<CXTokenKind>;
+
+  /**
+   * An identifier (that is not a keyword).
+   */
+  Identifier: EnumEntry<CXTokenKind>;
+
+  /**
+   * A numeric, string, or character literal.
+   */
+  Literal: EnumEntry<CXTokenKind>;
+
+  /**
+   * A comment.
+   */
+  Comment: EnumEntry<CXTokenKind>;
+};
+
+export type CXCompletionChunkKind = {
+  /**
+   * A code-completion string that describes "optional" text that
+   * could be a part of the template (but is not required).
+   *
+   * The Optional chunk is the only kind of chunk that has a code-completion
+   * string for its representation, which is accessible via
+   * {@link LibClang.clang_getCompletionChunkCompletionString | clang_getCompletionChunkCompletionString()}. The code-completion string
+   * describes an additional part of the template that is completely optional.
+   * For example, optional chunks can be used to describe the placeholders for
+   * arguments that match up with defaulted function parameters, e.g. given:
+   *
+   * ```cpp
+   * void f(int x, float y = 3.14, double z = 2.71828);
+   * ```
+   *
+   * The code-completion string for this function would contain:
+   *   - a TypedText chunk for "f".
+   *   - a LeftParen chunk for "(".
+   *   - a Placeholder chunk for "int x"
+   *   - an Optional chunk containing the remaining defaulted arguments, e.g.,
+   *       - a Comma chunk for ","
+   *       - a Placeholder chunk for "float y"
+   *       - an Optional chunk containing the last defaulted argument:
+   *           - a Comma chunk for ","
+   *           - a Placeholder chunk for "double z"
+   *   - a RightParen chunk for ")"
+   *
+   * There are many ways to handle Optional chunks. Two simple approaches are:
+   *   - Completely ignore optional chunks, in which case the template for the
+   *     function "f" would only include the first parameter ("int x").
+   *   - Fully expand all optional chunks, in which case the template for the
+   *     function "f" would have all of the parameters.
+   */
+  Optional: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * Text that a user would be expected to type to get this
+   * code-completion result.
+   *
+   * There will be exactly one "typed text" chunk in a semantic string, which
+   * will typically provide the spelling of a keyword or the name of a
+   * declaration that could be used at the current code point. Clients are
+   * expected to filter the code-completion results based on the text in this
+   * chunk.
+   */
+  TypedText: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * Text that should be inserted as part of a code-completion result.
+   *
+   * A "text" chunk represents text that is part of the template to be
+   * inserted into user code should this particular code-completion result
+   * be selected.
+   */
+  Text: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * Placeholder text that should be replaced by the user.
+   *
+   * A "placeholder" chunk marks a place where the user should insert text
+   * into the code-completion template. For example, placeholders might mark
+   * the function parameters for a function declaration, to indicate that the
+   * user should provide arguments for each of those parameters. The actual
+   * text in a placeholder is a suggestion for the text to display before
+   * the user replaces the placeholder with real code.
+   */
+  Placeholder: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * Informative text that should be displayed but never inserted as
+   * part of the template.
+   *
+   * An "informative" chunk contains annotations that can be displayed to
+   * help the user decide whether a particular code-completion result is the
+   * right option, but which is not part of the actual template to be inserted
+   * by code completion.
+   */
+  Informative: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * Text that describes the current parameter when code-completion is
+   * referring to function call, message send, or template specialization.
+   *
+   * A "current parameter" chunk occurs when code-completion is providing
+   * information about a parameter corresponding to the argument at the
+   * code-completion point. For example, given a function
+   *
+   * ```cpp
+   * int add(int x, int y);
+   * ```
+   *
+   * and the source code \c add(, where the code-completion point is after the
+   * "(", the code-completion string will contain a "current parameter" chunk
+   * for "int x", indicating that the current argument will initialize that
+   * parameter. After typing further, to \c add(17, (where the code-completion
+   * point is after the ","), the code-completion string will contain a
+   * "current parameter" chunk to "int y".
+   */
+  CurrentParameter: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A left parenthesis ('('), used to initiate a function call or
+   * signal the beginning of a function parameter list.
+   */
+  LeftParen: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A right parenthesis (')'), used to finish a function call or
+   * signal the end of a function parameter list.
+   */
+  RightParen: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A left bracket ('[').
+   */
+  LeftBracket: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A right bracket (']').
+   */
+  RightBracket: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A left brace ('{').
+   */
+  LeftBrace: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A right brace ('}').
+   */
+  RightBrace: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A left angle bracket ('<').
+   */
+  LeftAngle: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A right angle bracket ('>').
+   */
+  RightAngle: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A comma separator (',').
+   */
+  Comma: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * Text that specifies the result type of a given result.
+   *
+   * This special kind of informative chunk is not meant to be inserted into
+   * the text buffer. Rather, it is meant to illustrate the type that an
+   * expression using the given completion string would have.
+   */
+  ResultType: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A colon (':').
+   */
+  Colon: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * A semicolon (';').
+   */
+  SemiColon: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * An '=' sign.
+   */
+  Equal: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * Horizontal space (' ').
+   */
+  HorizontalSpace: EnumEntry<CXCompletionChunkKind>;
+  /**
+   * Vertical space ('\\n'), after which it is generally a good idea to
+   * perform indentation.
+   */
+  VerticalSpace: EnumEntry<CXCompletionChunkKind>;
+};
+
+export type CXVisitorResult = {
+  Break: EnumEntry<CXVisitorResult>;
+  Continue: EnumEntry<CXVisitorResult>;
+};
+
+export type CXResult = {
+  /**
+   * Function returned successfully.
+   */
+  Success: EnumEntry<CXResult>;
+  /**
+   * One of the parameters was invalid for the function.
+   */
+  Invalid: EnumEntry<CXResult>;
+  /**
+   * The function was terminated by a callback (e.g. it returned
+   * CXVisit_Break)
+   */
+  VisitBreak: EnumEntry<CXResult>;
+};
+
+export type CXIdxEntityKind = {
+  Unexposed: EnumEntry<CXIdxEntityKind>;
+  Typedef: EnumEntry<CXIdxEntityKind>;
+  Function: EnumEntry<CXIdxEntityKind>;
+  Variable: EnumEntry<CXIdxEntityKind>;
+  Field: EnumEntry<CXIdxEntityKind>;
+  EnumConstant: EnumEntry<CXIdxEntityKind>;
+  ObjCClass: EnumEntry<CXIdxEntityKind>;
+  ObjCProtocol: EnumEntry<CXIdxEntityKind>;
+  ObjCCategory: EnumEntry<CXIdxEntityKind>;
+  ObjCInstanceMethod: EnumEntry<CXIdxEntityKind>;
+  ObjCClassMethod: EnumEntry<CXIdxEntityKind>;
+  ObjCProperty: EnumEntry<CXIdxEntityKind>;
+  ObjCIvar: EnumEntry<CXIdxEntityKind>;
+  Enum: EnumEntry<CXIdxEntityKind>;
+  Struct: EnumEntry<CXIdxEntityKind>;
+  Union: EnumEntry<CXIdxEntityKind>;
+  CXXClass: EnumEntry<CXIdxEntityKind>;
+  CXXNamespace: EnumEntry<CXIdxEntityKind>;
+  CXXNamespaceAlias: EnumEntry<CXIdxEntityKind>;
+  CXXStaticVariable: EnumEntry<CXIdxEntityKind>;
+  CXXStaticMethod: EnumEntry<CXIdxEntityKind>;
+  CXXInstanceMethod: EnumEntry<CXIdxEntityKind>;
+  CXXConstructor: EnumEntry<CXIdxEntityKind>;
+  CXXDestructor: EnumEntry<CXIdxEntityKind>;
+  CXXConversionFunction: EnumEntry<CXIdxEntityKind>;
+  CXXTypeAlias: EnumEntry<CXIdxEntityKind>;
+  CXXInterface: EnumEntry<CXIdxEntityKind>;
+};
+
+export type CXIdxEntityLanguage = {
+  None: EnumEntry<CXIdxEntityLanguage>;
+  C: EnumEntry<CXIdxEntityLanguage>;
+  ObjC: EnumEntry<CXIdxEntityLanguage>;
+  CXX: EnumEntry<CXIdxEntityLanguage>;
+  Swift: EnumEntry<CXIdxEntityLanguage>;
+};
+
+export type CXIdxEntityCXXTemplateKind = {
+  NonTemplate: EnumEntry<CXIdxEntityCXXTemplateKind>;
+  Template: EnumEntry<CXIdxEntityCXXTemplateKind>;
+  TemplatePartialSpecialization: EnumEntry<CXIdxEntityCXXTemplateKind>;
+  TemplateSpecialization: EnumEntry<CXIdxEntityCXXTemplateKind>;
+};
+
+export type CXIdxAttrKind = {
+  Unexposed: EnumEntry<CXIdxAttrKind>;
+  IBAction: EnumEntry<CXIdxAttrKind>;
+  IBOutlet: EnumEntry<CXIdxAttrKind>;
+  IBOutletCollection: EnumEntry<CXIdxAttrKind>;
+};
+
+export type CXIdxDeclInfoFlags = {
+  Skipped: EnumEntry<CXIdxDeclInfoFlags>;
+};
+
+export type CXIdxObjCContainerKind = {
+  ForwardRef: EnumEntry<CXIdxObjCContainerKind>;
+  Interface: EnumEntry<CXIdxObjCContainerKind>;
+  Implementation: EnumEntry<CXIdxObjCContainerKind>;
+};
+
+export type CXIdxEntityRefKind = {
+  /**
+   * The entity is referenced directly in user's code.
+   */
+  Direct: EnumEntry<CXIdxEntityRefKind>;
+  /**
+   * An implicit reference, e.g. a reference of an Objective-C method
+   * via the dot syntax.
+   */
+  Implicit: EnumEntry<CXIdxEntityRefKind>;
+};
+
+export type CXSymbolRole = {
+  None: EnumEntry<CXSymbolRole>;
+  Declaratio: EnumEntry<CXSymbolRole>;
+  Definitio: EnumEntry<CXSymbolRole>;
+  Refere: EnumEntry<CXSymbolRole>;
+  Read: EnumEntry<CXSymbolRole>;
+  Writ: EnumEntry<CXSymbolRole>;
+  Call: EnumEntry<CXSymbolRole>;
+  Dynamic: EnumEntry<CXSymbolRole>;
+  AddressO: EnumEntry<CXSymbolRole>;
+  Implicit: EnumEntry<CXSymbolRole>;
+};
