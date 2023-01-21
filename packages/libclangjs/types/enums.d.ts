@@ -1317,3 +1317,68 @@ export type CXTUResourceUsageKind = {
   First: EnumEntry<CXTUResourceUsageKind>;
   Last: EnumEntry<CXTUResourceUsageKind>;
 };
+
+export type CXLinkageKind = {
+  /** This value indicates that no linkage information is available
+   * for a provided CXCursor. */
+  Invalid: EnumEntry<CXLinkageKind>;
+  /**
+   * This is the linkage for variables, parameters, and so on that
+   *  have automatic storage.  This covers normal (non-extern) local variables.
+   */
+  NoLinkage: EnumEntry<CXLinkageKind>;
+  /** This is the linkage for static variables and static functions. */
+  Internal: EnumEntry<CXLinkageKind>;
+  /** This is the linkage for entities with external linkage that live
+   * in C++ anonymous namespaces.*/
+  UniqueExternal: EnumEntry<CXLinkageKind>;
+  /** This is the linkage for entities with true, external linkage. */
+  External: EnumEntry<CXLinkageKind>;
+};
+
+export type CXVisibilityKind = {
+  /** This value indicates that no visibility information is available
+   * for a provided CXCursor. */
+  Invalid: EnumEntry<CXVisibilityKind>;
+
+  /** Symbol not seen by the linker. */
+  Hidden: EnumEntry<CXVisibilityKind>;
+  /** Symbol seen by the linker but resolves to a symbol inside this object. */
+  Protected: EnumEntry<CXVisibilityKind>;
+  /** Symbol seen by the linker and acts like a normal symbol. */
+  Default: EnumEntry<CXVisibilityKind>;
+};
+
+export type CXAvailabilityKind = {
+  /**
+   * The entity is available.
+   */
+  Available: EnumEntry<CXAvailabilityKind>;
+  /**
+   * The entity is available, but has been deprecated (and its use is
+   * not recommended).
+   */
+  Deprecated: EnumEntry<CXAvailabilityKind>;
+  /**
+   * The entity is not available; any use of it will be an error.
+   */
+  NotAvailable: EnumEntry<CXAvailabilityKind>;
+  /**
+   * The entity is available, but not accessible; any use of it will be
+   * an error.
+   */
+  NotAccessible: EnumEntry<CXAvailabilityKind>;
+};
+
+export type CXLanguageKind = {
+  Invalid: EnumEntry<CXLanguageKind>;
+  C: EnumEntry<CXLanguageKind>;
+  ObjC: EnumEntry<CXLanguageKind>;
+  CPlusPlus: EnumEntry<CXLanguageKind>;
+};
+
+export type CXTLSKind = {
+  None: EnumEntry<CXTLSKind>;
+  Dynamic: EnumEntry<CXTLSKind>;
+  Static: EnumEntry<CXTLSKind>;
+};

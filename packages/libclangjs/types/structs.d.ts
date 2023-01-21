@@ -93,3 +93,8 @@ export type CXDiagnostic = {};
  * A group of CXDiagnostics.
  */
 export type CXDiagnosticSet = {};
+
+/**
+ * A fast container representing a set of CXCursors.
+ */
+export type CXCursorSetImpl = {};
