@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.1.4
+
+### Patch Changes
+
+- be9d0d3: Added typescript definitions for all currently supported interfaces
+
 ## 0.1.3
 
 ### Patch Changes
