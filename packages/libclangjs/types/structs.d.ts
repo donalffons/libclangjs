@@ -1,4 +1,4 @@
-import { CXCursorKind } from "./enums";
+import { CXCursorKind, CXTypeKind } from "./enums";
 
 /**
  * An "index" that consists of a set of translation units that would
@@ -98,3 +98,11 @@ export type CXDiagnosticSet = {};
  * A fast container representing a set of CXCursors.
  */
 export type CXCursorSetImpl = {};
+
+/**
+ * The type of an element in the abstract syntax tree.
+ *
+ */
+export type CXType = {
+  kind: CXTypeKind;
+};

@@ -1,6 +1,6 @@
 import { EmscriptenModule, FS } from "./emscripten";
-import { CXAvailabilityKind, CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTLSKind, CXTUResourceUsageKind, CXTranslationUnit_Flags, CXVisibilityKind } from "./enums";
-import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXSourceLocation, CXSourceRange, CXTranslationUnit, CXUnsavedFile } from "./structs";
+import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXReparse_Flags, CXSaveError, CXSaveTranslationUnit_Flags, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind } from "./enums";
+import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXSourceLocation, CXSourceRange, CXTranslationUnit, CXType, CXUnsavedFile } from "./structs";
 
 /**
  * Visitor invoked for each cursor found by a traversal.
@@ -745,6 +745,556 @@ export type LibClang = EmscriptenModule & {
    */
   clang_getIncludedFile: (cursor: CXCursor) => CXFile;
 
+  /**
+   * Map a source location to the cursor that describes the entity at that
+   * location in the source code.
+   *
+   * clang_getCursor() maps an arbitrary source location within a translation
+   * unit down to the most specific cursor that describes the entity at that
+   * location. For example, given an expression \c x + y, invoking
+   * clang_getCursor() with a source location pointing to "x" will return the
+   * cursor for "x"; similarly for "y". If the cursor points anywhere between
+   * "x" or "y" (e.g., on the + or the whitespace around it), clang_getCursor()
+   * will return a cursor referring to the "+" expression.
+   *
+   * @returns a cursor representing the entity at the given source location, or
+   * a NULL cursor if no such entity can be found.
+   */
+  clang_getCursor: (tu: CXTranslationUnit, loc: CXSourceLocation) => CXCursor;
+
+  /**
+   * Retrieve the physical location of the source constructor referenced
+   * by the given cursor.
+   *
+   * The location of a declaration is typically the location of the name of that
+   * declaration, where the name of that declaration would occur if it is
+   * unnamed, or some keyword that introduces that particular declaration.
+   * The location of a reference is where that reference occurs within the
+   * source code.
+   */
+  clang_getCursorLocation: (cursor: CXCursor) => CXSourceLocation;
+
+  /**
+   * Retrieve the physical extent of the source construct referenced by
+   * the given cursor.
+   *
+   * The extent of a cursor starts with the file/line/column pointing at the
+   * first character within the source construct that the cursor refers to and
+   * ends with the last character within that source construct. For a
+   * declaration, the extent covers the declaration itself. For a reference,
+   * the extent covers the location of the reference (e.g., where the referenced
+   * entity was actually used).
+   */
+  clang_getCursorExtent: (cursor: CXCursor) => CXSourceRange;
+
+  /**
+   * Retrieve the type of a CXCursor (if any).
+   */
+  clang_getCursorType: (C: CXCursor) => CXType;
+
+  /**
+   * Pretty-print the underlying type using the rules of the
+   * language of the translation unit from which it came.
+   *
+   * If the type is invalid, an empty string is returned.
+   */
+  clang_getTypeSpelling: (CT: CXType) => string;
+
+  /**
+   * Retrieve the underlying type of a typedef declaration.
+   *
+   * If the cursor does not reference a typedef declaration, an invalid type is
+   * returned.
+   */
+  clang_getTypedefDeclUnderlyingType: (C: CXCursor) => CXType;
+
+  /**
+   * Retrieve the integer type of an enum declaration.
+   *
+   * If the cursor does not reference an enum declaration, an invalid type is
+   * returned.
+   */
+  clang_getEnumDeclIntegerType: (C: CXCursor) => CXType;
+
+  /**
+   * Retrieve the integer value of an enum constant declaration as a signed
+   *  long long.
+   *
+   * If the cursor does not reference an enum constant declaration, LLONG_MIN is
+   * returned. Since this is also potentially a valid constant value, the kind of
+   * the cursor must be verified before calling this function.
+   */
+  clang_getEnumConstantDeclValue: (C: CXCursor) => number;
+
+  /**
+   * Retrieve the integer value of an enum constant declaration as an unsigned
+   *  long long.
+   *
+   * If the cursor does not reference an enum constant declaration, ULLONG_MAX is
+   * returned. Since this is also potentially a valid constant value, the kind of
+   * the cursor must be verified before calling this function.
+   */
+  clang_getEnumConstantDeclUnsignedValue: (C: CXCursor) => number;
+
+  /**
+   * Retrieve the bit width of a bit field declaration as an integer.
+   *
+   * If a cursor that is not a bit field declaration is passed in, -1 is returned.
+   */
+  clang_getFieldDeclBitWidth: (C: CXCursor) => number;
+
+  /**
+   * Retrieve the number of non-variadic arguments associated with a given
+   * cursor.
+   *
+   * The number of arguments can be determined for calls as well as for
+   * declarations of functions or methods. For other cursors -1 is returned.
+   */
+  clang_Cursor_getNumArguments: (C: CXCursor) => number;
+
+  /**
+   * Retrieve the argument cursor of a function or method.
+   *
+   * The argument cursor can be determined for calls as well as for declarations
+   * of functions or methods. For other cursors and for invalid indices, an
+   * invalid cursor is returned.
+   */
+  clang_Cursor_getArgument: (C: CXCursor, i: number) => CXCursor;
+
+  /**
+   *Returns the number of template args of a function decl representing a
+   * template specialization.
+   *
+   * If the argument cursor cannot be converted into a template function
+   * declaration, -1 is returned.
+   *
+   * For example, for the following declaration and specialization:
+   *   template <typename T, int kInt, bool kBool>
+   *   void foo() { ... }
+   *
+   *   template <>
+   *   void foo<float, -7, true>();
+   *
+   * The value 3 would be returned from this call.
+   */
+  clang_Cursor_getNumTemplateArguments: (C: CXCursor) => number;
+
+  /**
+   * Retrieve the kind of the I'th template argument of the CXCursor C.
+   *
+   * If the argument CXCursor does not represent a FunctionDecl, an invalid
+   * template argument kind is returned.
+   *
+   * For example, for the following declaration and specialization:
+   *   template <typename T, int kInt, bool kBool>
+   *   void foo() { ... }
+   *
+   *   template <>
+   *   void foo<float, -7, true>();
+   *
+   * For I = 0, 1, and 2, Type, Integral, and Integral will be returned,
+   * respectively.
+   */
+  clang_Cursor_getTemplateArgumentKind: (C: CXCursor, I: number) => CXTemplateArgumentKind;
+
+  /**
+   * Retrieve a CXType representing the type of a TemplateArgument of a
+   *  function decl representing a template specialization.
+   *
+   * If the argument CXCursor does not represent a FunctionDecl whose I'th
+   * template argument has a kind of CXTemplateArgKind_Integral, an invalid type
+   * is returned.
+   *
+   * For example, for the following declaration and specialization:
+   *   template <typename T, int kInt, bool kBool>
+   *   void foo() { ... }
+   *
+   *   template <>
+   *   void foo<float, -7, true>();
+   *
+   * If called with I = 0, "float", will be returned.
+   * Invalid types will be returned for I == 1 or 2.
+   */
+  clang_Cursor_getTemplateArgumentType: (C: CXCursor, I: number) => CXType;
+
+  /**
+   * Retrieve the value of an Integral TemplateArgument (of a function
+   *  decl representing a template specialization) as a signed long long.
+   *
+   * It is undefined to call this function on a CXCursor that does not represent a
+   * FunctionDecl or whose I'th template argument is not an integral value.
+   *
+   * For example, for the following declaration and specialization:
+   *   template <typename T, int kInt, bool kBool>
+   *   void foo() { ... }
+   *
+   *   template <>
+   *   void foo<float, -7, true>();
+   *
+   * If called with I = 1 or 2, -7 or true will be returned, respectively.
+   * For I == 0, this function's behavior is undefined.
+   */
+  clang_Cursor_getTemplateArgumentValue: (C: CXCursor, I: number) => number;
+
+  /**
+   * Retrieve the value of an Integral TemplateArgument (of a function
+   *  decl representing a template specialization) as an unsigned long long.
+   *
+   * It is undefined to call this function on a CXCursor that does not represent a
+   * FunctionDecl or whose I'th template argument is not an integral value.
+   *
+   * For example, for the following declaration and specialization:
+   *   template <typename T, int kInt, bool kBool>
+   *   void foo() { ... }
+   *
+   *   template <>
+   *   void foo<float, 2147483649, true>();
+   *
+   * If called with I = 1 or 2, 2147483649 or true will be returned, respectively.
+   * For I == 0, this function's behavior is undefined.
+   */
+  clang_Cursor_getTemplateArgumentUnsignedValue: (C: CXCursor, I: number) => number;
+
+  /**
+   * Determine whether two CXTypes represent the same type.
+   *
+   * \returns non-zero if the CXTypes represent the same type and
+   *          zero otherwise.
+   */
+  clang_equalTypes: (A: CXType, B: CXType) => number;
+
+  /**
+   * Return the canonical type for a CXType.
+   *
+   * Clang's type system explicitly models typedefs and all the ways
+   * a specific type can be represented.  The canonical type is the underlying
+   * type with all the "sugar" removed.  For example, if 'T' is a typedef
+   * for 'int', the canonical type for 'T' would be 'int'.
+   */
+  clang_getCanonicalType: (T: CXType) => CXType;
+
+  /**
+   * Determine whether a CXType has the "const" qualifier set,
+   * without looking through typedefs that may have added "const" at a
+   * different level.
+   */
+  clang_isConstQualifiedType: (T: CXType) => number;
+
+  /**
+   * Determine whether a  CXCursor that is a macro, is
+   * function like.
+   */
+  clang_Cursor_isMacroFunctionLike: (C: CXCursor) => number;
+
+  /**
+   * Determine whether a  CXCursor that is a macro, is a
+   * builtin one.
+   */
+  clang_Cursor_isMacroBuiltin: (C: CXCursor) => number;
+
+  /**
+   * Determine whether a  CXCursor that is a function declaration, is an
+   * inline declaration.
+   */
+  clang_Cursor_isFunctionInlined: (C: CXCursor) => number;
+
+  /**
+   * Determine whether a CXType has the "volatile" qualifier set,
+   * without looking through typedefs that may have added "volatile" at
+   * a different level.
+   */
+  clang_isVolatileQualifiedType: (T: CXType) => number;
+
+  /**
+   * Determine whether a CXType has the "restrict" qualifier set,
+   * without looking through typedefs that may have added "restrict" at a
+   * different level.
+   */
+  clang_isRestrictQualifiedType: (T: CXType) => number;
+
+  /**
+   * Returns the address space of the given type.
+   */
+  clang_getAddressSpace: (T: CXType) => number;
+
+  /**
+   * Returns the typedef name of the given type.
+   */
+  clang_getTypedefName: (CT: CXType) => string;
+
+  /**
+   * For pointer types, returns the type of the pointee.
+   */
+  clang_getPointeeType: (T: CXType) => CXType;
+
+  /**
+   * Return the cursor for the declaration of the given type.
+   */
+  clang_getTypeDeclaration: (T: CXType) => CXCursor;
+
+  /**
+   * Returns the Objective-C type encoding for the specified declaration.
+   */
+  clang_getDeclObjCTypeEncoding: (C: CXCursor) => string;
+
+  /**
+   * Returns the Objective-C type encoding for the specified CXType.
+   */
+  clang_Type_getObjCEncoding: (type: CXType) => string;
+
+  /**
+   * Retrieve the spelling of a given CXTypeKind.
+   */
+  clang_getTypeKindSpelling: (kind: CXTypeKind) => string;
+
+  /**
+   * Retrieve the calling convention associated with a function type.
+   *
+   * If a non-function type is passed in, CXCallingConv_Invalid is returned.
+   */
+  clang_getFunctionTypeCallingConv: (T: CXType) => CXCallingConv;
+
+  /**
+   * Retrieve the return type associated with a function type.
+   *
+   * If a non-function type is passed in, an invalid type is returned.
+   */
+  clang_getResultType: (T: CXType) => CXType;
+
+  /**
+   * Retrieve the exception specification type associated with a function type.
+   * This is a value of type CXCursor_ExceptionSpecificationKind.
+   *
+   * If a non-function type is passed in, an error code of -1 is returned.
+   */
+  clang_getExceptionSpecificationType: (T: CXType) => number;
+
+  /**
+   * Retrieve the number of non-variadic parameters associated with a
+   * function type.
+   *
+   * If a non-function type is passed in, -1 is returned.
+   */
+  clang_getNumArgTypes: (T: CXType) => number;
+
+  /**
+   * Retrieve the type of a parameter of a function type.
+   *
+   * If a non-function type is passed in or the function does not have enough
+   * parameters, an invalid type is returned.
+   */
+  clang_getArgType: (T: CXType, i: number) => CXType;
+
+  /**
+   * Retrieves the base type of the ObjCObjectType.
+   *
+   * If the type is not an ObjC object, an invalid type is returned.
+   */
+  clang_Type_getObjCObjectBaseType: (T: CXType) => CXType;
+
+  /**
+   * Retrieve the number of protocol references associated with an ObjC object/id.
+   *
+   * If the type is not an ObjC object, 0 is returned.
+   */
+  clang_Type_getNumObjCProtocolRefs: (T: CXType) => number;
+
+  /**
+   * Retrieve the decl for a protocol reference for an ObjC object/id.
+   *
+   * If the type is not an ObjC object or there are not enough protocol
+   * references, an invalid cursor is returned.
+   */
+  clang_Type_getObjCProtocolDecl: (T: CXType, i: number) => CXCursor;
+
+  /**
+   * Retrieve the number of type arguments associated with an ObjC object.
+   *
+   * If the type is not an ObjC object, 0 is returned.
+   */
+  clang_Type_getNumObjCTypeArgs: (T: CXType) => number;
+
+  /**
+   * Retrieve a type argument associated with an ObjC object.
+   *
+   * If the type is not an ObjC or the index is not valid,
+   * an invalid type is returned.
+   */
+  clang_Type_getObjCTypeArg: (T: CXType, i: number) => CXType;
+
+  /**
+   * Return 1 if the CXType is a variadic function type, and 0 otherwise.
+   */
+  clang_isFunctionTypeVariadic: (T: CXType) => number;
+
+  /**
+   * Retrieve the return type associated with a given cursor.
+   *
+   * This only returns a valid type if the cursor refers to a function or method.
+   */
+  clang_getCursorResultType: (C: CXCursor) => CXType;
+
+  /**
+   * Retrieve the exception specification type associated with a given cursor.
+   * This is a value of type CXCursor_ExceptionSpecificationKind.
+   *
+   * This only returns a valid result if the cursor refers to a function or
+   * method.
+   */
+  clang_getCursorExceptionSpecificationType: (C: CXCursor) => number;
+
+  /**
+   * Return 1 if the CXType is a POD (plain old data) type, and 0
+   *  otherwise.
+   */
+  clang_isPODType: (T: CXType) => number;
+
+  /**
+   * Return the element type of an array, complex, or vector type.
+   *
+   * If a type is passed in that is not an array, complex, or vector type,
+   * an invalid type is returned.
+   */
+  clang_getElementType: (T: CXType) => CXType;
+
+  /**
+   * Return the number of elements of an array or vector type.
+   *
+   * If a type is passed in that is not an array or vector type,
+   * -1 is returned.
+   */
+  clang_getNumElements: (T: CXType) => number;
+
+  /**
+   * Return the element type of an array type.
+   *
+   * If a non-array type is passed in, an invalid type is returned.
+   */
+  clang_getArrayElementType: (T: CXType) => CXType;
+
+  /**
+   * Return the array size of a constant array.
+   *
+   * If a non-array type is passed in, -1 is returned.
+   */
+  clang_getArraySize: (T: CXType) => number;
+
+  /**
+   * Retrieve the type named by the qualified-id.
+   *
+   * If a non-elaborated type is passed in, an invalid type is returned.
+   */
+  clang_Type_getNamedType: (T: CXType) => CXType;
+
+  /**
+   * Determine if a typedef is 'transparent' tag.
+   *
+   * A typedef is considered 'transparent' if it shares a name and spelling
+   * location with its underlying tag type, as is the case with the NS_ENUM macro.
+   *
+   * @returns non-zero if transparent and zero otherwise.
+   */
+  clang_Type_isTransparentTagTypedef: (T: CXType) => number;
+
+  /**
+   * Retrieve the nullability kind of a pointer type.
+   */
+  clang_Type_getNullability: (T: CXType) => CXTypeNullabilityKind;
+
+  /**
+   * Return the alignment of a type in bytes as per C++[expr.alignof]
+   *   standard.
+   *
+   * If the type declaration is invalid, CXTypeLayoutError_Invalid is returned.
+   * If the type declaration is an incomplete type, CXTypeLayoutError_Incomplete
+   *   is returned.
+   * If the type declaration is a dependent type, CXTypeLayoutError_Dependent is
+   *   returned.
+   * If the type declaration is not a constant size type,
+   *   CXTypeLayoutError_NotConstantSize is returned.
+   */
+  clang_Type_getAlignOf: (T: CXType) => number;
+
+  /**
+   * Return the class type of an member pointer type.
+   *
+   * If a non-member-pointer type is passed in, an invalid type is returned.
+   */
+  clang_Type_getClassType: (T: CXType) => CXType;
+
+  /**
+   * Return the size of a type in bytes as per C++[expr.sizeof] standard.
+   *
+   * If the type declaration is invalid, CXTypeLayoutError_Invalid is returned.
+   * If the type declaration is an incomplete type, CXTypeLayoutError_Incomplete
+   *   is returned.
+   * If the type declaration is a dependent type, CXTypeLayoutError_Dependent is
+   *   returned.
+   */
+  clang_Type_getSizeOf: (T: CXType) => number;
+
+  /**
+   * Return the offset of a field named S in a record of type T in bits
+   *   as it would be returned by __offsetof__ as per C++11[18.2p4]
+   *
+   * If the cursor is not a record field declaration, CXTypeLayoutError_Invalid
+   *   is returned.
+   * If the field's type declaration is an incomplete type,
+   *   CXTypeLayoutError_Incomplete is returned.
+   * If the field's type declaration is a dependent type,
+   *   CXTypeLayoutError_Dependent is returned.
+   * If the field's name S is not found,
+   *   CXTypeLayoutError_InvalidFieldName is returned.
+   */
+  clang_Type_getOffsetOf: (T: CXType, S: string | null) => number;
+
+  /**
+   * Return the type that was modified by this attributed type.
+   *
+   * If the type is not an attributed type, an invalid type is returned.
+   */
+  clang_Type_getModifiedType: (T: CXType) => CXType;
+
+  /**
+   * Gets the type contained by this atomic type.
+   *
+   * If a non-atomic type is passed in, an invalid type is returned.
+   */
+  clang_Type_getValueType: (CT: CXType) => CXType;
+
+  /**
+   * Return the offset of the field represented by the Cursor.
+   *
+   * If the cursor is not a field declaration, -1 is returned.
+   * If the cursor semantic parent is not a record field declaration,
+   *   CXTypeLayoutError_Invalid is returned.
+   * If the field's type declaration is an incomplete type,
+   *   CXTypeLayoutError_Incomplete is returned.
+   * If the field's type declaration is a dependent type,
+   *   CXTypeLayoutError_Dependent is returned.
+   * If the field's name S is not found,
+   *   CXTypeLayoutError_InvalidFieldName is returned.
+   */
+  clang_Cursor_getOffsetOfField: (C: CXCursor) => number;
+
+  /**
+   * Determine whether the given cursor represents an anonymous
+   * tag or namespace
+   */
+  clang_Cursor_isAnonymous: (C: CXCursor) => number;
+
+  /**
+   * Determine whether the given cursor represents an anonymous record
+   * declaration.
+   */
+  clang_Cursor_isAnonymousRecordDecl: (C: CXCursor) => number;
+
+  /**
+   * Determine whether the given cursor represents an inline namespace
+   * declaration.
+   */
+  clang_Cursor_isInlineNamespace: (C: CXCursor) => number;
+
   // ################# TODO: skipped some functions
 
   clang_visitChildren: (parent: CXCursor, visitor: CXCursorVisitor) => number;
@@ -848,6 +1398,35 @@ export type LibClang = EmscriptenModule & {
    * referred to by a cursor.
    */
   CXTLSKind: CXTLSKind;
+
+  /**
+   * Describes the kind of type
+   */
+  CXTypeKind: CXTypeKind;
+  /**
+   * Describes the calling convention of a function type
+   */
+  CXCallingConv: CXCallingConv;
+
+  /**
+   * Describes the kind of a template argument.
+   *
+   * See the definition of llvm::clang::TemplateArgument::ArgKind for full
+   * element descriptions.
+   */
+  CXTemplateArgumentKind: CXTemplateArgumentKind;
+
+  CXTypeNullabilityKind: CXTypeNullabilityKind;
+
+  /**
+   * List the possible error codes for {@link LibClang.clang_Type_getSizeOf | clang_Type_getSizeOf},
+   *   {@link LibClang.clang_Type_getAlignOf | clang_Type_getAlignOf}, {@link LibClang.clang_Type_getOffsetOf | clang_Type_getOffsetOf} and
+   *   {@link LibClang.clang_Cursor_getOffsetOf | clang_Cursor_getOffsetOf}.
+   *
+   * A value of this enumeration type can be returned if the target type is not
+   * a valid argument to sizeof, alignof or offsetof.
+   */
+  CXTypeLayoutError: CXTypeLayoutError;
 };
 
 export default function init(module?: EmscriptenModule): LibClang;
