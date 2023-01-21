@@ -43,3 +43,9 @@ test(`call "clang_parseTranslationUnit"`, async () => {
   });
   expect(foundCookie).toBeTruthy();
 });
+
+test("can get file contents", () => {
+  const file = libclangjs.clang_getFile(tu, path.join(cwd, "main.cpp"));
+  const fileContents = libclangjs.clang_getFileContents(tu, file);
+  expect(fileContents).toBe(fs.readFileSync(path.join("testSrc", "main.cpp")).toString());
+});
