@@ -1,5 +1,15 @@
 # libclangjs
 
+## 0.1.5
+
+### Patch Changes
+
+- e53e753: fix file name for type definitions file
+- 055367f: re-export auxiliary types in type definitions entry point
+- ef24599: test writing / reading translation units
+- 51d1f45: make current version specific to NodeJS (allow for adding a web version, later)
+- df252e8: ship versions for web and node
+
 ## 0.1.4
 
 ### Patch Changes
