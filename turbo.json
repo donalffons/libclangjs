@@ -8,10 +8,10 @@
       "outputs": [
         "build/**",
         "dist/**",
-        "libclangjs-node.js",
-        "libclangjs-node.wasm",
-        "libclangjs-web.js",
-        "libclangjs-web.wasm"
+        "node.js",
+        "node.wasm",
+        "web.js",
+        "web.wasm"
       ]
     },
     "test": {
