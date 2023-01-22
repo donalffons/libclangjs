@@ -16,12 +16,14 @@ target_link_libraries(libclangjs libclang)
 
 set(LINK_FLAGS "")
 if(${ENVIRONMENT} STREQUAL "node")
-  set(LINK_FLAGS "${LINK_FLAGS} -lnodefs.js -sEXPORTED_FUNCTIONS=NODEFS")
+  set(LINK_FLAGS "${LINK_FLAGS} -lnodefs.js -sEXPORTED_FUNCTIONS=NODEFS -sPTHREAD_POOL_SIZE='require(\"os\").cpus().length'")
+else()
+  set(LINK_FLAGS "-sPTHREAD_POOL_SIZE='navigator.hardwareConcurrency'")
 endif()
 
 set_target_properties(
   libclangjs PROPERTIES
-  COMPILE_FLAGS ""
-  LINK_FLAGS "${LINK_FLAGS} -lembind -sMODULARIZE=1 -sEXPORTED_RUNTIME_METHODS=FS -sALLOW_MEMORY_GROWTH=1 -sENVIRONMENT=${ENVIRONMENT}"
-  OUTPUT_NAME "libclangjs-${ENVIRONMENT}"
+  COMPILE_FLAGS "-pthread"
+  LINK_FLAGS "${LINK_FLAGS} -lembind -sMODULARIZE=1 -sEXPORTED_RUNTIME_METHODS=FS -sALLOW_MEMORY_GROWTH=1 -sENVIRONMENT=${ENVIRONMENT},worker -pthread -sEXPORT_NAME=libclangjs"
+  OUTPUT_NAME "${ENVIRONMENT}"
 )

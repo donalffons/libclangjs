@@ -22,12 +22,12 @@ const distPath = path.join(__dirname, "dist");
       "-DLLVM_TARGETS_TO_BUILD=WebAssembly",
       "-DLLVM_INCLUDE_TESTS=OFF",
       "-DLLVM_ENABLE_PROJECTS=clang",
-      "-DLLVM_ENABLE_THREADS=OFF",
     ].join(" ")}
     `, {
     env: {
       ...env,
-      "CXXFLAGS": "-Dwait4=__syscall_wait4",
+      "CXXFLAGS": "-Dwait4=__syscall_wait4 -pthread",
+      "LDFLAGS": "-pthread",
     },
     cwd: buildPath,
   });

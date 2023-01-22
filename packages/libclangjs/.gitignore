@@ -1,4 +1,6 @@
-/libclangjs-node.js
-/libclangjs-node.wasm
-/libclangjs-web.js
-/libclangjs-web.wasm
+/node.js
+/node.worker.js
+/node.wasm
+/web.js
+/web.worker.js
+/web.wasm
