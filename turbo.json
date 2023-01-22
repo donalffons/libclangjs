@@ -7,13 +7,18 @@
       ],
       "outputs": [
         "build/**",
-        "dist/**"
+        "dist/**",
+        "libclangjs-node.js",
+        "libclangjs-node.wasm",
+        "libclangjs-web.js",
+        "libclangjs-web.wasm"
       ]
     },
     "test": {
       "dependsOn": [
         "build"
-      ]
+      ],
+      "cache": false
     },
     "dev": {
       "dependsOn": [
