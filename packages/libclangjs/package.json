@@ -1,6 +1,6 @@
 {
   "name": "libclangjs",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "scripts": {
     "clean": "ts-node clean.ts",
     "build": "ts-node build.ts"
