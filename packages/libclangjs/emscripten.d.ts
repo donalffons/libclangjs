@@ -42,6 +42,8 @@ declare namespace Emscripten {
   }
 }
 
+export type EmscriptenWorker = {};
+
 export interface EmscriptenModule {
   print(str: string): void;
   printErr(str: string): void;
@@ -102,6 +104,25 @@ export interface EmscriptenModule {
   MEMFS: Emscripten.FileSystemType;
   NODEFS: Emscripten.FileSystemType;
   IDBFS: Emscripten.FileSystemType;
+
+  PThread: {
+    unusedWorkers: EmscriptenWorker[];
+    runningWorkers: EmscriptenWorker[];
+    tlsIintFunctions: unknown;
+    pthreads: unknown;
+    init: () => void;
+    initMainThread: () => void;
+    initWorker: () => void;
+    setExitStatus: (status: any) => void;
+    terminateAllThreads: () => void;
+    returnWorkerToPool: (worker: EmscriptenWorker) => void;
+    receiveObjectTransfer: (data: any) => void;
+    threadInitTLS: () => void;
+    loadWasmModuleToWorker: (worker: EmscriptenWorker) => Promise<EmscriptenWorker>;
+    allocateUnusedWorker: () => void;
+    getNewWorker: () => EmscriptenWorker;
+    currentProxiedOperationCallerThread: unknown;
+  };
 }
 
 /**

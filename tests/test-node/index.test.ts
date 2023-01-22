@@ -1,4 +1,4 @@
-import init from "libclangjs/libclangjs-node";
+import init from "libclangjs/node";
 import { CXFile, CXIndex, CXTranslationUnit, LibClang } from "libclangjs/libclangjs";
 import path from "path";
 import fs from "fs";
@@ -86,4 +86,8 @@ test("Can write / read translation unit to / from disk", () => {
   const readIndex = libclangjs.clang_createIndex(1, 1);
   const readTu = libclangjs.clang_createTranslationUnit(readIndex, exportFileName);
   expect(libclangjs.isNullPointer(readTu)).toBeFalsy();
+});
+
+test("Can shutdown all threads", () => {
+  libclangjs.PThread.terminateAllThreads();
 });
