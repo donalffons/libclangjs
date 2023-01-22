@@ -2208,5 +2208,3 @@ export type LibClang = EmscriptenModule & {
    */
   CXSymbolRole: CXSymbolRole;
 };
-
-export default function init(module?: EmscriptenModule): LibClang;
