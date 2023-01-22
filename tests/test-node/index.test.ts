@@ -75,3 +75,14 @@ test("Can make simple calls regarding CXSourceRange", () => {
   expect(libclangjs.clang_equalRanges(range1, range2)).not.toBe(0)
   expect(libclangjs.clang_equalRanges(range1, range3)).toBe(0);
 });
+
+test("Can write / read translation unit to / from disk", () => {
+  fs.mkdirSync(path.join("testSrc", "out"), { recursive: true });
+  const exportFileName = path.join(cwd, "out", "export.tu");
+  const ret = libclangjs.clang_saveTranslationUnit(tu, exportFileName, libclangjs.CXSaveTranslationUnit_Flags.None.value);
+  expect(ret).toBe(0);
+  expect(fs.existsSync(path.join("testSrc", "out", "export.tu"))).toBeTruthy();
+  const readIndex = libclangjs.clang_createIndex(1, 1);
+  const readTu = libclangjs.clang_createTranslationUnit(readIndex, exportFileName);
+  expect(libclangjs.isNullPointer(readTu)).toBeFalsy();
+});
