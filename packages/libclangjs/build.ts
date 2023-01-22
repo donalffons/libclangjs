@@ -8,8 +8,10 @@ const distPath = path.join(__dirname, "dist");
 
 {
   // Configure
+  fs.rmSync("build", { recursive: true, force: true });
   fs.mkdirSync("build", { recursive: true });
   const res = exec(`emcmake cmake .. ${[
+    "-DENVIRONMENT=node",
     `-DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${distPath}"`,
     `-DLLVM_DIR="${path.join(__dirname, "node_modules", "llvm-project-emscripten", "dist", "lib", "cmake", "llvm")}"`,
     `-DClang_DIR="${path.join(__dirname, "node_modules", "llvm-project-emscripten", "dist", "lib", "cmake", "clang")}"`,
