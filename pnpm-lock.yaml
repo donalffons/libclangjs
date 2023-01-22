@@ -25,7 +25,6 @@ importers:
       shelljs: 0.8.5
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
       typescript: 4.9.4
-    publishDirectory: ./dist
 
   packages/llvm-project-emscripten:
     specifiers:
