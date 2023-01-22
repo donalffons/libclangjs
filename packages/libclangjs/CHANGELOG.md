@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.1.6
+
+### Patch Changes
+
+- 9400c17: fix missing build artifacts in package
+
 ## 0.1.5
 
 ### Patch Changes
