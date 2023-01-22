@@ -2,6 +2,10 @@ import { EmscriptenModule, FS } from "./emscripten";
 import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCompletionChunkKind, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXIdxAttrKind, CXIdxDeclInfoFlags, CXIdxEntityCXXTemplateKind, CXIdxEntityKind, CXIdxEntityLanguage, CXIdxEntityRefKind, CXIdxObjCContainerKind, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXNameRefFlags, CXObjCDeclQualifierKind, CXObjCPropertyAttrKind, CXPrintingPolicyProperty, CXRefQualifierKind, CXReparse_Flags, CXResult, CXSaveError, CXSaveTranslationUnit_Flags, CXSymbolRole, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTokenKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CXVisitorResult, CX_CXXAccessSpecifier, CX_StorageClass } from "./enums";
 import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXModule, CXPrintingPolicy, CXSourceLocation, CXSourceRange, CXToken, CXTranslationUnit, CXType, CXUnsavedFile } from "./structs";
 
+export * from "./emscripten";
+export * from "./enums";
+export * from "./structs";
+
 /**
  * Visitor invoked for each cursor found by a traversal.
  *
