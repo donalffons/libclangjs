@@ -1,5 +1,11 @@
 # llvm-project-emscripten
 
+## 0.1.1
+
+### Patch Changes
+
+- 163a75c: enable multi-threading
+
 ## 0.1.0
 
 ### Minor Changes
