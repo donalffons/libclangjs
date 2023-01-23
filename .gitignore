@@ -3,3 +3,4 @@ node_modules
 .turbo
 build
 dist
+/gha-creds-*.json
