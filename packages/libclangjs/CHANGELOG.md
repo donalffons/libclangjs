@@ -1,5 +1,12 @@
 # libclangjs
 
+## 0.1.7
+
+### Patch Changes
+
+- 163a75c: enable multi-threading
+- e83d8b9: Use -O3 optimizations for highly optimized builds
+
 ## 0.1.6
 
 ### Patch Changes
