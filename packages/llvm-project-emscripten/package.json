@@ -1,7 +1,7 @@
 {
   "name": "llvm-project-emscripten",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "clean": "ts-node clean.ts",
     "build": "ts-node build.ts"
