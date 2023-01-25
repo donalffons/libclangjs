@@ -1,4 +1,4 @@
-# libclangjs
+# libclang.js
 
 ## Contribution and release workflow
 
