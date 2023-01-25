@@ -1225,7 +1225,10 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
             clang_getCursorPrettyPrinted(Cursor, Policy.ptr));
       }));
   emscripten::function("clang_getCursorDisplayName",
-                       &clang_getCursorDisplayName);
+                       emscripten::optional_override([](CXCursor Cursor) {
+                         return cxStringToStdString(
+                             clang_getCursorDisplayName(Cursor));
+                       }));
   emscripten::function("clang_getCursorReferenced", &clang_getCursorReferenced);
   emscripten::function("clang_getCursorDefinition", &clang_getCursorDefinition);
   emscripten::function("clang_isCursorDefinition", &clang_isCursorDefinition);
