@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.1.8
+
+### Patch Changes
+
+- 2b30529: rename package from libclanjs to libclang.js
+
 ## 0.1.7
 
 ### Patch Changes
