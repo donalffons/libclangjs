@@ -1,5 +1,5 @@
 {
-  "name": "libclangjs",
+  "name": "libclang.js",
   "version": "0.1.7",
   "scripts": {
     "clean": "ts-node clean.ts",

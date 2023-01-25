@@ -1,4 +1,4 @@
-name: Release libclangjs
+name: Release libclang.js
 
 on:
   push:

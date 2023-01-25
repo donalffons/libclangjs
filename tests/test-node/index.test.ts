@@ -1,5 +1,5 @@
-import init from "libclangjs/node";
-import { CXFile, CXIndex, CXTranslationUnit, LibClang } from "libclangjs/libclangjs";
+import init from "libclang.js/node";
+import { CXFile, CXIndex, CXTranslationUnit, LibClang } from "libclang.js/libclangjs";
 import path from "path";
 import fs from "fs";
 
