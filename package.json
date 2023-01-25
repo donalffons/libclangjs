@@ -4,8 +4,8 @@
     "test": "turbo run test",
     "clean": "turbo run clean",
     "dev": "turbo run dev",
-    "upload-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -d -r node_modules/.cache/turbo gs://libclangjs-turborepo-remote-cache",
-    "download-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -d -r gs://libclangjs-turborepo-remote-cache node_modules/.cache/turbo"
+    "upload-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r node_modules/.cache/turbo gs://libclangjs-turborepo-remote-cache",
+    "download-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r gs://libclangjs-turborepo-remote-cache node_modules/.cache/turbo"
   },
   "packageManager": "pnpm@7.25.1",
   "devDependencies": {
