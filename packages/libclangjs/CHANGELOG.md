@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.1.8
+
+### Patch Changes
+
+- 0d0967c: improved build cache
+
 ## 0.1.7
 
 ### Patch Changes
