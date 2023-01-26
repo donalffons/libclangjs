@@ -90,7 +90,7 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       }));
   emscripten::function("clang_getFileTime",
                        emscripten::optional_override([](Pointer &SFile) {
-                         return clang_getFileTime(SFile.ptr);
+                         return static_cast<int>(clang_getFileTime(SFile.ptr));
                        }));
   // skipped CXFileUniqueID
   // skipped clang_getFileUniqueID
