@@ -1,5 +1,5 @@
 
-export type EnumEntry<T> = {
+export type EnumValue<T> = {
   value: number;
   /**
    * @private
@@ -11,26 +11,26 @@ export type CXChildVisitResult = {
   /**
    * Terminates the cursor traversal.
    */
-  Break: EnumEntry<CXChildVisitResult>;
+  Break: EnumValue<CXChildVisitResult>;
 
   /**
    * Continues the cursor traversal with the next sibling of
    * the cursor just visited, without visiting its children.
    */
-  Continue: EnumEntry<CXChildVisitResult>;
+  Continue: EnumValue<CXChildVisitResult>;
 
   /**
    * Recursively traverse the children of this cursor, using
    * the same visitor and client data.
    */
-  Recurse: EnumEntry<CXChildVisitResult>;
+  Recurse: EnumValue<CXChildVisitResult>;
 };
 
 export type CXGlobalOptFlags = {
   /**
    * Used to indicate that no special CXIndex options are needed.
    */
-  None: EnumEntry<CXGlobalOptFlags>;
+  None: EnumValue<CXGlobalOptFlags>;
 
   /**
    * Used to indicate that threads that libclang creates for indexing
@@ -39,7 +39,7 @@ export type CXGlobalOptFlags = {
    * Affects #clang_indexSourceFile, #clang_indexTranslationUnit,
    * #clang_parseTranslationUnit, #clang_saveTranslationUnit.
    */
-  ThreadBackgroundPriorityForIndexing: EnumEntry<CXGlobalOptFlags>;
+  ThreadBackgroundPriorityForIndexing: EnumValue<CXGlobalOptFlags>;
 
   /**
    * Used to indicate that threads that libclang creates for editing
@@ -48,13 +48,13 @@ export type CXGlobalOptFlags = {
    * Affects #clang_reparseTranslationUnit, #clang_codeCompleteAt,
    * #clang_annotateTokens
    */
-  ThreadBackgroundPriorityForEditing: EnumEntry<CXGlobalOptFlags>;
+  ThreadBackgroundPriorityForEditing: EnumValue<CXGlobalOptFlags>;
 
   /**
    * Used to indicate that all threads that libclang creates should use
    * background priority.
    */
-  ThreadBackgroundPriorityForAll: EnumEntry<CXGlobalOptFlags>;
+  ThreadBackgroundPriorityForAll: EnumValue<CXGlobalOptFlags>;
 };
 
 export type CXCursorKind = {
@@ -67,95 +67,95 @@ export type CXCursorKind = {
    * spelling, find their definitions, etc. However, the specific kind
    * of the declaration is not reported.
    */
-  UnexposedDecl: EnumEntry<CXCursorKind>;
+  UnexposedDecl: EnumValue<CXCursorKind>;
   /** A C or C++ struct. */
-  StructDecl: EnumEntry<CXCursorKind>;
+  StructDecl: EnumValue<CXCursorKind>;
   /** A C or C++ union. */
-  UnionDecl: EnumEntry<CXCursorKind>;
+  UnionDecl: EnumValue<CXCursorKind>;
   /** A C++ class. */
-  ClassDecl: EnumEntry<CXCursorKind>;
+  ClassDecl: EnumValue<CXCursorKind>;
   /** An enumeration. */
-  EnumDecl: EnumEntry<CXCursorKind>;
+  EnumDecl: EnumValue<CXCursorKind>;
   /**
    * A field (in C) or non-static data member (in C++) in a
    * struct, union, or C++ class.
    */
-  FieldDecl: EnumEntry<CXCursorKind>;
+  FieldDecl: EnumValue<CXCursorKind>;
   /** An enumerator constant. */
-  EnumConstantDecl: EnumEntry<CXCursorKind>;
+  EnumConstantDecl: EnumValue<CXCursorKind>;
   /** A function. */
-  FunctionDecl: EnumEntry<CXCursorKind>;
+  FunctionDecl: EnumValue<CXCursorKind>;
   /** A variable. */
-  VarDecl: EnumEntry<CXCursorKind>;
+  VarDecl: EnumValue<CXCursorKind>;
   /** A function or method parameter. */
-  ParmDecl: EnumEntry<CXCursorKind>;
+  ParmDecl: EnumValue<CXCursorKind>;
   /** An Objective-C interface. */
-  ObjCInterfaceDecl: EnumEntry<CXCursorKind>;
+  ObjCInterfaceDecl: EnumValue<CXCursorKind>;
   /** An Objective-C interface for a category. */
-  ObjCCategoryDecl: EnumEntry<CXCursorKind>;
+  ObjCCategoryDecl: EnumValue<CXCursorKind>;
   /** An Objective-C protocol declaration. */
-  ObjCProtocolDecl: EnumEntry<CXCursorKind>;
+  ObjCProtocolDecl: EnumValue<CXCursorKind>;
   /** An Objective-C property declaration. */
-  ObjCPropertyDecl: EnumEntry<CXCursorKind>;
+  ObjCPropertyDecl: EnumValue<CXCursorKind>;
   /** An Objective-C instance variable. */
-  ObjCIvarDecl: EnumEntry<CXCursorKind>;
+  ObjCIvarDecl: EnumValue<CXCursorKind>;
   /** An Objective-C instance method. */
-  ObjCInstanceMethodDecl: EnumEntry<CXCursorKind>;
+  ObjCInstanceMethodDecl: EnumValue<CXCursorKind>;
   /** An Objective-C class method. */
-  ObjCClassMethodDecl: EnumEntry<CXCursorKind>;
+  ObjCClassMethodDecl: EnumValue<CXCursorKind>;
   /** An Objective-C implementation. */
-  ObjCImplementationDecl: EnumEntry<CXCursorKind>;
+  ObjCImplementationDecl: EnumValue<CXCursorKind>;
   /** An Objective-C implementation for a category. */
-  ObjCCategoryImplDecl: EnumEntry<CXCursorKind>;
+  ObjCCategoryImplDecl: EnumValue<CXCursorKind>;
   /** A typedef. */
-  TypedefDecl: EnumEntry<CXCursorKind>;
+  TypedefDecl: EnumValue<CXCursorKind>;
   /** A C++ class method. */
-  CXXMethod: EnumEntry<CXCursorKind>;
+  CXXMethod: EnumValue<CXCursorKind>;
   /** A C++ namespace. */
-  Namespace: EnumEntry<CXCursorKind>;
+  Namespace: EnumValue<CXCursorKind>;
   /** A linkage specification, e.g. 'extern "C"'. */
-  LinkageSpec: EnumEntry<CXCursorKind>;
+  LinkageSpec: EnumValue<CXCursorKind>;
   /** A C++ constructor. */
-  Constructor: EnumEntry<CXCursorKind>;
+  Constructor: EnumValue<CXCursorKind>;
   /** A C++ destructor. */
-  Destructor: EnumEntry<CXCursorKind>;
+  Destructor: EnumValue<CXCursorKind>;
   /** A C++ conversion function. */
-  ConversionFunction: EnumEntry<CXCursorKind>;
+  ConversionFunction: EnumValue<CXCursorKind>;
   /** A C++ template type parameter. */
-  TemplateTypeParameter: EnumEntry<CXCursorKind>;
+  TemplateTypeParameter: EnumValue<CXCursorKind>;
   /** A C++ non-type template parameter. */
-  NonTypeTemplateParameter: EnumEntry<CXCursorKind>;
+  NonTypeTemplateParameter: EnumValue<CXCursorKind>;
   /** A C++ template template parameter. */
-  TemplateTemplateParameter: EnumEntry<CXCursorKind>;
+  TemplateTemplateParameter: EnumValue<CXCursorKind>;
   /** A C++ function template. */
-  FunctionTemplate: EnumEntry<CXCursorKind>;
+  FunctionTemplate: EnumValue<CXCursorKind>;
   /** A C++ class template. */
-  ClassTemplate: EnumEntry<CXCursorKind>;
+  ClassTemplate: EnumValue<CXCursorKind>;
   /** A C++ class template partial specialization. */
-  ClassTemplatePartialSpecialization: EnumEntry<CXCursorKind>;
+  ClassTemplatePartialSpecialization: EnumValue<CXCursorKind>;
   /** A C++ namespace alias declaration. */
-  NamespaceAlias: EnumEntry<CXCursorKind>;
+  NamespaceAlias: EnumValue<CXCursorKind>;
   /** A C++ using directive. */
-  UsingDirective: EnumEntry<CXCursorKind>;
+  UsingDirective: EnumValue<CXCursorKind>;
   /** A C++ using declaration. */
-  UsingDeclaration: EnumEntry<CXCursorKind>;
+  UsingDeclaration: EnumValue<CXCursorKind>;
   /** A C++ alias declaration */
-  TypeAliasDecl: EnumEntry<CXCursorKind>;
+  TypeAliasDecl: EnumValue<CXCursorKind>;
   /** An Objective-C synthesize definition. */
-  ObjCSynthesizeDecl: EnumEntry<CXCursorKind>;
+  ObjCSynthesizeDecl: EnumValue<CXCursorKind>;
   /** An Objective-C dynamic definition. */
-  ObjCDynamicDecl: EnumEntry<CXCursorKind>;
+  ObjCDynamicDecl: EnumValue<CXCursorKind>;
   /** An access specifier. */
-  CXXAccessSpecifier: EnumEntry<CXCursorKind>;
+  CXXAccessSpecifier: EnumValue<CXCursorKind>;
 
-  FirstDecl: EnumEntry<CXCursorKind>;
-  LastDecl: EnumEntry<CXCursorKind>;
+  FirstDecl: EnumValue<CXCursorKind>;
+  LastDecl: EnumValue<CXCursorKind>;
 
   /* References */
-  FirstRef: EnumEntry<CXCursorKind>; /* Decl references */
-  ObjCSuperClassRef: EnumEntry<CXCursorKind>;
-  ObjCProtocolRef: EnumEntry<CXCursorKind>;
-  ObjCClassRef: EnumEntry<CXCursorKind>;
+  FirstRef: EnumValue<CXCursorKind>; /* Decl references */
+  ObjCSuperClassRef: EnumValue<CXCursorKind>;
+  ObjCProtocolRef: EnumValue<CXCursorKind>;
+  ObjCClassRef: EnumValue<CXCursorKind>;
   /**
    * A reference to a type declaration.
    *
@@ -171,22 +171,22 @@ export type CXCursorKind = {
    * while the type of the variable "size" is referenced. The cursor
    * referenced by the type of size is the typedef for size_type.
    */
-  TypeRef: EnumEntry<CXCursorKind>;
-  CXXBaseSpecifier: EnumEntry<CXCursorKind>;
+  TypeRef: EnumValue<CXCursorKind>;
+  CXXBaseSpecifier: EnumValue<CXCursorKind>;
   /**
    * A reference to a class template, function template, template
    * template parameter, or class template partial specialization.
    */
-  TemplateRef: EnumEntry<CXCursorKind>;
+  TemplateRef: EnumValue<CXCursorKind>;
   /**
    * A reference to a namespace or namespace alias.
    */
-  NamespaceRef: EnumEntry<CXCursorKind>;
+  NamespaceRef: EnumValue<CXCursorKind>;
   /**
    * A reference to a member of a struct, union, or class that occurs in
    * some non-expression context, e.g., a designated initializer.
    */
-  MemberRef: EnumEntry<CXCursorKind>;
+  MemberRef: EnumValue<CXCursorKind>;
   /**
    * A reference to a labeled statement.
    *
@@ -202,7 +202,7 @@ export type CXCursorKind = {
    *
    * A label reference cursor refers to a label statement.
    */
-  LabelRef: EnumEntry<CXCursorKind>;
+  LabelRef: EnumValue<CXCursorKind>;
 
   /**
    * A reference to a set of overloaded functions or function templates
@@ -240,26 +240,26 @@ export type CXCursorKind = {
    * {@link LibClang.clang_getOverloadedDecl | clang_getOverloadedDecl()} can be used to retrieve the definitions
    * referenced by this cursor.
    */
-  OverloadedDeclRef: EnumEntry<CXCursorKind>;
+  OverloadedDeclRef: EnumValue<CXCursorKind>;
 
   /**
    * A reference to a variable that occurs in some non-expression
    * context, e.g., a C++ lambda capture list.
    */
-  VariableRef: EnumEntry<CXCursorKind>;
+  VariableRef: EnumValue<CXCursorKind>;
 
-  LastRef: EnumEntry<CXCursorKind>;
+  LastRef: EnumValue<CXCursorKind>;
 
   /* Error conditions */
-  FirstInvalid: EnumEntry<CXCursorKind>;
-  InvalidFile: EnumEntry<CXCursorKind>;
-  NoDeclFound: EnumEntry<CXCursorKind>;
-  NotImplemented: EnumEntry<CXCursorKind>;
-  InvalidCode: EnumEntry<CXCursorKind>;
-  LastInvalid: EnumEntry<CXCursorKind>;
+  FirstInvalid: EnumValue<CXCursorKind>;
+  InvalidFile: EnumValue<CXCursorKind>;
+  NoDeclFound: EnumValue<CXCursorKind>;
+  NotImplemented: EnumValue<CXCursorKind>;
+  InvalidCode: EnumValue<CXCursorKind>;
+  LastInvalid: EnumValue<CXCursorKind>;
 
   /* Expressions */
-  FirstExpr: EnumEntry<CXCursorKind>;
+  FirstExpr: EnumValue<CXCursorKind>;
 
   /**
    * An expression whose specific kind is not exposed via this
@@ -270,104 +270,104 @@ export type CXCursorKind = {
    * spelling, children, etc. However, the specific kind of the
    * expression is not reported.
    */
-  UnexposedExpr: EnumEntry<CXCursorKind>;
+  UnexposedExpr: EnumValue<CXCursorKind>;
 
   /**
    * An expression that refers to some value declaration, such
    * as a function, variable, or enumerator.
    */
-  DeclRefExpr: EnumEntry<CXCursorKind>;
+  DeclRefExpr: EnumValue<CXCursorKind>;
 
   /**
    * An expression that refers to a member of a struct, union,
    * class, Objective-C class, etc.
    */
-  MemberRefExpr: EnumEntry<CXCursorKind>;
+  MemberRefExpr: EnumValue<CXCursorKind>;
 
   /** An expression that calls a function. */
-  CallExpr: EnumEntry<CXCursorKind>;
+  CallExpr: EnumValue<CXCursorKind>;
 
   /** An expression that sends a message to an Objective-C
    object or class. */
-  ObjCMessageExpr: EnumEntry<CXCursorKind>;
+  ObjCMessageExpr: EnumValue<CXCursorKind>;
 
   /** An expression that represents a block literal. */
-  BlockExpr: EnumEntry<CXCursorKind>;
+  BlockExpr: EnumValue<CXCursorKind>;
 
   /** An integer literal.
    */
-  IntegerLiteral: EnumEntry<CXCursorKind>;
+  IntegerLiteral: EnumValue<CXCursorKind>;
 
   /** A floating point number literal.
    */
-  FloatingLiteral: EnumEntry<CXCursorKind>;
+  FloatingLiteral: EnumValue<CXCursorKind>;
 
   /** An imaginary number literal.
    */
-  ImaginaryLiteral: EnumEntry<CXCursorKind>;
+  ImaginaryLiteral: EnumValue<CXCursorKind>;
 
   /** A string literal.
    */
-  StringLiteral: EnumEntry<CXCursorKind>;
+  StringLiteral: EnumValue<CXCursorKind>;
 
   /** A character literal.
    */
-  CharacterLiteral: EnumEntry<CXCursorKind>;
+  CharacterLiteral: EnumValue<CXCursorKind>;
 
   /** A parenthesized expression, e.g. "(1)".
    *
    * This AST node is only formed if full location information is requested.
    */
-  ParenExpr: EnumEntry<CXCursorKind>;
+  ParenExpr: EnumValue<CXCursorKind>;
 
   /** This represents the unary-expression's (except sizeof and
    * alignof).
    */
-  UnaryOperator: EnumEntry<CXCursorKind>;
+  UnaryOperator: EnumValue<CXCursorKind>;
 
   /** [C99 6.5.2.1] Array Subscripting.
    */
-  ArraySubscriptExpr: EnumEntry<CXCursorKind>;
+  ArraySubscriptExpr: EnumValue<CXCursorKind>;
 
   /** A builtin binary operation expression such as "x + y" or
    * "x <= y".
    */
-  BinaryOperator: EnumEntry<CXCursorKind>;
+  BinaryOperator: EnumValue<CXCursorKind>;
 
   /** Compound assignment such as "+=".
    */
-  CompoundAssignOperator: EnumEntry<CXCursorKind>;
+  CompoundAssignOperator: EnumValue<CXCursorKind>;
 
   /** The ?: ternary operator.
    */
-  ConditionalOperator: EnumEntry<CXCursorKind>;
+  ConditionalOperator: EnumValue<CXCursorKind>;
 
   /** An explicit cast in C (C99 6.5.4) or a C-style cast in C++
    * (C++ [expr.cast]), which uses the syntax (Type)expr.
    *
    * For example: (int)f.
    */
-  CStyleCastExpr: EnumEntry<CXCursorKind>;
+  CStyleCastExpr: EnumValue<CXCursorKind>;
 
   /** [C99 6.5.2.5]
    */
-  CompoundLiteralExpr: EnumEntry<CXCursorKind>;
+  CompoundLiteralExpr: EnumValue<CXCursorKind>;
 
   /** Describes an C or C++ initializer list.
    */
-  InitListExpr: EnumEntry<CXCursorKind>;
+  InitListExpr: EnumValue<CXCursorKind>;
 
   /** The GNU address of label extension, representing &&label.
    */
-  AddrLabelExpr: EnumEntry<CXCursorKind>;
+  AddrLabelExpr: EnumValue<CXCursorKind>;
 
   /** This is the GNU Statement Expression extension: ({int X=4; X;})
    */
-  StmtExpr: EnumEntry<CXCursorKind>;
+  StmtExpr: EnumValue<CXCursorKind>;
 
   /** Represents a C11 generic selection.
    */
-  GenericSelectionExpr: EnumEntry<CXCursorKind>;
+  GenericSelectionExpr: EnumValue<CXCursorKind>;
 
   /** Implements the GNU __null extension, which is a name for a null
    * pointer constant that has integral type (e.g., int or long) and is the same
@@ -377,23 +377,23 @@ export type CXCursorKind = {
    * NULL as __null in C++ rather than using 0 (which is an integer that may not
    * match the size of a pointer).
    */
-  GNUNullExpr: EnumEntry<CXCursorKind>;
+  GNUNullExpr: EnumValue<CXCursorKind>;
 
   /** C++'s static_cast<> expression.
    */
-  CXXStaticCastExpr: EnumEntry<CXCursorKind>;
+  CXXStaticCastExpr: EnumValue<CXCursorKind>;
 
   /** C++'s dynamic_cast<> expression.
    */
-  CXXDynamicCastExpr: EnumEntry<CXCursorKind>;
+  CXXDynamicCastExpr: EnumValue<CXCursorKind>;
 
   /** C++'s reinterpret_cast<> expression.
    */
-  CXXReinterpretCastExpr: EnumEntry<CXCursorKind>;
+  CXXReinterpretCastExpr: EnumValue<CXCursorKind>;
 
   /** C++'s const_cast<> expression.
    */
-  CXXConstCastExpr: EnumEntry<CXCursorKind>;
+  CXXConstCastExpr: EnumValue<CXCursorKind>;
 
   /** Represents an explicit C++ type conversion that uses "functional"
    * notion (C++ [expr.type.conv]).
@@ -403,60 +403,60 @@ export type CXCursorKind = {
    *   x = int(0.5);
    * ```
    */
-  CXXFunctionalCastExpr: EnumEntry<CXCursorKind>;
+  CXXFunctionalCastExpr: EnumValue<CXCursorKind>;
 
   /** A C++ typeid expression (C++ [expr.typeid]).
    */
-  CXXTypeidExpr: EnumEntry<CXCursorKind>;
+  CXXTypeidExpr: EnumValue<CXCursorKind>;
 
   /** [C++ 2.13.5] C++ Boolean Literal.
    */
-  CXXBoolLiteralExpr: EnumEntry<CXCursorKind>;
+  CXXBoolLiteralExpr: EnumValue<CXCursorKind>;
 
   /** [C++0x 2.14.7] C++ Pointer Literal.
    */
-  CXXNullPtrLiteralExpr: EnumEntry<CXCursorKind>;
+  CXXNullPtrLiteralExpr: EnumValue<CXCursorKind>;
 
   /** Represents the "this" expression in C++
    */
-  CXXThisExpr: EnumEntry<CXCursorKind>;
+  CXXThisExpr: EnumValue<CXCursorKind>;
 
   /** [C++ 15] C++ Throw Expression.
    *
    * This handles 'throw' and 'throw' assignment-expression. When
    * assignment-expression isn't present, Op will be null.
    */
-  CXXThrowExpr: EnumEntry<CXCursorKind>;
+  CXXThrowExpr: EnumValue<CXCursorKind>;
 
   /** A new expression for memory allocation and constructor calls, e.g:
    * "new CXXNewExpr(foo)".
    */
-  CXXNewExpr: EnumEntry<CXCursorKind>;
+  CXXNewExpr: EnumValue<CXCursorKind>;
 
   /** A delete expression for memory deallocation and destructor calls,
    * e.g. "delete[] pArray".
    */
-  CXXDeleteExpr: EnumEntry<CXCursorKind>;
+  CXXDeleteExpr: EnumValue<CXCursorKind>;
 
   /** A unary expression. (noexcept, sizeof, or other traits)
    */
-  UnaryExpr: EnumEntry<CXCursorKind>;
+  UnaryExpr: EnumValue<CXCursorKind>;
 
   /** An Objective-C string literal i.e. @"foo".
    */
-  ObjCStringLiteral: EnumEntry<CXCursorKind>;
+  ObjCStringLiteral: EnumValue<CXCursorKind>;
 
   /** An Objective-C encode expression.
    */
-  ObjCEncodeExpr: EnumEntry<CXCursorKind>;
+  ObjCEncodeExpr: EnumValue<CXCursorKind>;
 
   /** An Objective-C selector expression.
    */
-  ObjCSelectorExpr: EnumEntry<CXCursorKind>;
+  ObjCSelectorExpr: EnumValue<CXCursorKind>;
 
   /** An Objective-C protocol expression.
    */
-  ObjCProtocolExpr: EnumEntry<CXCursorKind>;
+  ObjCProtocolExpr: EnumValue<CXCursorKind>;
 
   /** An Objective-C "bridged" cast expression, which casts between
    * Objective-C pointers and C pointers, transferring ownership in the process.
@@ -465,7 +465,7 @@ export type CXCursorKind = {
    *   NSString *str = (__bridge_transfer NSString *)CFCreateString();
    * ```
    */
-  ObjCBridgedCastExpr: EnumEntry<CXCursorKind>;
+  ObjCBridgedCastExpr: EnumValue<CXCursorKind>;
 
   /** Represents a C++0x pack expansion that produces a sequence of
    * expressions.
@@ -480,7 +480,7 @@ export type CXCursorKind = {
    * }
    * ```
    */
-  PackExpansionExpr: EnumEntry<CXCursorKind>;
+  PackExpansionExpr: EnumValue<CXCursorKind>;
 
   /** Represents an expression that computes the length of a parameter
    * pack.
@@ -492,7 +492,7 @@ export type CXCursorKind = {
    * };
    * ```
    */
-  SizeOfPackExpr: EnumEntry<CXCursorKind>;
+  SizeOfPackExpr: EnumValue<CXCursorKind>;
 
   /* Represents a C++ lambda expression that produces a local function
    * object.
@@ -506,46 +506,46 @@ export type CXCursorKind = {
    * }
    * ```
    */
-  LambdaExpr: EnumEntry<CXCursorKind>;
+  LambdaExpr: EnumValue<CXCursorKind>;
 
   /** Objective-c Boolean Literal.
    */
-  ObjCBoolLiteralExpr: EnumEntry<CXCursorKind>;
+  ObjCBoolLiteralExpr: EnumValue<CXCursorKind>;
 
   /** Represents the "self" expression in an Objective-C method.
    */
-  ObjCSelfExpr: EnumEntry<CXCursorKind>;
+  ObjCSelfExpr: EnumValue<CXCursorKind>;
 
   /** OpenMP 5.0 [2.1.5, Array Section].
    */
-  OMPArraySectionExpr: EnumEntry<CXCursorKind>;
+  OMPArraySectionExpr: EnumValue<CXCursorKind>;
 
   /** Represents an @available(...) check.
    */
-  ObjCAvailabilityCheckExpr: EnumEntry<CXCursorKind>;
+  ObjCAvailabilityCheckExpr: EnumValue<CXCursorKind>;
 
   /**
    * Fixed point literal
    */
-  FixedPointLiteral: EnumEntry<CXCursorKind>;
+  FixedPointLiteral: EnumValue<CXCursorKind>;
 
   /** OpenMP 5.0 [2.1.4, Array Shaping].
    */
-  OMPArrayShapingExpr: EnumEntry<CXCursorKind>;
+  OMPArrayShapingExpr: EnumValue<CXCursorKind>;
 
   /**
    * OpenMP 5.0 [2.1.6 Iterators]
    */
-  OMPIteratorExpr: EnumEntry<CXCursorKind>;
+  OMPIteratorExpr: EnumValue<CXCursorKind>;
 
   /** OpenCL's addrspace_cast<> expression.
    */
-  CXXAddrspaceCastExpr: EnumEntry<CXCursorKind>;
+  CXXAddrspaceCastExpr: EnumValue<CXCursorKind>;
 
-  LastExpr: EnumEntry<CXCursorKind>;
+  LastExpr: EnumValue<CXCursorKind>;
 
   /* Statements */
-  FirstStmt: EnumEntry<CXCursorKind>;
+  FirstStmt: EnumValue<CXCursorKind>;
   /**
    * A statement whose specific kind is not exposed via this
    * interface.
@@ -555,7 +555,7 @@ export type CXCursorKind = {
    * children, etc. However, the specific kind of the statement is not
    * reported.
    */
-  UnexposedStmt: EnumEntry<CXCursorKind>;
+  UnexposedStmt: EnumValue<CXCursorKind>;
 
   /** A labelled statement in a function.
    *
@@ -568,392 +568,392 @@ export type CXCursorKind = {
    * ```
    *
    */
-  LabelStmt: EnumEntry<CXCursorKind>;
+  LabelStmt: EnumValue<CXCursorKind>;
 
   /** A group of statements like { stmt stmt }.
    *
    * This cursor kind is used to describe compound statements, e.g. function
    * bodies.
    */
-  CompoundStmt: EnumEntry<CXCursorKind>;
+  CompoundStmt: EnumValue<CXCursorKind>;
 
   /** A case statement.
    */
-  CaseStmt: EnumEntry<CXCursorKind>;
+  CaseStmt: EnumValue<CXCursorKind>;
 
   /** A default statement.
    */
-  DefaultStmt: EnumEntry<CXCursorKind>;
+  DefaultStmt: EnumValue<CXCursorKind>;
 
   /** An if statement
    */
-  IfStmt: EnumEntry<CXCursorKind>;
+  IfStmt: EnumValue<CXCursorKind>;
 
   /** A switch statement.
    */
-  SwitchStmt: EnumEntry<CXCursorKind>;
+  SwitchStmt: EnumValue<CXCursorKind>;
 
   /** A while statement.
    */
-  WhileStmt: EnumEntry<CXCursorKind>;
+  WhileStmt: EnumValue<CXCursorKind>;
 
   /** A do statement.
    */
-  DoStmt: EnumEntry<CXCursorKind>;
+  DoStmt: EnumValue<CXCursorKind>;
 
   /** A for statement.
    */
-  ForStmt: EnumEntry<CXCursorKind>;
+  ForStmt: EnumValue<CXCursorKind>;
 
   /** A goto statement.
    */
-  GotoStmt: EnumEntry<CXCursorKind>;
+  GotoStmt: EnumValue<CXCursorKind>;
 
   /** An indirect goto statement.
    */
-  IndirectGotoStmt: EnumEntry<CXCursorKind>;
+  IndirectGotoStmt: EnumValue<CXCursorKind>;
 
   /** A continue statement.
    */
-  ContinueStmt: EnumEntry<CXCursorKind>;
+  ContinueStmt: EnumValue<CXCursorKind>;
 
   /** A break statement.
    */
-  BreakStmt: EnumEntry<CXCursorKind>;
+  BreakStmt: EnumValue<CXCursorKind>;
 
   /** A return statement.
    */
-  ReturnStmt: EnumEntry<CXCursorKind>;
+  ReturnStmt: EnumValue<CXCursorKind>;
 
   /** A GCC inline assembly statement extension.
    */
-  GCCAsmStmt: EnumEntry<CXCursorKind>;
-  AsmStmt: EnumEntry<CXCursorKind>;
+  GCCAsmStmt: EnumValue<CXCursorKind>;
+  AsmStmt: EnumValue<CXCursorKind>;
 
   /** Objective-C's overall try-catch-finally statement.
    */
-  ObjCAtTryStmt: EnumEntry<CXCursorKind>;
+  ObjCAtTryStmt: EnumValue<CXCursorKind>;
 
   /** Objective-C's catch statement.
    */
-  ObjCAtCatchStmt: EnumEntry<CXCursorKind>;
+  ObjCAtCatchStmt: EnumValue<CXCursorKind>;
 
   /** Objective-C's finally statement.
    */
-  ObjCAtFinallyStmt: EnumEntry<CXCursorKind>;
+  ObjCAtFinallyStmt: EnumValue<CXCursorKind>;
 
   /** Objective-C's throw statement.
    */
-  ObjCAtThrowStmt: EnumEntry<CXCursorKind>;
+  ObjCAtThrowStmt: EnumValue<CXCursorKind>;
 
   /** Objective-C's synchronized statement.
    */
-  ObjCAtSynchronizedStmt: EnumEntry<CXCursorKind>;
+  ObjCAtSynchronizedStmt: EnumValue<CXCursorKind>;
 
   /** Objective-C's autorelease pool statement.
    */
-  ObjCAutoreleasePoolStmt: EnumEntry<CXCursorKind>;
+  ObjCAutoreleasePoolStmt: EnumValue<CXCursorKind>;
 
   /** Objective-C's collection statement.
    */
-  ObjCForCollectionStmt: EnumEntry<CXCursorKind>;
+  ObjCForCollectionStmt: EnumValue<CXCursorKind>;
 
   /** C++'s catch statement.
    */
-  CXXCatchStmt: EnumEntry<CXCursorKind>;
+  CXXCatchStmt: EnumValue<CXCursorKind>;
 
   /** C++'s try statement.
    */
-  CXXTryStmt: EnumEntry<CXCursorKind>;
+  CXXTryStmt: EnumValue<CXCursorKind>;
 
   /** C++'s for (* : *) statement.
    */
-  CXXForRangeStmt: EnumEntry<CXCursorKind>;
+  CXXForRangeStmt: EnumValue<CXCursorKind>;
 
   /** Windows Structured Exception Handling's try statement.
    */
-  SEHTryStmt: EnumEntry<CXCursorKind>;
+  SEHTryStmt: EnumValue<CXCursorKind>;
 
   /** Windows Structured Exception Handling's except statement.
    */
-  SEHExceptStmt: EnumEntry<CXCursorKind>;
+  SEHExceptStmt: EnumValue<CXCursorKind>;
 
   /** Windows Structured Exception Handling's finally statement.
    */
-  SEHFinallyStmt: EnumEntry<CXCursorKind>;
+  SEHFinallyStmt: EnumValue<CXCursorKind>;
 
   /** A MS inline assembly statement extension.
    */
-  MSAsmStmt: EnumEntry<CXCursorKind>;
+  MSAsmStmt: EnumValue<CXCursorKind>;
 
   /** The null statement ";": C99 6.8.3p3.
    *
    * This cursor kind is used to describe the null statement.
    */
-  NullStmt: EnumEntry<CXCursorKind>;
+  NullStmt: EnumValue<CXCursorKind>;
 
   /** Adaptor class for mixing declarations with statements and
    * expressions.
    */
-  DeclStmt: EnumEntry<CXCursorKind>;
+  DeclStmt: EnumValue<CXCursorKind>;
 
   /** OpenMP parallel directive.
    */
-  OMPParallelDirective: EnumEntry<CXCursorKind>;
+  OMPParallelDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP SIMD directive.
    */
-  OMPSimdDirective: EnumEntry<CXCursorKind>;
+  OMPSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP for directive.
    */
-  OMPForDirective: EnumEntry<CXCursorKind>;
+  OMPForDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP sections directive.
    */
-  OMPSectionsDirective: EnumEntry<CXCursorKind>;
+  OMPSectionsDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP section directive.
    */
-  OMPSectionDirective: EnumEntry<CXCursorKind>;
+  OMPSectionDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP single directive.
    */
-  OMPSingleDirective: EnumEntry<CXCursorKind>;
+  OMPSingleDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP parallel for directive.
    */
-  OMPParallelForDirective: EnumEntry<CXCursorKind>;
+  OMPParallelForDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP parallel sections directive.
    */
-  OMPParallelSectionsDirective: EnumEntry<CXCursorKind>;
+  OMPParallelSectionsDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP task directive.
    */
-  OMPTaskDirective: EnumEntry<CXCursorKind>;
+  OMPTaskDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP master directive.
    */
-  OMPMasterDirective: EnumEntry<CXCursorKind>;
+  OMPMasterDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP critical directive.
    */
-  OMPCriticalDirective: EnumEntry<CXCursorKind>;
+  OMPCriticalDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP taskyield directive.
    */
-  OMPTaskyieldDirective: EnumEntry<CXCursorKind>;
+  OMPTaskyieldDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP barrier directive.
    */
-  OMPBarrierDirective: EnumEntry<CXCursorKind>;
+  OMPBarrierDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP taskwait directive.
    */
-  OMPTaskwaitDirective: EnumEntry<CXCursorKind>;
+  OMPTaskwaitDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP flush directive.
    */
-  OMPFlushDirective: EnumEntry<CXCursorKind>;
+  OMPFlushDirective: EnumValue<CXCursorKind>;
 
   /** Windows Structured Exception Handling's leave statement.
    */
-  SEHLeaveStmt: EnumEntry<CXCursorKind>;
+  SEHLeaveStmt: EnumValue<CXCursorKind>;
 
   /** OpenMP ordered directive.
    */
-  OMPOrderedDirective: EnumEntry<CXCursorKind>;
+  OMPOrderedDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP atomic directive.
    */
-  OMPAtomicDirective: EnumEntry<CXCursorKind>;
+  OMPAtomicDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP for SIMD directive.
    */
-  OMPForSimdDirective: EnumEntry<CXCursorKind>;
+  OMPForSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP parallel for SIMD directive.
    */
-  OMPParallelForSimdDirective: EnumEntry<CXCursorKind>;
+  OMPParallelForSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target directive.
    */
-  OMPTargetDirective: EnumEntry<CXCursorKind>;
+  OMPTargetDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP teams directive.
    */
-  OMPTeamsDirective: EnumEntry<CXCursorKind>;
+  OMPTeamsDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP taskgroup directive.
    */
-  OMPTaskgroupDirective: EnumEntry<CXCursorKind>;
+  OMPTaskgroupDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP cancellation point directive.
    */
-  OMPCancellationPointDirective: EnumEntry<CXCursorKind>;
+  OMPCancellationPointDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP cancel directive.
    */
-  OMPCancelDirective: EnumEntry<CXCursorKind>;
+  OMPCancelDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target data directive.
    */
-  OMPTargetDataDirective: EnumEntry<CXCursorKind>;
+  OMPTargetDataDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP taskloop directive.
    */
-  OMPTaskLoopDirective: EnumEntry<CXCursorKind>;
+  OMPTaskLoopDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP taskloop simd directive.
    */
-  OMPTaskLoopSimdDirective: EnumEntry<CXCursorKind>;
+  OMPTaskLoopSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP distribute directive.
    */
-  OMPDistributeDirective: EnumEntry<CXCursorKind>;
+  OMPDistributeDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target enter data directive.
    */
-  OMPTargetEnterDataDirective: EnumEntry<CXCursorKind>;
+  OMPTargetEnterDataDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target exit data directive.
    */
-  OMPTargetExitDataDirective: EnumEntry<CXCursorKind>;
+  OMPTargetExitDataDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target parallel directive.
    */
-  OMPTargetParallelDirective: EnumEntry<CXCursorKind>;
+  OMPTargetParallelDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target parallel for directive.
    */
-  OMPTargetParallelForDirective: EnumEntry<CXCursorKind>;
+  OMPTargetParallelForDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target update directive.
    */
-  OMPTargetUpdateDirective: EnumEntry<CXCursorKind>;
+  OMPTargetUpdateDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP distribute parallel for directive.
    */
-  OMPDistributeParallelForDirective: EnumEntry<CXCursorKind>;
+  OMPDistributeParallelForDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP distribute parallel for simd directive.
    */
-  OMPDistributeParallelForSimdDirective: EnumEntry<CXCursorKind>;
+  OMPDistributeParallelForSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP distribute simd directive.
    */
-  OMPDistributeSimdDirective: EnumEntry<CXCursorKind>;
+  OMPDistributeSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target parallel for simd directive.
    */
-  OMPTargetParallelForSimdDirective: EnumEntry<CXCursorKind>;
+  OMPTargetParallelForSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target simd directive.
    */
-  OMPTargetSimdDirective: EnumEntry<CXCursorKind>;
+  OMPTargetSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP teams distribute directive.
    */
-  OMPTeamsDistributeDirective: EnumEntry<CXCursorKind>;
+  OMPTeamsDistributeDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP teams distribute simd directive.
    */
-  OMPTeamsDistributeSimdDirective: EnumEntry<CXCursorKind>;
+  OMPTeamsDistributeSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP teams distribute parallel for simd directive.
    */
-  OMPTeamsDistributeParallelForSimdDirective: EnumEntry<CXCursorKind>;
+  OMPTeamsDistributeParallelForSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP teams distribute parallel for directive.
    */
-  OMPTeamsDistributeParallelForDirective: EnumEntry<CXCursorKind>;
+  OMPTeamsDistributeParallelForDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target teams directive.
    */
-  OMPTargetTeamsDirective: EnumEntry<CXCursorKind>;
+  OMPTargetTeamsDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target teams distribute directive.
    */
-  OMPTargetTeamsDistributeDirective: EnumEntry<CXCursorKind>;
+  OMPTargetTeamsDistributeDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target teams distribute parallel for directive.
    */
-  OMPTargetTeamsDistributeParallelForDirective: EnumEntry<CXCursorKind>;
+  OMPTargetTeamsDistributeParallelForDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target teams distribute parallel for simd directive.
    */
-  OMPTargetTeamsDistributeParallelForSimdDirective: EnumEntry<CXCursorKind>;
+  OMPTargetTeamsDistributeParallelForSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP target teams distribute simd directive.
    */
-  OMPTargetTeamsDistributeSimdDirective: EnumEntry<CXCursorKind>;
+  OMPTargetTeamsDistributeSimdDirective: EnumValue<CXCursorKind>;
 
   /** C++2a std::bit_cast expression.
    */
-  BuiltinBitCastExpr: EnumEntry<CXCursorKind>;
+  BuiltinBitCastExpr: EnumValue<CXCursorKind>;
 
   /** OpenMP master taskloop directive.
    */
-  OMPMasterTaskLoopDirective: EnumEntry<CXCursorKind>;
+  OMPMasterTaskLoopDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP parallel master taskloop directive.
    */
-  OMPParallelMasterTaskLoopDirective: EnumEntry<CXCursorKind>;
+  OMPParallelMasterTaskLoopDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP master taskloop simd directive.
    */
-  OMPMasterTaskLoopSimdDirective: EnumEntry<CXCursorKind>;
+  OMPMasterTaskLoopSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP parallel master taskloop simd directive.
    */
-  OMPParallelMasterTaskLoopSimdDirective: EnumEntry<CXCursorKind>;
+  OMPParallelMasterTaskLoopSimdDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP parallel master directive.
    */
-  OMPParallelMasterDirective: EnumEntry<CXCursorKind>;
+  OMPParallelMasterDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP depobj directive.
    */
-  OMPDepobjDirective: EnumEntry<CXCursorKind>;
+  OMPDepobjDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP scan directive.
    */
-  OMPScanDirective: EnumEntry<CXCursorKind>;
+  OMPScanDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP tile directive.
    */
-  OMPTileDirective: EnumEntry<CXCursorKind>;
+  OMPTileDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP canoniCXCursorcal loop.
    */
-  OMPCanonicalLoop: EnumEntry<CXCursorKind>;
+  OMPCanonicalLoop: EnumValue<CXCursorKind>;
 
   /** OpenMP interop directive.
    */
-  OMPInteropDirective: EnumEntry<CXCursorKind>;
+  OMPInteropDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP dispatch directive.
    */
-  OMPDispatchDirective: EnumEntry<CXCursorKind>;
+  OMPDispatchDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP masked directive.
    */
-  OMPMaskedDirective: EnumEntry<CXCursorKind>;
+  OMPMaskedDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP unroll directive.
    */
-  OMPUnrollDirective: EnumEntry<CXCursorKind>;
+  OMPUnrollDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP metadirective directive.
    */
-  OMPMetaDirective: EnumEntry<CXCursorKind>;
+  OMPMetaDirective: EnumValue<CXCursorKind>;
 
   /** OpenMP loop directive.
    */
-  OMPGenericLoopDirective: EnumEntry<CXCursorKind>;
+  OMPGenericLoopDirective: EnumValue<CXCursorKind>;
 
-  LastStmt: EnumEntry<CXCursorKind>;
+  LastStmt: EnumValue<CXCursorKind>;
 
   /**
    * Cursor that represents the translation unit itself.
@@ -961,89 +961,89 @@ export type CXCursorKind = {
    * The translation unit cursor exists primarily to act as the root
    * cursor for traversing the contents of a translation unit.
    */
-  TranslationUnit: EnumEntry<CXCursorKind>;
+  TranslationUnit: EnumValue<CXCursorKind>;
 
   /* Attributes */
-  FirstAttr: EnumEntry<CXCursorKind>;
+  FirstAttr: EnumValue<CXCursorKind>;
   /**
    * An attribute whose specific kind is not exposed via this
    * interface.
    */
-  UnexposedAttr: EnumEntry<CXCursorKind>;
+  UnexposedAttr: EnumValue<CXCursorKind>;
 
-  IBActionAttr: EnumEntry<CXCursorKind>;
-  IBOutletAttr: EnumEntry<CXCursorKind>;
-  IBOutletCollectionAttr: EnumEntry<CXCursorKind>;
-  CXXFinalAttr: EnumEntry<CXCursorKind>;
-  CXXOverrideAttr: EnumEntry<CXCursorKind>;
-  AnnotateAttr: EnumEntry<CXCursorKind>;
-  AsmLabelAttr: EnumEntry<CXCursorKind>;
-  PackedAttr: EnumEntry<CXCursorKind>;
-  PureAttr: EnumEntry<CXCursorKind>;
-  ConstAttr: EnumEntry<CXCursorKind>;
-  NoDuplicateAttr: EnumEntry<CXCursorKind>;
-  CUDAConstantAttr: EnumEntry<CXCursorKind>;
-  CUDADeviceAttr: EnumEntry<CXCursorKind>;
-  CUDAGlobalAttr: EnumEntry<CXCursorKind>;
-  CUDAHostAttr: EnumEntry<CXCursorKind>;
-  CUDASharedAttr: EnumEntry<CXCursorKind>;
-  VisibilityAttr: EnumEntry<CXCursorKind>;
-  DLLExport: EnumEntry<CXCursorKind>;
-  DLLImport: EnumEntry<CXCursorKind>;
-  NSReturnsRetained: EnumEntry<CXCursorKind>;
-  NSReturnsNotRetained: EnumEntry<CXCursorKind>;
-  NSReturnsAutoreleased: EnumEntry<CXCursorKind>;
-  NSConsumesSelf: EnumEntry<CXCursorKind>;
-  NSConsumed: EnumEntry<CXCursorKind>;
-  ObjCException: EnumEntry<CXCursorKind>;
-  ObjCNSObject: EnumEntry<CXCursorKind>;
-  ObjCIndependentClass: EnumEntry<CXCursorKind>;
-  ObjCPreciseLifetime: EnumEntry<CXCursorKind>;
-  ObjCReturnsInnerPointer: EnumEntry<CXCursorKind>;
-  ObjCRequiresSuper: EnumEntry<CXCursorKind>;
-  ObjCRootClass: EnumEntry<CXCursorKind>;
-  ObjCSubclassingRestricted: EnumEntry<CXCursorKind>;
-  ObjCExplicitProtocolImpl: EnumEntry<CXCursorKind>;
-  ObjCDesignatedInitializer: EnumEntry<CXCursorKind>;
-  ObjCRuntimeVisible: EnumEntry<CXCursorKind>;
-  ObjCBoxable: EnumEntry<CXCursorKind>;
-  FlagEnum: EnumEntry<CXCursorKind>;
-  ConvergentAttr: EnumEntry<CXCursorKind>;
-  WarnUnusedAttr: EnumEntry<CXCursorKind>;
-  WarnUnusedResultAttr: EnumEntry<CXCursorKind>;
-  AlignedAttr: EnumEntry<CXCursorKind>;
-  LastAttr: EnumEntry<CXCursorKind>;
+  IBActionAttr: EnumValue<CXCursorKind>;
+  IBOutletAttr: EnumValue<CXCursorKind>;
+  IBOutletCollectionAttr: EnumValue<CXCursorKind>;
+  CXXFinalAttr: EnumValue<CXCursorKind>;
+  CXXOverrideAttr: EnumValue<CXCursorKind>;
+  AnnotateAttr: EnumValue<CXCursorKind>;
+  AsmLabelAttr: EnumValue<CXCursorKind>;
+  PackedAttr: EnumValue<CXCursorKind>;
+  PureAttr: EnumValue<CXCursorKind>;
+  ConstAttr: EnumValue<CXCursorKind>;
+  NoDuplicateAttr: EnumValue<CXCursorKind>;
+  CUDAConstantAttr: EnumValue<CXCursorKind>;
+  CUDADeviceAttr: EnumValue<CXCursorKind>;
+  CUDAGlobalAttr: EnumValue<CXCursorKind>;
+  CUDAHostAttr: EnumValue<CXCursorKind>;
+  CUDASharedAttr: EnumValue<CXCursorKind>;
+  VisibilityAttr: EnumValue<CXCursorKind>;
+  DLLExport: EnumValue<CXCursorKind>;
+  DLLImport: EnumValue<CXCursorKind>;
+  NSReturnsRetained: EnumValue<CXCursorKind>;
+  NSReturnsNotRetained: EnumValue<CXCursorKind>;
+  NSReturnsAutoreleased: EnumValue<CXCursorKind>;
+  NSConsumesSelf: EnumValue<CXCursorKind>;
+  NSConsumed: EnumValue<CXCursorKind>;
+  ObjCException: EnumValue<CXCursorKind>;
+  ObjCNSObject: EnumValue<CXCursorKind>;
+  ObjCIndependentClass: EnumValue<CXCursorKind>;
+  ObjCPreciseLifetime: EnumValue<CXCursorKind>;
+  ObjCReturnsInnerPointer: EnumValue<CXCursorKind>;
+  ObjCRequiresSuper: EnumValue<CXCursorKind>;
+  ObjCRootClass: EnumValue<CXCursorKind>;
+  ObjCSubclassingRestricted: EnumValue<CXCursorKind>;
+  ObjCExplicitProtocolImpl: EnumValue<CXCursorKind>;
+  ObjCDesignatedInitializer: EnumValue<CXCursorKind>;
+  ObjCRuntimeVisible: EnumValue<CXCursorKind>;
+  ObjCBoxable: EnumValue<CXCursorKind>;
+  FlagEnum: EnumValue<CXCursorKind>;
+  ConvergentAttr: EnumValue<CXCursorKind>;
+  WarnUnusedAttr: EnumValue<CXCursorKind>;
+  WarnUnusedResultAttr: EnumValue<CXCursorKind>;
+  AlignedAttr: EnumValue<CXCursorKind>;
+  LastAttr: EnumValue<CXCursorKind>;
 
   /* Preprocessing */
-  PreprocessingDirective: EnumEntry<CXCursorKind>;
-  MacroDefinition: EnumEntry<CXCursorKind>;
-  MacroExpansion: EnumEntry<CXCursorKind>;
-  MacroInstantiation: EnumEntry<CXCursorKind>;
-  InclusionDirective: EnumEntry<CXCursorKind>;
-  FirstPreprocessing: EnumEntry<CXCursorKind>;
-  LastPreprocessing: EnumEntry<CXCursorKind>;
+  PreprocessingDirective: EnumValue<CXCursorKind>;
+  MacroDefinition: EnumValue<CXCursorKind>;
+  MacroExpansion: EnumValue<CXCursorKind>;
+  MacroInstantiation: EnumValue<CXCursorKind>;
+  InclusionDirective: EnumValue<CXCursorKind>;
+  FirstPreprocessing: EnumValue<CXCursorKind>;
+  LastPreprocessing: EnumValue<CXCursorKind>;
 
   /* Extra Declarations */
   /**
    * A module import declaration.
    */
-  ModuleImportDecl: EnumEntry<CXCursorKind>;
-  TypeAliasTemplateDecl: EnumEntry<CXCursorKind>;
+  ModuleImportDecl: EnumValue<CXCursorKind>;
+  TypeAliasTemplateDecl: EnumValue<CXCursorKind>;
   /**
    * A static_assert or _Static_assert node
    */
-  StaticAssert: EnumEntry<CXCursorKind>;
+  StaticAssert: EnumValue<CXCursorKind>;
   /**
    * a friend declaration.
    */
-  FriendDecl: EnumEntry<CXCursorKind>;
-  FirstExtraDecl: EnumEntry<CXCursorKind>;
-  LastExtraDecl: EnumEntry<CXCursorKind>;
+  FriendDecl: EnumValue<CXCursorKind>;
+  FirstExtraDecl: EnumValue<CXCursorKind>;
+  LastExtraDecl: EnumValue<CXCursorKind>;
 
   /**
    * A code completion overload candidate.
    */
-  OverloadCandidate: EnumEntry<CXCursorKind>;
+  OverloadCandidate: EnumValue<CXCursorKind>;
 };
 
 export type CXDiagnosticSeverity = {
@@ -1051,56 +1051,56 @@ export type CXDiagnosticSeverity = {
    * A diagnostic that has been suppressed, e.g., by a command-line
    * option.
    */
-  Ignored: EnumEntry<CXDiagnosticSeverity>;
+  Ignored: EnumValue<CXDiagnosticSeverity>;
 
   /**
    * This diagnostic is a note that should be attached to the
    * previous (non-note) diagnostic.
    */
-  Note: EnumEntry<CXDiagnosticSeverity>;
+  Note: EnumValue<CXDiagnosticSeverity>;
 
   /**
    * This diagnostic indicates suspicious code that may not be
    * wrong.
    */
-  Warning: EnumEntry<CXDiagnosticSeverity>;
+  Warning: EnumValue<CXDiagnosticSeverity>;
 
   /**
    * This diagnostic indicates that the code is ill-formed.
    */
-  Error: EnumEntry<CXDiagnosticSeverity>;
+  Error: EnumValue<CXDiagnosticSeverity>;
 
   /**
    * This diagnostic indicates that the code is ill-formed such
    * that future parser recovery is unlikely to produce useful
    * results.
    */
-  Fatal: EnumEntry<CXDiagnosticSeverity>;
+  Fatal: EnumValue<CXDiagnosticSeverity>;
 };
 
 export type CXLoadDiag_Error = {
   /**
    * Indicates that no error occurred.
    */
-  None: EnumEntry<CXLoadDiag_Error>;
+  None: EnumValue<CXLoadDiag_Error>;
 
   /**
    * Indicates that an unknown error occurred while attempting to
    * deserialize diagnostics.
    */
-  Unknown: EnumEntry<CXLoadDiag_Error>;
+  Unknown: EnumValue<CXLoadDiag_Error>;
 
   /**
    * Indicates that the file containing the serialized diagnostics
    * could not be opened.
    */
-  CannotLoad: EnumEntry<CXLoadDiag_Error>;
+  CannotLoad: EnumValue<CXLoadDiag_Error>;
 
   /**
    * Indicates that the serialized diagnostics file is invalid or
    * corrupt.
    */
-  InvalidFile: EnumEntry<CXLoadDiag_Error>;
+  InvalidFile: EnumValue<CXLoadDiag_Error>;
 };
 
 export type CXTranslationUnit_Flags = {
@@ -1108,7 +1108,7 @@ export type CXTranslationUnit_Flags = {
    * Used to indicate that no special translation-unit options are
    * needed.
    */
-  None: EnumEntry<CXTranslationUnit_Flags>;
+  None: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that the parser should construct a "detailed"
@@ -1120,7 +1120,7 @@ export type CXTranslationUnit_Flags = {
    * applications that require more detailed information about the
    * behavior of the preprocessor.
    */
-  DetailedPreprocessingRecord: EnumEntry<CXTranslationUnit_Flags>;
+  DetailedPreprocessingRecord: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that the translation unit is incomplete.
@@ -1133,7 +1133,7 @@ export type CXTranslationUnit_Flags = {
    * C++. This option is typically used when parsing a header with the
    * intent of producing a precompiled header.
    */
-  Incomplete: EnumEntry<CXTranslationUnit_Flags>;
+  Incomplete: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that the translation unit should be built with an
@@ -1149,7 +1149,7 @@ export type CXTranslationUnit_Flags = {
    * clang_reparseTranslationUnit() will re-use the implicit
    * precompiled header to improve parsing performance.
    */
-  PrecompiledPreamble: EnumEntry<CXTranslationUnit_Flags>;
+  PrecompiledPreamble: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that the translation unit should cache some
@@ -1159,7 +1159,7 @@ export type CXTranslationUnit_Flags = {
    * introduces some overhead to reparsing but improves the performance of
    * code-completion operations.
    */
-  CacheCompletionResults: EnumEntry<CXTranslationUnit_Flags>;
+  CacheCompletionResults: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that the translation unit will be serialized with
@@ -1168,7 +1168,7 @@ export type CXTranslationUnit_Flags = {
    * This option is typically used when parsing a header with the intent of
    * producing a precompiled header.
    */
-  ForSerialization: EnumEntry<CXTranslationUnit_Flags>;
+  ForSerialization: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * DEPRECATED: Enabled chained precompiled preambles in C++.
@@ -1176,7 +1176,7 @@ export type CXTranslationUnit_Flags = {
    * Note: this is a *temporary* option that is available only while
    * we are testing C++ precompiled preamble support. It is deprecated.
    */
-  CXXChainedPCH: EnumEntry<CXTranslationUnit_Flags>;
+  CXXChainedPCH: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that function/method bodies should be skipped while
@@ -1185,14 +1185,14 @@ export type CXTranslationUnit_Flags = {
    * This option can be used to search for declarations/definitions while
    * ignoring the usages.
    */
-  SkipFunctionBodies: EnumEntry<CXTranslationUnit_Flags>;
+  SkipFunctionBodies: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that brief documentation comments should be
    * included into the set of code completions returned from this translation
    * unit.
    */
-  IncludeBriefCommentsInCodeCompletion: EnumEntry<CXTranslationUnit_Flags>;
+  IncludeBriefCommentsInCodeCompletion: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that the precompiled preamble should be created on
@@ -1200,7 +1200,7 @@ export type CXTranslationUnit_Flags = {
    * trades runtime on the first parse (serializing the preamble takes time) for
    * reduced runtime on the second parse (can now reuse the preamble).
    */
-  CreatePreambleOnFirstParse: EnumEntry<CXTranslationUnit_Flags>;
+  CreatePreambleOnFirstParse: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Do not stop processing when fatal errors are encountered.
@@ -1211,12 +1211,12 @@ export type CXTranslationUnit_Flags = {
    * purposes of an IDE, this is undesirable behavior and as much information
    * as possible should be reported. Use this flag to enable this behavior.
    */
-  KeepGoing: EnumEntry<CXTranslationUnit_Flags>;
+  KeepGoing: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Sets the preprocessor in a mode for parsing a single file only.
    */
-  SingleFileParse: EnumEntry<CXTranslationUnit_Flags>;
+  SingleFileParse: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used in combination with SkipFunctionBodies to
@@ -1224,17 +1224,17 @@ export type CXTranslationUnit_Flags = {
    *
    * The function bodies of the main file are not skipped.
    */
-  LimitSkipFunctionBodiesToPreamble: EnumEntry<CXTranslationUnit_Flags>;
+  LimitSkipFunctionBodiesToPreamble: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that attributed types should be included in CXType.
    */
-  IncludeAttributedTypes: EnumEntry<CXTranslationUnit_Flags>;
+  IncludeAttributedTypes: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that implicit attributes should be visited.
    */
-  VisitImplicitAttributes: EnumEntry<CXTranslationUnit_Flags>;
+  VisitImplicitAttributes: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Used to indicate that non-errors from included files should be ignored.
@@ -1244,26 +1244,26 @@ export type CXTranslationUnit_Flags = {
    * the case where these warnings are not of interest, as for an IDE for
    * example, which typically shows only the diagnostics in the main file.
    */
-  IgnoreNonErrorsFromIncludedFiles: EnumEntry<CXTranslationUnit_Flags>;
+  IgnoreNonErrorsFromIncludedFiles: EnumValue<CXTranslationUnit_Flags>;
 
   /**
    * Tells the preprocessor not to skip excluded conditional blocks.
    */
-  RetainExcludedConditionalBlocks: EnumEntry<CXTranslationUnit_Flags>;
+  RetainExcludedConditionalBlocks: EnumValue<CXTranslationUnit_Flags>;
 };
 
 export type CXSaveTranslationUnit_Flags = {
   /**
    * Used to indicate that no special saving options are needed.
    */
-  None: EnumEntry<CXSaveTranslationUnit_Flags>;
+  None: EnumValue<CXSaveTranslationUnit_Flags>;
 };
 
 export type CXSaveError = {
   /**
    * Indicates that no error occurred while saving a translation unit.
    */
-  None: EnumEntry<CXSaveError>;
+  None: EnumValue<CXSaveError>;
 
   /**
    * Indicates that an unknown error occurred while attempting to save
@@ -1272,7 +1272,7 @@ export type CXSaveError = {
    * This error typically indicates that file I/O failed when attempting to
    * write the file.
    */
-  Unknown: EnumEntry<CXSaveError>;
+  Unknown: EnumValue<CXSaveError>;
 
   /**
    * Indicates that errors during translation prevented this attempt
@@ -1281,317 +1281,317 @@ export type CXSaveError = {
    * Errors that prevent the translation unit from being saved can be
    * extracted using {@link LibClang.clang_getNumDiagnostics | clang_getNumDiagnostics()} and {@link LibClang.clang_getNumDiagnostics | clang_getNumDiagnostics()}.
    */
-  TranslationErrors: EnumEntry<CXSaveError>;
+  TranslationErrors: EnumValue<CXSaveError>;
 
   /**
    * Indicates that the translation unit to be saved was somehow
    * invalid (e.g., NULL).
    */
-  InvalidTU: EnumEntry<CXSaveError>;
+  InvalidTU: EnumValue<CXSaveError>;
 };
 
 export type CXReparse_Flags = {
   /**
    * Used to indicate that no special reparsing options are needed.
    */
-  None: EnumEntry<CXReparse_Flags>;
+  None: EnumValue<CXReparse_Flags>;
 };
 
 export type CXTUResourceUsageKind = {
-  AST: EnumEntry<CXTUResourceUsageKind>;
-  Identifiers: EnumEntry<CXTUResourceUsageKind>;
-  Selectors: EnumEntry<CXTUResourceUsageKind>;
-  GlobalCompletionResults: EnumEntry<CXTUResourceUsageKind>;
-  SourceManagerContentCache: EnumEntry<CXTUResourceUsageKind>;
-  AST_SideTables: EnumEntry<CXTUResourceUsageKind>;
-  SourceManager_Membuffer_Malloc: EnumEntry<CXTUResourceUsageKind>;
-  SourceManager_Membuffer_MMap: EnumEntry<CXTUResourceUsageKind>;
-  ExternalASTSource_Membuffer_Malloc: EnumEntry<CXTUResourceUsageKind>;
-  ExternalASTSource_Membuffer_MMap: EnumEntry<CXTUResourceUsageKind>;
-  Preprocessor: EnumEntry<CXTUResourceUsageKind>;
-  PreprocessingRecord: EnumEntry<CXTUResourceUsageKind>;
-  SourceManager_DataStructures: EnumEntry<CXTUResourceUsageKind>;
-  Preprocessor_HeaderSearch: EnumEntry<CXTUResourceUsageKind>;
-  MEMORY_IN_BYTES_BEGIN: EnumEntry<CXTUResourceUsageKind>;
-  MEMORY_IN_BYTES_END: EnumEntry<CXTUResourceUsageKind>;
-  First: EnumEntry<CXTUResourceUsageKind>;
-  Last: EnumEntry<CXTUResourceUsageKind>;
+  AST: EnumValue<CXTUResourceUsageKind>;
+  Identifiers: EnumValue<CXTUResourceUsageKind>;
+  Selectors: EnumValue<CXTUResourceUsageKind>;
+  GlobalCompletionResults: EnumValue<CXTUResourceUsageKind>;
+  SourceManagerContentCache: EnumValue<CXTUResourceUsageKind>;
+  AST_SideTables: EnumValue<CXTUResourceUsageKind>;
+  SourceManager_Membuffer_Malloc: EnumValue<CXTUResourceUsageKind>;
+  SourceManager_Membuffer_MMap: EnumValue<CXTUResourceUsageKind>;
+  ExternalASTSource_Membuffer_Malloc: EnumValue<CXTUResourceUsageKind>;
+  ExternalASTSource_Membuffer_MMap: EnumValue<CXTUResourceUsageKind>;
+  Preprocessor: EnumValue<CXTUResourceUsageKind>;
+  PreprocessingRecord: EnumValue<CXTUResourceUsageKind>;
+  SourceManager_DataStructures: EnumValue<CXTUResourceUsageKind>;
+  Preprocessor_HeaderSearch: EnumValue<CXTUResourceUsageKind>;
+  MEMORY_IN_BYTES_BEGIN: EnumValue<CXTUResourceUsageKind>;
+  MEMORY_IN_BYTES_END: EnumValue<CXTUResourceUsageKind>;
+  First: EnumValue<CXTUResourceUsageKind>;
+  Last: EnumValue<CXTUResourceUsageKind>;
 };
 
 export type CXLinkageKind = {
   /** This value indicates that no linkage information is available
    * for a provided CXCursor. */
-  Invalid: EnumEntry<CXLinkageKind>;
+  Invalid: EnumValue<CXLinkageKind>;
   /**
    * This is the linkage for variables, parameters, and so on that
    *  have automatic storage.  This covers normal (non-extern) local variables.
    */
-  NoLinkage: EnumEntry<CXLinkageKind>;
+  NoLinkage: EnumValue<CXLinkageKind>;
   /** This is the linkage for static variables and static functions. */
-  Internal: EnumEntry<CXLinkageKind>;
+  Internal: EnumValue<CXLinkageKind>;
   /** This is the linkage for entities with external linkage that live
    * in C++ anonymous namespaces.*/
-  UniqueExternal: EnumEntry<CXLinkageKind>;
+  UniqueExternal: EnumValue<CXLinkageKind>;
   /** This is the linkage for entities with true, external linkage. */
-  External: EnumEntry<CXLinkageKind>;
+  External: EnumValue<CXLinkageKind>;
 };
 
 export type CXVisibilityKind = {
   /** This value indicates that no visibility information is available
    * for a provided CXCursor. */
-  Invalid: EnumEntry<CXVisibilityKind>;
+  Invalid: EnumValue<CXVisibilityKind>;
 
   /** Symbol not seen by the linker. */
-  Hidden: EnumEntry<CXVisibilityKind>;
+  Hidden: EnumValue<CXVisibilityKind>;
   /** Symbol seen by the linker but resolves to a symbol inside this object. */
-  Protected: EnumEntry<CXVisibilityKind>;
+  Protected: EnumValue<CXVisibilityKind>;
   /** Symbol seen by the linker and acts like a normal symbol. */
-  Default: EnumEntry<CXVisibilityKind>;
+  Default: EnumValue<CXVisibilityKind>;
 };
 
 export type CXAvailabilityKind = {
   /**
    * The entity is available.
    */
-  Available: EnumEntry<CXAvailabilityKind>;
+  Available: EnumValue<CXAvailabilityKind>;
   /**
    * The entity is available, but has been deprecated (and its use is
    * not recommended).
    */
-  Deprecated: EnumEntry<CXAvailabilityKind>;
+  Deprecated: EnumValue<CXAvailabilityKind>;
   /**
    * The entity is not available; any use of it will be an error.
    */
-  NotAvailable: EnumEntry<CXAvailabilityKind>;
+  NotAvailable: EnumValue<CXAvailabilityKind>;
   /**
    * The entity is available, but not accessible; any use of it will be
    * an error.
    */
-  NotAccessible: EnumEntry<CXAvailabilityKind>;
+  NotAccessible: EnumValue<CXAvailabilityKind>;
 };
 
 export type CXLanguageKind = {
-  Invalid: EnumEntry<CXLanguageKind>;
-  C: EnumEntry<CXLanguageKind>;
-  ObjC: EnumEntry<CXLanguageKind>;
-  CPlusPlus: EnumEntry<CXLanguageKind>;
+  Invalid: EnumValue<CXLanguageKind>;
+  C: EnumValue<CXLanguageKind>;
+  ObjC: EnumValue<CXLanguageKind>;
+  CPlusPlus: EnumValue<CXLanguageKind>;
 };
 
 export type CXTLSKind = {
-  None: EnumEntry<CXTLSKind>;
-  Dynamic: EnumEntry<CXTLSKind>;
-  Static: EnumEntry<CXTLSKind>;
+  None: EnumValue<CXTLSKind>;
+  Dynamic: EnumValue<CXTLSKind>;
+  Static: EnumValue<CXTLSKind>;
 };
 
 export type CXTypeKind = {
   /**
    * Represents an invalid type (e.g., where no type is available).
    */
-  Invalid: EnumEntry<CXTypeKind>;
+  Invalid: EnumValue<CXTypeKind>;
 
   /**
    * A type whose specific kind is not exposed via this
    * interface.
    */
-  Unexposed: EnumEntry<CXTypeKind>;
+  Unexposed: EnumValue<CXTypeKind>;
 
   /* Builtin types */
-  Void: EnumEntry<CXTypeKind>;
-  Bool: EnumEntry<CXTypeKind>;
-  Char_U: EnumEntry<CXTypeKind>;
-  UChar: EnumEntry<CXTypeKind>;
-  Char16: EnumEntry<CXTypeKind>;
-  Char32: EnumEntry<CXTypeKind>;
-  UShort: EnumEntry<CXTypeKind>;
-  UInt: EnumEntry<CXTypeKind>;
-  ULong: EnumEntry<CXTypeKind>;
-  ULongLong: EnumEntry<CXTypeKind>;
-  UInt128: EnumEntry<CXTypeKind>;
-  Char_S: EnumEntry<CXTypeKind>;
-  SChar: EnumEntry<CXTypeKind>;
-  WChar: EnumEntry<CXTypeKind>;
-  Short: EnumEntry<CXTypeKind>;
-  Int: EnumEntry<CXTypeKind>;
-  Long: EnumEntry<CXTypeKind>;
-  LongLong: EnumEntry<CXTypeKind>;
-  Int128: EnumEntry<CXTypeKind>;
-  Float: EnumEntry<CXTypeKind>;
-  Double: EnumEntry<CXTypeKind>;
-  LongDouble: EnumEntry<CXTypeKind>;
-  NullPtr: EnumEntry<CXTypeKind>;
-  Overload: EnumEntry<CXTypeKind>;
-  Dependent: EnumEntry<CXTypeKind>;
-  ObjCId: EnumEntry<CXTypeKind>;
-  ObjCClass: EnumEntry<CXTypeKind>;
-  ObjCSel: EnumEntry<CXTypeKind>;
-  Float128: EnumEntry<CXTypeKind>;
-  Half: EnumEntry<CXTypeKind>;
-  Float16: EnumEntry<CXTypeKind>;
-  ShortAccum: EnumEntry<CXTypeKind>;
-  Accum: EnumEntry<CXTypeKind>;
-  LongAccum: EnumEntry<CXTypeKind>;
-  UShortAccum: EnumEntry<CXTypeKind>;
-  UAccum: EnumEntry<CXTypeKind>;
-  ULongAccum: EnumEntry<CXTypeKind>;
-  BFloat16: EnumEntry<CXTypeKind>;
-  Ibm128: EnumEntry<CXTypeKind>;
-  FirstBuiltin: EnumEntry<CXTypeKind>;
-  LastBuiltin: EnumEntry<CXTypeKind>;
+  Void: EnumValue<CXTypeKind>;
+  Bool: EnumValue<CXTypeKind>;
+  Char_U: EnumValue<CXTypeKind>;
+  UChar: EnumValue<CXTypeKind>;
+  Char16: EnumValue<CXTypeKind>;
+  Char32: EnumValue<CXTypeKind>;
+  UShort: EnumValue<CXTypeKind>;
+  UInt: EnumValue<CXTypeKind>;
+  ULong: EnumValue<CXTypeKind>;
+  ULongLong: EnumValue<CXTypeKind>;
+  UInt128: EnumValue<CXTypeKind>;
+  Char_S: EnumValue<CXTypeKind>;
+  SChar: EnumValue<CXTypeKind>;
+  WChar: EnumValue<CXTypeKind>;
+  Short: EnumValue<CXTypeKind>;
+  Int: EnumValue<CXTypeKind>;
+  Long: EnumValue<CXTypeKind>;
+  LongLong: EnumValue<CXTypeKind>;
+  Int128: EnumValue<CXTypeKind>;
+  Float: EnumValue<CXTypeKind>;
+  Double: EnumValue<CXTypeKind>;
+  LongDouble: EnumValue<CXTypeKind>;
+  NullPtr: EnumValue<CXTypeKind>;
+  Overload: EnumValue<CXTypeKind>;
+  Dependent: EnumValue<CXTypeKind>;
+  ObjCId: EnumValue<CXTypeKind>;
+  ObjCClass: EnumValue<CXTypeKind>;
+  ObjCSel: EnumValue<CXTypeKind>;
+  Float128: EnumValue<CXTypeKind>;
+  Half: EnumValue<CXTypeKind>;
+  Float16: EnumValue<CXTypeKind>;
+  ShortAccum: EnumValue<CXTypeKind>;
+  Accum: EnumValue<CXTypeKind>;
+  LongAccum: EnumValue<CXTypeKind>;
+  UShortAccum: EnumValue<CXTypeKind>;
+  UAccum: EnumValue<CXTypeKind>;
+  ULongAccum: EnumValue<CXTypeKind>;
+  BFloat16: EnumValue<CXTypeKind>;
+  Ibm128: EnumValue<CXTypeKind>;
+  FirstBuiltin: EnumValue<CXTypeKind>;
+  LastBuiltin: EnumValue<CXTypeKind>;
 
-  Complex: EnumEntry<CXTypeKind>;
-  Pointer: EnumEntry<CXTypeKind>;
-  BlockPointer: EnumEntry<CXTypeKind>;
-  LValueReference: EnumEntry<CXTypeKind>;
-  RValueReference: EnumEntry<CXTypeKind>;
-  Record: EnumEntry<CXTypeKind>;
-  Enum: EnumEntry<CXTypeKind>;
-  Typedef: EnumEntry<CXTypeKind>;
-  ObjCInterface: EnumEntry<CXTypeKind>;
-  ObjCObjectPointer: EnumEntry<CXTypeKind>;
-  FunctionNoProto: EnumEntry<CXTypeKind>;
-  FunctionProto: EnumEntry<CXTypeKind>;
-  ConstantArray: EnumEntry<CXTypeKind>;
-  Vector: EnumEntry<CXTypeKind>;
-  IncompleteArray: EnumEntry<CXTypeKind>;
-  VariableArray: EnumEntry<CXTypeKind>;
-  DependentSizedArray: EnumEntry<CXTypeKind>;
-  MemberPointer: EnumEntry<CXTypeKind>;
-  Auto: EnumEntry<CXTypeKind>;
+  Complex: EnumValue<CXTypeKind>;
+  Pointer: EnumValue<CXTypeKind>;
+  BlockPointer: EnumValue<CXTypeKind>;
+  LValueReference: EnumValue<CXTypeKind>;
+  RValueReference: EnumValue<CXTypeKind>;
+  Record: EnumValue<CXTypeKind>;
+  Enum: EnumValue<CXTypeKind>;
+  Typedef: EnumValue<CXTypeKind>;
+  ObjCInterface: EnumValue<CXTypeKind>;
+  ObjCObjectPointer: EnumValue<CXTypeKind>;
+  FunctionNoProto: EnumValue<CXTypeKind>;
+  FunctionProto: EnumValue<CXTypeKind>;
+  ConstantArray: EnumValue<CXTypeKind>;
+  Vector: EnumValue<CXTypeKind>;
+  IncompleteArray: EnumValue<CXTypeKind>;
+  VariableArray: EnumValue<CXTypeKind>;
+  DependentSizedArray: EnumValue<CXTypeKind>;
+  MemberPointer: EnumValue<CXTypeKind>;
+  Auto: EnumValue<CXTypeKind>;
 
   /**
    * Represents a type that was referred to using an elaborated type keyword.
    *
    * E.g., struct S, or via a qualified name, e.g., N::M::type, or both.
    */
-  Elaborated: EnumEntry<CXTypeKind>;
+  Elaborated: EnumValue<CXTypeKind>;
 
   /* OpenCL PipeType. */
-  Pipe: EnumEntry<CXTypeKind>;
+  Pipe: EnumValue<CXTypeKind>;
 
   /* OpenCL builtin types. */
-  OCLImage1dRO: EnumEntry<CXTypeKind>;
-  OCLImage1dArrayRO: EnumEntry<CXTypeKind>;
-  OCLImage1dBufferRO: EnumEntry<CXTypeKind>;
-  OCLImage2dRO: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayRO: EnumEntry<CXTypeKind>;
-  OCLImage2dDepthRO: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayDepthRO: EnumEntry<CXTypeKind>;
-  OCLImage2dMSAARO: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayMSAARO: EnumEntry<CXTypeKind>;
-  OCLImage2dMSAADepthRO: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayMSAADepthRO: EnumEntry<CXTypeKind>;
-  OCLImage3dRO: EnumEntry<CXTypeKind>;
-  OCLImage1dWO: EnumEntry<CXTypeKind>;
-  OCLImage1dArrayWO: EnumEntry<CXTypeKind>;
-  OCLImage1dBufferWO: EnumEntry<CXTypeKind>;
-  OCLImage2dWO: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayWO: EnumEntry<CXTypeKind>;
-  OCLImage2dDepthWO: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayDepthWO: EnumEntry<CXTypeKind>;
-  OCLImage2dMSAAWO: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayMSAAWO: EnumEntry<CXTypeKind>;
-  OCLImage2dMSAADepthWO: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayMSAADepthWO: EnumEntry<CXTypeKind>;
-  OCLImage3dWO: EnumEntry<CXTypeKind>;
-  OCLImage1dRW: EnumEntry<CXTypeKind>;
-  OCLImage1dArrayRW: EnumEntry<CXTypeKind>;
-  OCLImage1dBufferRW: EnumEntry<CXTypeKind>;
-  OCLImage2dRW: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayRW: EnumEntry<CXTypeKind>;
-  OCLImage2dDepthRW: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayDepthRW: EnumEntry<CXTypeKind>;
-  OCLImage2dMSAARW: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayMSAARW: EnumEntry<CXTypeKind>;
-  OCLImage2dMSAADepthRW: EnumEntry<CXTypeKind>;
-  OCLImage2dArrayMSAADepthRW: EnumEntry<CXTypeKind>;
-  OCLImage3dRW: EnumEntry<CXTypeKind>;
-  OCLSampler: EnumEntry<CXTypeKind>;
-  OCLEvent: EnumEntry<CXTypeKind>;
-  OCLQueue: EnumEntry<CXTypeKind>;
-  OCLReserveID: EnumEntry<CXTypeKind>;
+  OCLImage1dRO: EnumValue<CXTypeKind>;
+  OCLImage1dArrayRO: EnumValue<CXTypeKind>;
+  OCLImage1dBufferRO: EnumValue<CXTypeKind>;
+  OCLImage2dRO: EnumValue<CXTypeKind>;
+  OCLImage2dArrayRO: EnumValue<CXTypeKind>;
+  OCLImage2dDepthRO: EnumValue<CXTypeKind>;
+  OCLImage2dArrayDepthRO: EnumValue<CXTypeKind>;
+  OCLImage2dMSAARO: EnumValue<CXTypeKind>;
+  OCLImage2dArrayMSAARO: EnumValue<CXTypeKind>;
+  OCLImage2dMSAADepthRO: EnumValue<CXTypeKind>;
+  OCLImage2dArrayMSAADepthRO: EnumValue<CXTypeKind>;
+  OCLImage3dRO: EnumValue<CXTypeKind>;
+  OCLImage1dWO: EnumValue<CXTypeKind>;
+  OCLImage1dArrayWO: EnumValue<CXTypeKind>;
+  OCLImage1dBufferWO: EnumValue<CXTypeKind>;
+  OCLImage2dWO: EnumValue<CXTypeKind>;
+  OCLImage2dArrayWO: EnumValue<CXTypeKind>;
+  OCLImage2dDepthWO: EnumValue<CXTypeKind>;
+  OCLImage2dArrayDepthWO: EnumValue<CXTypeKind>;
+  OCLImage2dMSAAWO: EnumValue<CXTypeKind>;
+  OCLImage2dArrayMSAAWO: EnumValue<CXTypeKind>;
+  OCLImage2dMSAADepthWO: EnumValue<CXTypeKind>;
+  OCLImage2dArrayMSAADepthWO: EnumValue<CXTypeKind>;
+  OCLImage3dWO: EnumValue<CXTypeKind>;
+  OCLImage1dRW: EnumValue<CXTypeKind>;
+  OCLImage1dArrayRW: EnumValue<CXTypeKind>;
+  OCLImage1dBufferRW: EnumValue<CXTypeKind>;
+  OCLImage2dRW: EnumValue<CXTypeKind>;
+  OCLImage2dArrayRW: EnumValue<CXTypeKind>;
+  OCLImage2dDepthRW: EnumValue<CXTypeKind>;
+  OCLImage2dArrayDepthRW: EnumValue<CXTypeKind>;
+  OCLImage2dMSAARW: EnumValue<CXTypeKind>;
+  OCLImage2dArrayMSAARW: EnumValue<CXTypeKind>;
+  OCLImage2dMSAADepthRW: EnumValue<CXTypeKind>;
+  OCLImage2dArrayMSAADepthRW: EnumValue<CXTypeKind>;
+  OCLImage3dRW: EnumValue<CXTypeKind>;
+  OCLSampler: EnumValue<CXTypeKind>;
+  OCLEvent: EnumValue<CXTypeKind>;
+  OCLQueue: EnumValue<CXTypeKind>;
+  OCLReserveID: EnumValue<CXTypeKind>;
 
-  ObjCObject: EnumEntry<CXTypeKind>;
-  ObjCTypeParam: EnumEntry<CXTypeKind>;
-  Attributed: EnumEntry<CXTypeKind>;
+  ObjCObject: EnumValue<CXTypeKind>;
+  ObjCTypeParam: EnumValue<CXTypeKind>;
+  Attributed: EnumValue<CXTypeKind>;
 
-  OCLIntelSubgroupAVCMcePayload: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCImePayload: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCRefPayload: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCSicPayload: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCMceResult: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCImeResult: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCRefResult: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCSicResult: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCImeResultSingleRefStreamout: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCImeResultDualRefStreamout: EnumEntry<CXTypeKind>;
-  OCLIntelSubgroupAVCImeSingleRefStreamin: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCMcePayload: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCImePayload: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCRefPayload: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCSicPayload: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCMceResult: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCImeResult: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCRefResult: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCSicResult: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCImeResultSingleRefStreamout: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCImeResultDualRefStreamout: EnumValue<CXTypeKind>;
+  OCLIntelSubgroupAVCImeSingleRefStreamin: EnumValue<CXTypeKind>;
 
-  OCLIntelSubgroupAVCImeDualRefStreamin: EnumEntry<CXTypeKind>;
+  OCLIntelSubgroupAVCImeDualRefStreamin: EnumValue<CXTypeKind>;
 
-  ExtVector: EnumEntry<CXTypeKind>;
-  Atomic: EnumEntry<CXTypeKind>;
+  ExtVector: EnumValue<CXTypeKind>;
+  Atomic: EnumValue<CXTypeKind>;
 };
 
 export type CXCallingConv = {
-  Default: EnumEntry<CXTypeKind>;
-  C: EnumEntry<CXTypeKind>;
-  X86StdCall: EnumEntry<CXTypeKind>;
-  X86FastCall: EnumEntry<CXTypeKind>;
-  X86ThisCall: EnumEntry<CXTypeKind>;
-  X86Pascal: EnumEntry<CXTypeKind>;
-  AAPCS: EnumEntry<CXTypeKind>;
-  AAPCS_VFP: EnumEntry<CXTypeKind>;
-  X86RegCall: EnumEntry<CXTypeKind>;
-  IntelOclBicc: EnumEntry<CXTypeKind>;
-  Win64: EnumEntry<CXTypeKind>;
+  Default: EnumValue<CXTypeKind>;
+  C: EnumValue<CXTypeKind>;
+  X86StdCall: EnumValue<CXTypeKind>;
+  X86FastCall: EnumValue<CXTypeKind>;
+  X86ThisCall: EnumValue<CXTypeKind>;
+  X86Pascal: EnumValue<CXTypeKind>;
+  AAPCS: EnumValue<CXTypeKind>;
+  AAPCS_VFP: EnumValue<CXTypeKind>;
+  X86RegCall: EnumValue<CXTypeKind>;
+  IntelOclBicc: EnumValue<CXTypeKind>;
+  Win64: EnumValue<CXTypeKind>;
   /* Alias for compatibility with older versions of API. */
-  X86_64Win64: EnumEntry<CXTypeKind>;
-  X86_64SysV: EnumEntry<CXTypeKind>;
-  X86VectorCall: EnumEntry<CXTypeKind>;
-  Swift: EnumEntry<CXTypeKind>;
-  PreserveMost: EnumEntry<CXTypeKind>;
-  PreserveAll: EnumEntry<CXTypeKind>;
-  AArch64VectorCall: EnumEntry<CXTypeKind>;
-  SwiftAsync: EnumEntry<CXTypeKind>;
+  X86_64Win64: EnumValue<CXTypeKind>;
+  X86_64SysV: EnumValue<CXTypeKind>;
+  X86VectorCall: EnumValue<CXTypeKind>;
+  Swift: EnumValue<CXTypeKind>;
+  PreserveMost: EnumValue<CXTypeKind>;
+  PreserveAll: EnumValue<CXTypeKind>;
+  AArch64VectorCall: EnumValue<CXTypeKind>;
+  SwiftAsync: EnumValue<CXTypeKind>;
 
-  Invalid: EnumEntry<CXTypeKind>;
-  Unexposed: EnumEntry<CXTypeKind>;
+  Invalid: EnumValue<CXTypeKind>;
+  Unexposed: EnumValue<CXTypeKind>;
 };
 
 export type CXTemplateArgumentKind = {
-  Null: EnumEntry<CXTemplateArgumentKind>;
-  Type: EnumEntry<CXTemplateArgumentKind>;
-  Declaration: EnumEntry<CXTemplateArgumentKind>;
-  NullPtr: EnumEntry<CXTemplateArgumentKind>;
-  Integral: EnumEntry<CXTemplateArgumentKind>;
-  Template: EnumEntry<CXTemplateArgumentKind>;
-  TemplateExpansion: EnumEntry<CXTemplateArgumentKind>;
-  Expression: EnumEntry<CXTemplateArgumentKind>;
-  Pack: EnumEntry<CXTemplateArgumentKind>;
+  Null: EnumValue<CXTemplateArgumentKind>;
+  Type: EnumValue<CXTemplateArgumentKind>;
+  Declaration: EnumValue<CXTemplateArgumentKind>;
+  NullPtr: EnumValue<CXTemplateArgumentKind>;
+  Integral: EnumValue<CXTemplateArgumentKind>;
+  Template: EnumValue<CXTemplateArgumentKind>;
+  TemplateExpansion: EnumValue<CXTemplateArgumentKind>;
+  Expression: EnumValue<CXTemplateArgumentKind>;
+  Pack: EnumValue<CXTemplateArgumentKind>;
   /* Indicates an error case, preventing the kind from being deduced. */
-  Invalid: EnumEntry<CXTemplateArgumentKind>;
+  Invalid: EnumValue<CXTemplateArgumentKind>;
 };
 
 export type CXTypeNullabilityKind = {
   /**
    * Values of this type can never be null.
    */
-  NonNull: EnumEntry<CXTypeNullabilityKind>;
+  NonNull: EnumValue<CXTypeNullabilityKind>;
   /**
    * Values of this type can be null.
    */
-  Nullable: EnumEntry<CXTypeNullabilityKind>;
+  Nullable: EnumValue<CXTypeNullabilityKind>;
   /**
    * Whether values of this type can be null is (explicitly)
    * unspecified. This captures a (fairly rare) case where we
    * can't conclude anything about the nullability of the type even
    * though it has been considered.
    */
-  Unspecified: EnumEntry<CXTypeNullabilityKind>;
+  Unspecified: EnumValue<CXTypeNullabilityKind>;
   /**
    * Nullability is not applicable to this type.
    */
-  Invalid: EnumEntry<CXTypeNullabilityKind>;
+  Invalid: EnumValue<CXTypeNullabilityKind>;
 
   /**
    * Generally behaves like Nullable, except when used in a block parameter that
@@ -1599,118 +1599,118 @@ export type CXTypeNullabilityKind = {
    * parameter can get null even if no error occured. _Nullable parameters are
    * assumed to only get null on error.
    */
-  NullableResult: EnumEntry<CXTypeNullabilityKind>;
+  NullableResult: EnumValue<CXTypeNullabilityKind>;
 };
 
 export type CXTypeLayoutError = {
   /**
    * Type is of kind CXType_Invalid.
    */
-  Invalid: EnumEntry<CXTypeLayoutError>;
+  Invalid: EnumValue<CXTypeLayoutError>;
   /**
    * The type is an incomplete Type.
    */
-  Incomplete: EnumEntry<CXTypeLayoutError>;
+  Incomplete: EnumValue<CXTypeLayoutError>;
   /**
    * The type is a dependent Type.
    */
-  Dependent: EnumEntry<CXTypeLayoutError>;
+  Dependent: EnumValue<CXTypeLayoutError>;
   /**
    * The type is not a constant size type.
    */
-  NotConstantSize: EnumEntry<CXTypeLayoutError>;
+  NotConstantSize: EnumValue<CXTypeLayoutError>;
   /**
    * The Field name is not valid for this record.
    */
-  InvalidFieldName: EnumEntry<CXTypeLayoutError>;
+  InvalidFieldName: EnumValue<CXTypeLayoutError>;
   /**
    * The type is undeduced.
    */
-  Undeduced: EnumEntry<CXTypeLayoutError>;
+  Undeduced: EnumValue<CXTypeLayoutError>;
 };
 
 export type CXRefQualifierKind = {
   /** No ref-qualifier was provided. */
-  None: EnumEntry<CXRefQualifierKind>;
+  None: EnumValue<CXRefQualifierKind>;
   /** An lvalue ref-qualifier was provided (\c &). */
-  LValue: EnumEntry<CXRefQualifierKind>;
+  LValue: EnumValue<CXRefQualifierKind>;
   /** An rvalue ref-qualifier was provided (\c &&). */
-  RValue: EnumEntry<CXRefQualifierKind>;
+  RValue: EnumValue<CXRefQualifierKind>;
 };
 
 export type CX_CXXAccessSpecifier = {
-  InvalidAccessSpecifier: EnumEntry<CX_CXXAccessSpecifier>;
-  Public: EnumEntry<CX_CXXAccessSpecifier>;
-  Protected: EnumEntry<CX_CXXAccessSpecifier>;
-  Private: EnumEntry<CX_CXXAccessSpecifier>;
+  InvalidAccessSpecifier: EnumValue<CX_CXXAccessSpecifier>;
+  Public: EnumValue<CX_CXXAccessSpecifier>;
+  Protected: EnumValue<CX_CXXAccessSpecifier>;
+  Private: EnumValue<CX_CXXAccessSpecifier>;
 };
 
 export type CX_StorageClass = {
-  Invalid: EnumEntry<CX_StorageClass>;
-  None: EnumEntry<CX_StorageClass>;
-  Extern: EnumEntry<CX_StorageClass>;
-  Static: EnumEntry<CX_StorageClass>;
-  PrivateExtern: EnumEntry<CX_StorageClass>;
-  OpenCLWorkGroupLocal: EnumEntry<CX_StorageClass>;
-  Auto: EnumEntry<CX_StorageClass>;
-  Register: EnumEntry<CX_StorageClass>;
+  Invalid: EnumValue<CX_StorageClass>;
+  None: EnumValue<CX_StorageClass>;
+  Extern: EnumValue<CX_StorageClass>;
+  Static: EnumValue<CX_StorageClass>;
+  PrivateExtern: EnumValue<CX_StorageClass>;
+  OpenCLWorkGroupLocal: EnumValue<CX_StorageClass>;
+  Auto: EnumValue<CX_StorageClass>;
+  Register: EnumValue<CX_StorageClass>;
 };
 
 export type CXPrintingPolicyProperty = {
-  Indentation: EnumEntry<CXPrintingPolicyProperty>;
-  SuppressSpecifiers: EnumEntry<CXPrintingPolicyProperty>;
-  SuppressTagKeyword: EnumEntry<CXPrintingPolicyProperty>;
-  IncludeTagDefinition: EnumEntry<CXPrintingPolicyProperty>;
-  SuppressScope: EnumEntry<CXPrintingPolicyProperty>;
-  SuppressUnwrittenScope: EnumEntry<CXPrintingPolicyProperty>;
-  SuppressInitializers: EnumEntry<CXPrintingPolicyProperty>;
-  ConstantArraySizeAsWritten: EnumEntry<CXPrintingPolicyProperty>;
-  AnonymousTagLocations: EnumEntry<CXPrintingPolicyProperty>;
-  SuppressStrongLifetime: EnumEntry<CXPrintingPolicyProperty>;
-  SuppressLifetimeQualifiers: EnumEntry<CXPrintingPolicyProperty>;
-  SuppressTemplateArgsInCXXConstructors: EnumEntry<CXPrintingPolicyProperty>;
-  Bool: EnumEntry<CXPrintingPolicyProperty>;
-  Restrict: EnumEntry<CXPrintingPolicyProperty>;
-  Alignof: EnumEntry<CXPrintingPolicyProperty>;
-  UnderscoreAlignof: EnumEntry<CXPrintingPolicyProperty>;
-  UseVoidForZeroParams: EnumEntry<CXPrintingPolicyProperty>;
-  TerseOutput: EnumEntry<CXPrintingPolicyProperty>;
-  PolishForDeclaration: EnumEntry<CXPrintingPolicyProperty>;
-  Half: EnumEntry<CXPrintingPolicyProperty>;
-  MSWChar: EnumEntry<CXPrintingPolicyProperty>;
-  IncludeNewlines: EnumEntry<CXPrintingPolicyProperty>;
-  MSVCFormatting: EnumEntry<CXPrintingPolicyProperty>;
-  ConstantsAsWritten: EnumEntry<CXPrintingPolicyProperty>;
-  SuppressImplicitBase: EnumEntry<CXPrintingPolicyProperty>;
-  FullyQualifiedName: EnumEntry<CXPrintingPolicyProperty>;
-  LastProperty: EnumEntry<CXPrintingPolicyProperty>;
+  Indentation: EnumValue<CXPrintingPolicyProperty>;
+  SuppressSpecifiers: EnumValue<CXPrintingPolicyProperty>;
+  SuppressTagKeyword: EnumValue<CXPrintingPolicyProperty>;
+  IncludeTagDefinition: EnumValue<CXPrintingPolicyProperty>;
+  SuppressScope: EnumValue<CXPrintingPolicyProperty>;
+  SuppressUnwrittenScope: EnumValue<CXPrintingPolicyProperty>;
+  SuppressInitializers: EnumValue<CXPrintingPolicyProperty>;
+  ConstantArraySizeAsWritten: EnumValue<CXPrintingPolicyProperty>;
+  AnonymousTagLocations: EnumValue<CXPrintingPolicyProperty>;
+  SuppressStrongLifetime: EnumValue<CXPrintingPolicyProperty>;
+  SuppressLifetimeQualifiers: EnumValue<CXPrintingPolicyProperty>;
+  SuppressTemplateArgsInCXXConstructors: EnumValue<CXPrintingPolicyProperty>;
+  Bool: EnumValue<CXPrintingPolicyProperty>;
+  Restrict: EnumValue<CXPrintingPolicyProperty>;
+  Alignof: EnumValue<CXPrintingPolicyProperty>;
+  UnderscoreAlignof: EnumValue<CXPrintingPolicyProperty>;
+  UseVoidForZeroParams: EnumValue<CXPrintingPolicyProperty>;
+  TerseOutput: EnumValue<CXPrintingPolicyProperty>;
+  PolishForDeclaration: EnumValue<CXPrintingPolicyProperty>;
+  Half: EnumValue<CXPrintingPolicyProperty>;
+  MSWChar: EnumValue<CXPrintingPolicyProperty>;
+  IncludeNewlines: EnumValue<CXPrintingPolicyProperty>;
+  MSVCFormatting: EnumValue<CXPrintingPolicyProperty>;
+  ConstantsAsWritten: EnumValue<CXPrintingPolicyProperty>;
+  SuppressImplicitBase: EnumValue<CXPrintingPolicyProperty>;
+  FullyQualifiedName: EnumValue<CXPrintingPolicyProperty>;
+  LastProperty: EnumValue<CXPrintingPolicyProperty>;
 };
 
 export type CXObjCPropertyAttrKind = {
-  noattr: EnumEntry<CXObjCPropertyAttrKind>;
-  readonly: EnumEntry<CXObjCPropertyAttrKind>;
-  getter: EnumEntry<CXObjCPropertyAttrKind>;
-  assign: EnumEntry<CXObjCPropertyAttrKind>;
-  readwrite: EnumEntry<CXObjCPropertyAttrKind>;
-  retain: EnumEntry<CXObjCPropertyAttrKind>;
-  copy: EnumEntry<CXObjCPropertyAttrKind>;
-  nonatomic: EnumEntry<CXObjCPropertyAttrKind>;
-  setter: EnumEntry<CXObjCPropertyAttrKind>;
-  atomic: EnumEntry<CXObjCPropertyAttrKind>;
-  weak: EnumEntry<CXObjCPropertyAttrKind>;
-  strong: EnumEntry<CXObjCPropertyAttrKind>;
-  unsafe_unretained: EnumEntry<CXObjCPropertyAttrKind>;
-  class: EnumEntry<CXObjCPropertyAttrKind>;
+  noattr: EnumValue<CXObjCPropertyAttrKind>;
+  readonly: EnumValue<CXObjCPropertyAttrKind>;
+  getter: EnumValue<CXObjCPropertyAttrKind>;
+  assign: EnumValue<CXObjCPropertyAttrKind>;
+  readwrite: EnumValue<CXObjCPropertyAttrKind>;
+  retain: EnumValue<CXObjCPropertyAttrKind>;
+  copy: EnumValue<CXObjCPropertyAttrKind>;
+  nonatomic: EnumValue<CXObjCPropertyAttrKind>;
+  setter: EnumValue<CXObjCPropertyAttrKind>;
+  atomic: EnumValue<CXObjCPropertyAttrKind>;
+  weak: EnumValue<CXObjCPropertyAttrKind>;
+  strong: EnumValue<CXObjCPropertyAttrKind>;
+  unsafe_unretained: EnumValue<CXObjCPropertyAttrKind>;
+  class: EnumValue<CXObjCPropertyAttrKind>;
 };
 
 export type CXObjCDeclQualifierKind = {
-  None: EnumEntry<CXObjCDeclQualifierKind>;
-  In: EnumEntry<CXObjCDeclQualifierKind>;
-  Inout: EnumEntry<CXObjCDeclQualifierKind>;
-  Out: EnumEntry<CXObjCDeclQualifierKind>;
-  Bycopy: EnumEntry<CXObjCDeclQualifierKind>;
-  Byref: EnumEntry<CXObjCDeclQualifierKind>;
-  Oneway: EnumEntry<CXObjCDeclQualifierKind>;
+  None: EnumValue<CXObjCDeclQualifierKind>;
+  In: EnumValue<CXObjCDeclQualifierKind>;
+  Inout: EnumValue<CXObjCDeclQualifierKind>;
+  Out: EnumValue<CXObjCDeclQualifierKind>;
+  Bycopy: EnumValue<CXObjCDeclQualifierKind>;
+  Byref: EnumValue<CXObjCDeclQualifierKind>;
+  Oneway: EnumValue<CXObjCDeclQualifierKind>;
 };
 
 export type CXNameRefFlags = {
@@ -1718,13 +1718,13 @@ export type CXNameRefFlags = {
    * Include the nested-name-specifier, e.g. Foo:: in x.Foo::y, in the
    * range.
    */
-  WantQualifier: EnumEntry<CXNameRefFlags>;
+  WantQualifier: EnumValue<CXNameRefFlags>;
 
   /**
    * Include the explicit template arguments, e.g. \<int> in x.f<int>,
    * in the range.
    */
-  WantTemplateArgs: EnumEntry<CXNameRefFlags>;
+  WantTemplateArgs: EnumValue<CXNameRefFlags>;
 
   /**
    * If the name is non-contiguous, return the full spanning range.
@@ -1736,34 +1736,34 @@ export type CXNameRefFlags = {
    * return some_vector[1]; // C++
    * ```
    */
-  WantSinglePiece: EnumEntry<CXNameRefFlags>;
+  WantSinglePiece: EnumValue<CXNameRefFlags>;
 };
 
 export type CXTokenKind = {
   /**
    * A token that contains some kind of punctuation.
    */
-  Punctuation: EnumEntry<CXTokenKind>;
+  Punctuation: EnumValue<CXTokenKind>;
 
   /**
    * A language keyword.
    */
-  Keyword: EnumEntry<CXTokenKind>;
+  Keyword: EnumValue<CXTokenKind>;
 
   /**
    * An identifier (that is not a keyword).
    */
-  Identifier: EnumEntry<CXTokenKind>;
+  Identifier: EnumValue<CXTokenKind>;
 
   /**
    * A numeric, string, or character literal.
    */
-  Literal: EnumEntry<CXTokenKind>;
+  Literal: EnumValue<CXTokenKind>;
 
   /**
    * A comment.
    */
-  Comment: EnumEntry<CXTokenKind>;
+  Comment: EnumValue<CXTokenKind>;
 };
 
 export type CXCompletionChunkKind = {
@@ -1800,7 +1800,7 @@ export type CXCompletionChunkKind = {
    *   - Fully expand all optional chunks, in which case the template for the
    *     function "f" would have all of the parameters.
    */
-  Optional: EnumEntry<CXCompletionChunkKind>;
+  Optional: EnumValue<CXCompletionChunkKind>;
   /**
    * Text that a user would be expected to type to get this
    * code-completion result.
@@ -1811,7 +1811,7 @@ export type CXCompletionChunkKind = {
    * expected to filter the code-completion results based on the text in this
    * chunk.
    */
-  TypedText: EnumEntry<CXCompletionChunkKind>;
+  TypedText: EnumValue<CXCompletionChunkKind>;
   /**
    * Text that should be inserted as part of a code-completion result.
    *
@@ -1819,7 +1819,7 @@ export type CXCompletionChunkKind = {
    * inserted into user code should this particular code-completion result
    * be selected.
    */
-  Text: EnumEntry<CXCompletionChunkKind>;
+  Text: EnumValue<CXCompletionChunkKind>;
   /**
    * Placeholder text that should be replaced by the user.
    *
@@ -1830,7 +1830,7 @@ export type CXCompletionChunkKind = {
    * text in a placeholder is a suggestion for the text to display before
    * the user replaces the placeholder with real code.
    */
-  Placeholder: EnumEntry<CXCompletionChunkKind>;
+  Placeholder: EnumValue<CXCompletionChunkKind>;
   /**
    * Informative text that should be displayed but never inserted as
    * part of the template.
@@ -1840,7 +1840,7 @@ export type CXCompletionChunkKind = {
    * right option, but which is not part of the actual template to be inserted
    * by code completion.
    */
-  Informative: EnumEntry<CXCompletionChunkKind>;
+  Informative: EnumValue<CXCompletionChunkKind>;
   /**
    * Text that describes the current parameter when code-completion is
    * referring to function call, message send, or template specialization.
@@ -1860,45 +1860,45 @@ export type CXCompletionChunkKind = {
    * point is after the ","), the code-completion string will contain a
    * "current parameter" chunk to "int y".
    */
-  CurrentParameter: EnumEntry<CXCompletionChunkKind>;
+  CurrentParameter: EnumValue<CXCompletionChunkKind>;
   /**
    * A left parenthesis ('('), used to initiate a function call or
    * signal the beginning of a function parameter list.
    */
-  LeftParen: EnumEntry<CXCompletionChunkKind>;
+  LeftParen: EnumValue<CXCompletionChunkKind>;
   /**
    * A right parenthesis (')'), used to finish a function call or
    * signal the end of a function parameter list.
    */
-  RightParen: EnumEntry<CXCompletionChunkKind>;
+  RightParen: EnumValue<CXCompletionChunkKind>;
   /**
    * A left bracket ('[').
    */
-  LeftBracket: EnumEntry<CXCompletionChunkKind>;
+  LeftBracket: EnumValue<CXCompletionChunkKind>;
   /**
    * A right bracket (']').
    */
-  RightBracket: EnumEntry<CXCompletionChunkKind>;
+  RightBracket: EnumValue<CXCompletionChunkKind>;
   /**
    * A left brace ('{').
    */
-  LeftBrace: EnumEntry<CXCompletionChunkKind>;
+  LeftBrace: EnumValue<CXCompletionChunkKind>;
   /**
    * A right brace ('}').
    */
-  RightBrace: EnumEntry<CXCompletionChunkKind>;
+  RightBrace: EnumValue<CXCompletionChunkKind>;
   /**
    * A left angle bracket ('<').
    */
-  LeftAngle: EnumEntry<CXCompletionChunkKind>;
+  LeftAngle: EnumValue<CXCompletionChunkKind>;
   /**
    * A right angle bracket ('>').
    */
-  RightAngle: EnumEntry<CXCompletionChunkKind>;
+  RightAngle: EnumValue<CXCompletionChunkKind>;
   /**
    * A comma separator (',').
    */
-  Comma: EnumEntry<CXCompletionChunkKind>;
+  Comma: EnumValue<CXCompletionChunkKind>;
   /**
    * Text that specifies the result type of a given result.
    *
@@ -1906,134 +1906,134 @@ export type CXCompletionChunkKind = {
    * the text buffer. Rather, it is meant to illustrate the type that an
    * expression using the given completion string would have.
    */
-  ResultType: EnumEntry<CXCompletionChunkKind>;
+  ResultType: EnumValue<CXCompletionChunkKind>;
   /**
    * A colon (':').
    */
-  Colon: EnumEntry<CXCompletionChunkKind>;
+  Colon: EnumValue<CXCompletionChunkKind>;
   /**
    * A semicolon (';').
    */
-  SemiColon: EnumEntry<CXCompletionChunkKind>;
+  SemiColon: EnumValue<CXCompletionChunkKind>;
   /**
    * An '=' sign.
    */
-  Equal: EnumEntry<CXCompletionChunkKind>;
+  Equal: EnumValue<CXCompletionChunkKind>;
   /**
    * Horizontal space (' ').
    */
-  HorizontalSpace: EnumEntry<CXCompletionChunkKind>;
+  HorizontalSpace: EnumValue<CXCompletionChunkKind>;
   /**
    * Vertical space ('\\n'), after which it is generally a good idea to
    * perform indentation.
    */
-  VerticalSpace: EnumEntry<CXCompletionChunkKind>;
+  VerticalSpace: EnumValue<CXCompletionChunkKind>;
 };
 
 export type CXVisitorResult = {
-  Break: EnumEntry<CXVisitorResult>;
-  Continue: EnumEntry<CXVisitorResult>;
+  Break: EnumValue<CXVisitorResult>;
+  Continue: EnumValue<CXVisitorResult>;
 };
 
 export type CXResult = {
   /**
    * Function returned successfully.
    */
-  Success: EnumEntry<CXResult>;
+  Success: EnumValue<CXResult>;
   /**
    * One of the parameters was invalid for the function.
    */
-  Invalid: EnumEntry<CXResult>;
+  Invalid: EnumValue<CXResult>;
   /**
    * The function was terminated by a callback (e.g. it returned
    * CXVisit_Break)
    */
-  VisitBreak: EnumEntry<CXResult>;
+  VisitBreak: EnumValue<CXResult>;
 };
 
 export type CXIdxEntityKind = {
-  Unexposed: EnumEntry<CXIdxEntityKind>;
-  Typedef: EnumEntry<CXIdxEntityKind>;
-  Function: EnumEntry<CXIdxEntityKind>;
-  Variable: EnumEntry<CXIdxEntityKind>;
-  Field: EnumEntry<CXIdxEntityKind>;
-  EnumConstant: EnumEntry<CXIdxEntityKind>;
-  ObjCClass: EnumEntry<CXIdxEntityKind>;
-  ObjCProtocol: EnumEntry<CXIdxEntityKind>;
-  ObjCCategory: EnumEntry<CXIdxEntityKind>;
-  ObjCInstanceMethod: EnumEntry<CXIdxEntityKind>;
-  ObjCClassMethod: EnumEntry<CXIdxEntityKind>;
-  ObjCProperty: EnumEntry<CXIdxEntityKind>;
-  ObjCIvar: EnumEntry<CXIdxEntityKind>;
-  Enum: EnumEntry<CXIdxEntityKind>;
-  Struct: EnumEntry<CXIdxEntityKind>;
-  Union: EnumEntry<CXIdxEntityKind>;
-  CXXClass: EnumEntry<CXIdxEntityKind>;
-  CXXNamespace: EnumEntry<CXIdxEntityKind>;
-  CXXNamespaceAlias: EnumEntry<CXIdxEntityKind>;
-  CXXStaticVariable: EnumEntry<CXIdxEntityKind>;
-  CXXStaticMethod: EnumEntry<CXIdxEntityKind>;
-  CXXInstanceMethod: EnumEntry<CXIdxEntityKind>;
-  CXXConstructor: EnumEntry<CXIdxEntityKind>;
-  CXXDestructor: EnumEntry<CXIdxEntityKind>;
-  CXXConversionFunction: EnumEntry<CXIdxEntityKind>;
-  CXXTypeAlias: EnumEntry<CXIdxEntityKind>;
-  CXXInterface: EnumEntry<CXIdxEntityKind>;
+  Unexposed: EnumValue<CXIdxEntityKind>;
+  Typedef: EnumValue<CXIdxEntityKind>;
+  Function: EnumValue<CXIdxEntityKind>;
+  Variable: EnumValue<CXIdxEntityKind>;
+  Field: EnumValue<CXIdxEntityKind>;
+  EnumConstant: EnumValue<CXIdxEntityKind>;
+  ObjCClass: EnumValue<CXIdxEntityKind>;
+  ObjCProtocol: EnumValue<CXIdxEntityKind>;
+  ObjCCategory: EnumValue<CXIdxEntityKind>;
+  ObjCInstanceMethod: EnumValue<CXIdxEntityKind>;
+  ObjCClassMethod: EnumValue<CXIdxEntityKind>;
+  ObjCProperty: EnumValue<CXIdxEntityKind>;
+  ObjCIvar: EnumValue<CXIdxEntityKind>;
+  Enum: EnumValue<CXIdxEntityKind>;
+  Struct: EnumValue<CXIdxEntityKind>;
+  Union: EnumValue<CXIdxEntityKind>;
+  CXXClass: EnumValue<CXIdxEntityKind>;
+  CXXNamespace: EnumValue<CXIdxEntityKind>;
+  CXXNamespaceAlias: EnumValue<CXIdxEntityKind>;
+  CXXStaticVariable: EnumValue<CXIdxEntityKind>;
+  CXXStaticMethod: EnumValue<CXIdxEntityKind>;
+  CXXInstanceMethod: EnumValue<CXIdxEntityKind>;
+  CXXConstructor: EnumValue<CXIdxEntityKind>;
+  CXXDestructor: EnumValue<CXIdxEntityKind>;
+  CXXConversionFunction: EnumValue<CXIdxEntityKind>;
+  CXXTypeAlias: EnumValue<CXIdxEntityKind>;
+  CXXInterface: EnumValue<CXIdxEntityKind>;
 };
 
 export type CXIdxEntityLanguage = {
-  None: EnumEntry<CXIdxEntityLanguage>;
-  C: EnumEntry<CXIdxEntityLanguage>;
-  ObjC: EnumEntry<CXIdxEntityLanguage>;
-  CXX: EnumEntry<CXIdxEntityLanguage>;
-  Swift: EnumEntry<CXIdxEntityLanguage>;
+  None: EnumValue<CXIdxEntityLanguage>;
+  C: EnumValue<CXIdxEntityLanguage>;
+  ObjC: EnumValue<CXIdxEntityLanguage>;
+  CXX: EnumValue<CXIdxEntityLanguage>;
+  Swift: EnumValue<CXIdxEntityLanguage>;
 };
 
 export type CXIdxEntityCXXTemplateKind = {
-  NonTemplate: EnumEntry<CXIdxEntityCXXTemplateKind>;
-  Template: EnumEntry<CXIdxEntityCXXTemplateKind>;
-  TemplatePartialSpecialization: EnumEntry<CXIdxEntityCXXTemplateKind>;
-  TemplateSpecialization: EnumEntry<CXIdxEntityCXXTemplateKind>;
+  NonTemplate: EnumValue<CXIdxEntityCXXTemplateKind>;
+  Template: EnumValue<CXIdxEntityCXXTemplateKind>;
+  TemplatePartialSpecialization: EnumValue<CXIdxEntityCXXTemplateKind>;
+  TemplateSpecialization: EnumValue<CXIdxEntityCXXTemplateKind>;
 };
 
 export type CXIdxAttrKind = {
-  Unexposed: EnumEntry<CXIdxAttrKind>;
-  IBAction: EnumEntry<CXIdxAttrKind>;
-  IBOutlet: EnumEntry<CXIdxAttrKind>;
-  IBOutletCollection: EnumEntry<CXIdxAttrKind>;
+  Unexposed: EnumValue<CXIdxAttrKind>;
+  IBAction: EnumValue<CXIdxAttrKind>;
+  IBOutlet: EnumValue<CXIdxAttrKind>;
+  IBOutletCollection: EnumValue<CXIdxAttrKind>;
 };
 
 export type CXIdxDeclInfoFlags = {
-  Skipped: EnumEntry<CXIdxDeclInfoFlags>;
+  Skipped: EnumValue<CXIdxDeclInfoFlags>;
 };
 
 export type CXIdxObjCContainerKind = {
-  ForwardRef: EnumEntry<CXIdxObjCContainerKind>;
-  Interface: EnumEntry<CXIdxObjCContainerKind>;
-  Implementation: EnumEntry<CXIdxObjCContainerKind>;
+  ForwardRef: EnumValue<CXIdxObjCContainerKind>;
+  Interface: EnumValue<CXIdxObjCContainerKind>;
+  Implementation: EnumValue<CXIdxObjCContainerKind>;
 };
 
 export type CXIdxEntityRefKind = {
   /**
    * The entity is referenced directly in user's code.
    */
-  Direct: EnumEntry<CXIdxEntityRefKind>;
+  Direct: EnumValue<CXIdxEntityRefKind>;
   /**
    * An implicit reference, e.g. a reference of an Objective-C method
    * via the dot syntax.
    */
-  Implicit: EnumEntry<CXIdxEntityRefKind>;
+  Implicit: EnumValue<CXIdxEntityRefKind>;
 };
 
 export type CXSymbolRole = {
-  None: EnumEntry<CXSymbolRole>;
-  Declaratio: EnumEntry<CXSymbolRole>;
-  Definitio: EnumEntry<CXSymbolRole>;
-  Refere: EnumEntry<CXSymbolRole>;
-  Read: EnumEntry<CXSymbolRole>;
-  Writ: EnumEntry<CXSymbolRole>;
-  Call: EnumEntry<CXSymbolRole>;
-  Dynamic: EnumEntry<CXSymbolRole>;
-  AddressO: EnumEntry<CXSymbolRole>;
-  Implicit: EnumEntry<CXSymbolRole>;
+  None: EnumValue<CXSymbolRole>;
+  Declaratio: EnumValue<CXSymbolRole>;
+  Definitio: EnumValue<CXSymbolRole>;
+  Refere: EnumValue<CXSymbolRole>;
+  Read: EnumValue<CXSymbolRole>;
+  Writ: EnumValue<CXSymbolRole>;
+  Call: EnumValue<CXSymbolRole>;
+  Dynamic: EnumValue<CXSymbolRole>;
+  AddressO: EnumValue<CXSymbolRole>;
+  Implicit: EnumValue<CXSymbolRole>;
 };

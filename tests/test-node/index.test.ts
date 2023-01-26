@@ -1,5 +1,5 @@
 import init from "libclangjs/node";
-import { CXFile, CXIndex, CXTranslationUnit, LibClang } from "libclangjs/libclangjs";
+import { CXCursor, CXFile, CXIndex, CXTranslationUnit, LibClang } from "libclangjs/libclangjs";
 import path from "path";
 import fs from "fs";
 
@@ -86,6 +86,55 @@ test("Can write / read translation unit to / from disk", () => {
   const readIndex = libclangjs.clang_createIndex(1, 1);
   const readTu = libclangjs.clang_createTranslationUnit(readIndex, exportFileName);
   expect(libclangjs.isNullPointer(readTu)).toBeFalsy();
+});
+
+test("Can correctly traverse identify C++ code", () => {
+  const cursor = libclangjs.clang_getTranslationUnitCursor(tu);
+  const children: { child: CXCursor, parent: CXCursor }[] = [];
+  const found = {
+    cookie: false,
+    TestStruct: false,
+    TestClassDecl: false,
+    main: false,
+    TestClassConstructor: false,
+    TestClassDestructor: false,
+    TestClassSomething: false,
+  };
+  libclangjs.clang_visitChildren(cursor, (child, parent) => {
+    children.push({ child, parent });
+    const loc = libclangjs.clang_getPresumedLocation(libclangjs.clang_getCursorLocation(child));
+    const spelling = libclangjs.clang_getCursorSpelling(child);
+    const cursorKind = libclangjs.clang_getCursorKind(child);
+    if (spelling === "cookie") {
+      expect(cursorKind.value).toBe(libclangjs.CXCursorKind.VarDecl.value);
+      expect(loc).toEqual({ filename: 'home/web_user/dir/anotherHeader.hpp', line: 1, column: 5, });
+      found.cookie = true;
+    } else if (spelling === "TestStruct") {
+      expect(cursorKind.value).toBe(libclangjs.CXCursorKind.StructDecl.value);
+      expect(loc).toEqual({ filename: 'home/web_user/header.hpp', line: 1, column: 8, });
+      found.TestStruct = true;
+    } else if (spelling === "TestClass" && cursorKind.value === libclangjs.CXCursorKind.ClassDecl.value) {
+      expect(loc).toEqual({ filename: 'home/web_user/header.hpp', line: 5, column: 7, });
+      found.TestClassDecl = true;
+    } else if (spelling === "main" && cursorKind.value === libclangjs.CXCursorKind.FunctionDecl.value) {
+      expect(loc).toEqual({ filename: 'home/web_user/main.cpp', line: 4, column: 5 });
+      found.main = true;
+    } else if (spelling === "TestClass" && cursorKind.value === libclangjs.CXCursorKind.Constructor.value) {
+      expect(loc).toEqual({ filename: 'home/web_user/main.cpp', line: 6, column: 12 });
+      found.TestClassConstructor = true;
+    } else if (spelling === "~TestClass") {
+      expect(cursorKind.value).toBe(libclangjs.CXCursorKind.Destructor.value);
+      expect(loc).toEqual({ filename: 'home/web_user/main.cpp', line: 8, column: 12 });
+      found.TestClassDestructor = true;
+    } else if (spelling === "Something") {
+      expect(cursorKind.value).toBe(libclangjs.CXCursorKind.CXXMethod.value);
+      expect(loc).toEqual({ filename: 'home/web_user/main.cpp', line: 10, column: 24 });
+      found.TestClassSomething = true;
+    }
+    return libclangjs.CXChildVisitResult.Continue;
+  });
+  const allFound = Object.values(found).reduce((prev, curr) => prev && curr, true);
+  expect(allFound).toBe(true);
 });
 
 test("Can shutdown all threads", () => {

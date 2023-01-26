@@ -1,4 +1,4 @@
-import { exec, env } from "shelljs";
+import { exec } from "shelljs";
 import path from "path";
 import fs from "fs";
 import os from "os";
@@ -23,6 +23,21 @@ const configureAndRunBuild = (environment: "node" | "web") => {
     // Run build
     const res = exec(`emmake make -j${os.cpus().length}`, { cwd: buildPath });
     if (res.code !== 0) throw new Error(res.stderr);
+  }
+  {
+    // Fix naming of assets
+    const mainJs = path.join(distPath, `${environment}.js`);
+    const workerJs = path.join(distPath, `${environment}.worker.js`);
+
+    fs.renameSync(path.join(distPath, "LIBCLANG_OUTPUT_NAME.js"), mainJs);
+    fs.renameSync(path.join(distPath, "LIBCLANG_OUTPUT_NAME.worker.js"), workerJs);
+    fs.renameSync(path.join(distPath, "LIBCLANG_OUTPUT_NAME.wasm"), path.join(distPath, "libclang.wasm"));
+
+    fs.writeFileSync(mainJs,
+      fs.readFileSync(mainJs, { encoding: "utf8" })
+        .replace("LIBCLANG_OUTPUT_NAME.worker.js", `${environment}.worker.js`)
+        .replace("LIBCLANG_OUTPUT_NAME.wasm", "libclang.wasm")
+    );
   }
 };
 

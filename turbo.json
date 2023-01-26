@@ -10,10 +10,9 @@
         "dist/**",
         "node.js",
         "node.worker.js",
-        "node.wasm",
         "web.js",
         "web.worker.js",
-        "web.wasm"
+        "libclang.wasm"
       ]
     },
     "test": {

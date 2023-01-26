@@ -1,6 +1,8 @@
 /node.js
 /node.worker.js
-/node.wasm
 /web.js
 /web.worker.js
-/web.wasm
+/libclang.wasm
+/LIBCLANG_OUTPUT_NAME.js
+/LIBCLANG_OUTPUT_NAME.worker.js
+/LIBCLANG_OUTPUT_NAME.wasm

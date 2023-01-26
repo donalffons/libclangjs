@@ -1,5 +1,5 @@
 import { EmscriptenModule, FS } from "./emscripten";
-import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCompletionChunkKind, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXIdxAttrKind, CXIdxDeclInfoFlags, CXIdxEntityCXXTemplateKind, CXIdxEntityKind, CXIdxEntityLanguage, CXIdxEntityRefKind, CXIdxObjCContainerKind, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXNameRefFlags, CXObjCDeclQualifierKind, CXObjCPropertyAttrKind, CXPrintingPolicyProperty, CXRefQualifierKind, CXReparse_Flags, CXResult, CXSaveError, CXSaveTranslationUnit_Flags, CXSymbolRole, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTokenKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CXVisitorResult, CX_CXXAccessSpecifier, CX_StorageClass } from "./enums";
+import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCompletionChunkKind, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXIdxAttrKind, CXIdxDeclInfoFlags, CXIdxEntityCXXTemplateKind, CXIdxEntityKind, CXIdxEntityLanguage, CXIdxEntityRefKind, CXIdxObjCContainerKind, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXNameRefFlags, CXObjCDeclQualifierKind, CXObjCPropertyAttrKind, CXPrintingPolicyProperty, CXRefQualifierKind, CXReparse_Flags, CXResult, CXSaveError, CXSaveTranslationUnit_Flags, CXSymbolRole, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTokenKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CXVisitorResult, CX_CXXAccessSpecifier, CX_StorageClass, EnumValue } from "./enums";
 import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXModule, CXPrintingPolicy, CXSourceLocation, CXSourceRange, CXToken, CXTranslationUnit, CXType, CXUnsavedFile } from "./structs";
 
 export * from "./emscripten";
@@ -221,11 +221,155 @@ export type LibClang = EmscriptenModule & {
    */
   clang_Range_isNull: (range: CXSourceRange) => number;
 
-  // skipped clang_getExpansionLocation
-  // skipped clang_getPresumedLocation
-  // skipped clang_getInstantiationLocation
-  // skipped clang_getSpellingLocation
-  // skipped clang_getFileLocation
+  /**
+   * Retrieve the file, line, column, and offset represented by
+   * the given source location.
+   *
+   * If the location refers into a macro expansion, retrieves the
+   * location of the macro expansion.
+   *
+   * @param location the location within a source file that will be decomposed
+   * into its parts.
+   *
+   * file is set to the file to which the given
+   * source location points.
+   *
+   * line is set to the line to which the given
+   * source location points.
+   *
+   * column is set to the column to which the given
+   * source location points.
+   *
+   * offset is set to the offset into the
+   * buffer to which the given source location points.
+   */
+  clang_getExpansionLocation: (location: CXSourceLocation) => {
+    file: CXFile;
+    line: number;
+    column: number;
+    offset: number;
+  };
+
+  /**
+   * Retrieve the file, line and column represented by the given source
+   * location, as specified in a # line directive.
+   *
+   * Example: given the following source code in a file somefile.c
+   *
+   * \code
+   * #123 "dummy.c" 1
+   *
+   * static int func(void)
+   * {
+   *     return 0;
+   * }
+   * \endcode
+   *
+   * the location information returned by this function would be
+   *
+   * File: dummy.c Line: 124 Column: 12
+   *
+   * whereas clang_getExpansionLocation would have returned
+   *
+   * File: somefile.c Line: 3 Column: 12
+   *
+   * @param location the location within a source file that will be decomposed
+   * into its parts.
+   *
+   * filename will be set to the filename of the
+   * source location. Note that filenames returned will be for "virtual" files,
+   * which don't necessarily exist on the machine running clang - e.g. when
+   * parsing preprocessed output obtained from a different environment. If
+   * a non-NULL value is passed in, remember to dispose of the returned value
+   * using \c clang_disposeString() once you've finished with it. For an invalid
+   * source location, an empty string is returned.
+   *
+   * line will be set to the line number of the
+   * source location. For an invalid source location, zero is returned.
+   *
+   * column will be set to the column number of the
+   * source location. For an invalid source location, zero is returned.
+   */
+  clang_getPresumedLocation: (location: CXSourceLocation) => {
+    filename: string;
+    line: number;
+    column: number;
+  };
+
+  /**
+   * Legacy API to retrieve the file, line, column, and offset represented
+   * by the given source location.
+   *
+   * This interface has been replaced by the newer interface
+   * #clang_getExpansionLocation(). See that interface's documentation for
+   * details.
+   */
+  clang_getInstantiationLocation: (location: CXSourceLocation) => {
+    file: CXFile;
+    line: number;
+    column: number;
+    offset: number;
+  };
+
+  /**
+   * Retrieve the file, line, column, and offset represented by
+   * the given source location.
+   *
+   * If the location refers into a macro instantiation, return where the
+   * location was originally spelled in the source file.
+   *
+   * @param location the location within a source file that will be decomposed
+   * into its parts.
+   *
+   * file will be set to the file to which the given
+   * source location points.
+   *
+   * line will be set to the line to which the given
+   * source location points.
+   *
+   * column will be set to the column to which the given
+   * source location points.
+   *
+   * offset will be set to the offset into the
+   * buffer to which the given source location points.
+   */
+  clang_getSpellingLocation: (location: CXSourceLocation) => {
+    file: CXFile;
+    line: number;
+    column: number;
+    offset: number;
+  };
+
+  /**
+   * Retrieve the file, line, column, and offset represented by
+   * the given source location.
+   *
+   * If the location refers into a macro expansion, return where the macro was
+   * expanded or where the macro argument was written, if the location points at
+   * a macro argument.
+   *
+   * @param location the location within a source file that will be decomposed
+   * into its parts.
+   *
+   * file will be set to the file to which the given
+   * source location points.
+   *
+   * line will be set to the line to which the given
+   * source location points.
+   *
+   * column will be set to the column to which the given
+   * source location points.
+   *
+   * offset will be set to the offset into the
+   * buffer to which the given source location points.
+   */
+  clang_getFileLocation: (location: CXSourceLocation) => {
+    file: CXFile;
+    line: number;
+    column: number;
+    offset: number;
+  };
+
 
   /**
    * Retrieve a source location representing the first character within a
@@ -525,7 +669,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * Retrieve the kind of the given cursor.
    */
-  clang_getCursorKind: (cursor: CXCursor) => CXCursorKind;
+  clang_getCursorKind: (cursor: CXCursor) => EnumValue<CXCursorKind>;
 
   /**
    * Determine whether the given cursor kind represents a declaration.
@@ -1920,7 +2064,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * For debug / testing
    */
-  clang_getCursorKindSpelling: (Kind: CXCursorKind) => string;
+  clang_getCursorKindSpelling: (Kind: EnumValue<CXCursorKind>) => string;
 
   // skipped clang_getDefinitionSpellingAndExtent
   // skipped clang_getDefinitionSpellingAndExtent
