@@ -3,7 +3,6 @@
 #include <emscripten.h>
 #include <emscripten/bind.h>
 #include <emscripten/val.h>
-#include <iostream>
 #include <string.h>
 #include <string>
 #include <vector>
