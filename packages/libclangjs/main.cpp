@@ -153,11 +153,70 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function("clang_getRange", &clang_getRange);
   emscripten::function("clang_equalRanges", &clang_equalRanges);
   emscripten::function("clang_Range_isNull", &clang_Range_isNull);
-  // skipped clang_getExpansionLocation
-  // skipped clang_getPresumedLocation
-  // skipped clang_getInstantiationLocation
-  // skipped clang_getSpellingLocation
-  // skipped clang_getFileLocation
+  emscripten::function(
+      "clang_getExpansionLocation",
+      emscripten::optional_override([](CXSourceLocation location) {
+        emscripten::val ret = emscripten::val::object();
+        CXFile *file = new CXFile(); // TODO: Memory leak
+        unsigned line, column, offset;
+        clang_getExpansionLocation(location, file, &line, &column, &offset);
+        ret.set("file", Pointer({file}));
+        ret.set("line", line);
+        ret.set("column", column);
+        ret.set("offset", offset);
+        return ret;
+      }));
+  emscripten::function(
+      "clang_getPresumedLocation",
+      emscripten::optional_override([](CXSourceLocation location) {
+        emscripten::val ret = emscripten::val::object();
+        CXString filename;
+        unsigned line, column;
+        clang_getPresumedLocation(location, &filename, &line, &column);
+        ret.set("filename", cxStringToStdString(filename));
+        ret.set("line", line);
+        ret.set("column", column);
+        return ret;
+      }));
+  emscripten::function(
+      "clang_getInstantiationLocation",
+      emscripten::optional_override([](CXSourceLocation location) {
+        emscripten::val ret = emscripten::val::object();
+        CXFile *file = new CXFile(); // TODO: Memory leak
+        unsigned line, column, offset;
+        clang_getInstantiationLocation(location, file, &line, &column, &offset);
+        ret.set("file", Pointer({file}));
+        ret.set("line", line);
+        ret.set("column", column);
+        ret.set("offset", offset);
+        return ret;
+      }));
+  emscripten::function(
+      "clang_getSpellingLocation",
+      emscripten::optional_override([](CXSourceLocation location) {
+        emscripten::val ret = emscripten::val::object();
+        CXFile *file = new CXFile(); // TODO: Memory leak
+        unsigned line, column, offset;
+        clang_getSpellingLocation(location, file, &line, &column, &offset);
+        ret.set("file", Pointer({file}));
+        ret.set("line", line);
+        ret.set("column", column);
+        ret.set("offset", offset);
+        return ret;
+      }));
+  emscripten::function(
+      "clang_getFileLocation",
+      emscripten::optional_override([](CXSourceLocation location) {
+        emscripten::val ret = emscripten::val::object();
+        CXFile *file = new CXFile(); // TODO: Memory leak
+        unsigned line, column, offset;
+        clang_getFileLocation(location, file, &line, &column, &offset);
+        ret.set("file", Pointer({file}));
+        ret.set("line", line);
+        ret.set("column", column);
+        ret.set("offset", offset);
+        return ret;
+      }));
   emscripten::function("clang_getRangeStart", &clang_getRangeStart);
   emscripten::function("clang_getRangeEnd", &clang_getRangeEnd);
   // skipped CXSourceRangeList
