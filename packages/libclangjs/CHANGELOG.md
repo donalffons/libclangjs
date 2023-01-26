@@ -1,5 +1,19 @@
 # libclangjs
 
+## 0.2.0
+
+### Minor Changes
+
+- 613ff3e: added getExpansionLocation, getPresumedLocation, getInstantiationLocation, getSpellingLocation, getFileLocation
+
+### Patch Changes
+
+- 613ff3e: added test case
+- 613ff3e: reuse the same wasm file for both web and node to reduce package size
+- 613ff3e: fixed clang_File_tryGetRealPathName, clang_getFileTime, clang_getCursorDisplayName
+- cbc2324: reuse the same wasm file for both web and node reduces package size
+- 630c69c: fix clang_getCursorDisplayName to return string
+
 ## 0.1.8
 
 ### Patch Changes
