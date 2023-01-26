@@ -122,7 +122,8 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       }));
   emscripten::function("clang_File_tryGetRealPathName",
                        emscripten::optional_override([](Pointer &file) {
-                         return clang_File_tryGetRealPathName(file.ptr);
+                         return cxStringToStdString(
+                             clang_File_tryGetRealPathName(file.ptr));
                        }));
   emscripten::class_<CXSourceLocation>("CXSourceLocation")
       .property("int_data", &CXSourceLocation::int_data);
