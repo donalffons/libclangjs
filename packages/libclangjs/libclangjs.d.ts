@@ -1,5 +1,5 @@
 import { EmscriptenModule, FS } from "./emscripten";
-import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCompletionChunkKind, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXIdxAttrKind, CXIdxDeclInfoFlags, CXIdxEntityCXXTemplateKind, CXIdxEntityKind, CXIdxEntityLanguage, CXIdxEntityRefKind, CXIdxObjCContainerKind, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXNameRefFlags, CXObjCDeclQualifierKind, CXObjCPropertyAttrKind, CXPrintingPolicyProperty, CXRefQualifierKind, CXReparse_Flags, CXResult, CXSaveError, CXSaveTranslationUnit_Flags, CXSymbolRole, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTokenKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CXVisitorResult, CX_CXXAccessSpecifier, CX_StorageClass } from "./enums";
+import { CXAvailabilityKind, CXCallingConv, CXChildVisitResult, CXCompletionChunkKind, CXCursorKind, CXDiagnosticSeverity, CXGlobalOptFlags, CXIdxAttrKind, CXIdxDeclInfoFlags, CXIdxEntityCXXTemplateKind, CXIdxEntityKind, CXIdxEntityLanguage, CXIdxEntityRefKind, CXIdxObjCContainerKind, CXLanguageKind, CXLinkageKind, CXLoadDiag_Error, CXNameRefFlags, CXObjCDeclQualifierKind, CXObjCPropertyAttrKind, CXPrintingPolicyProperty, CXRefQualifierKind, CXReparse_Flags, CXResult, CXSaveError, CXSaveTranslationUnit_Flags, CXSymbolRole, CXTLSKind, CXTUResourceUsageKind, CXTemplateArgumentKind, CXTokenKind, CXTranslationUnit_Flags, CXTypeKind, CXTypeLayoutError, CXTypeNullabilityKind, CXVisibilityKind, CXVisitorResult, CX_CXXAccessSpecifier, CX_StorageClass, EnumValue } from "./enums";
 import { CXCursor, CXDiagnostic, CXDiagnosticSet, CXFile, CXIndex, CXModule, CXPrintingPolicy, CXSourceLocation, CXSourceRange, CXToken, CXTranslationUnit, CXType, CXUnsavedFile } from "./structs";
 
 export * from "./emscripten";
@@ -525,7 +525,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * Retrieve the kind of the given cursor.
    */
-  clang_getCursorKind: (cursor: CXCursor) => CXCursorKind;
+  clang_getCursorKind: (cursor: CXCursor) => EnumValue<CXCursorKind>;
 
   /**
    * Determine whether the given cursor kind represents a declaration.
@@ -1920,7 +1920,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * For debug / testing
    */
-  clang_getCursorKindSpelling: (Kind: CXCursorKind) => string;
+  clang_getCursorKindSpelling: (Kind: EnumValue<CXCursorKind>) => string;
 
   // skipped clang_getDefinitionSpellingAndExtent
   // skipped clang_getDefinitionSpellingAndExtent
