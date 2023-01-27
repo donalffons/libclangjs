@@ -1,4 +1,4 @@
-import { CXCursorKind, CXIdxAttrKind, CXIdxEntityCXXTemplateKind, CXIdxEntityKind, CXIdxEntityLanguage, CXIdxEntityRefKind, CXIdxObjCContainerKind, CXSymbolRole, CXTypeKind } from "./enums";
+import { CXCursorKind, CXIdxAttrKind, CXIdxEntityCXXTemplateKind, CXIdxEntityKind, CXIdxEntityLanguage, CXIdxEntityRefKind, CXIdxObjCContainerKind, CXSymbolRole, CXTypeKind, EnumValue } from "./enums";
 
 /**
  * An "index" that consists of a set of translation units that would
@@ -57,7 +57,7 @@ export type CXUnsavedFile = {
  * source code into the AST.
  */
 export type CXCursor = {
-  kind: CXCursorKind;
+  kind: EnumValue<CXCursorKind>;
   xdata: number;
 };
 
@@ -104,7 +104,7 @@ export type CXCursorSetImpl = {};
  *
  */
 export type CXType = {
-  kind: CXTypeKind;
+  kind: EnumValue<CXTypeKind>;
 };
 
 /**
@@ -149,13 +149,13 @@ export type CXCompletionResult = {
    * @todo In the future, we would like to provide a full cursor, to allow
    * the client to extract additional information from declaration.
    */
-  CursorKind: CXCursorKind;
+  CursorKind: EnumValue<CXCursorKind>;
 
   /**
    * The code-completion string that describes how to insert this
    * code-completion result into the editing buffer.
    */
-  CompletionString: CXCompletionString;
+  CompletionString: EnumValue<CXCompletionString>;
 };
 
 /**
@@ -232,15 +232,15 @@ export type CXIdxImportedASTFileInfo = {
 };
 
 export type CXIdxAttrInfo = {
-  kind: CXIdxAttrKind;
+  kind: EnumValue<CXIdxAttrKind>;
   cursor: CXCursor;
   loc: CXIdxLoc;
 };
 
 export type CXIdxEntityInfo = {
-  kind: CXIdxEntityKind;
-  templateKind: CXIdxEntityCXXTemplateKind;
-  lang: CXIdxEntityLanguage;
+  kind: EnumValue<CXIdxEntityKind>;
+  templateKind: EnumValue<CXIdxEntityCXXTemplateKind>;
+  lang: EnumValue<CXIdxEntityLanguage>;
   cursor: CXCursor;
   numAttributes: number;
 };
@@ -270,7 +270,7 @@ export type CXIdxDeclInfo = {
 };
 
 export type CXIdxObjCContainerDeclInfo = {
-  kind: CXIdxObjCContainerKind;
+  kind: EnumValue<CXIdxObjCContainerKind>;
 };
 
 export type CXIdxBaseClassInfo = {
@@ -304,7 +304,7 @@ export type CXIdxCXXClassDeclInfo = {
  * Data for IndexerCallbacks#indexEntityReference.
  */
 export type CXIdxEntityRefInfo = {
-  kind: CXIdxEntityRefKind;
+  kind: EnumValue<CXIdxEntityRefKind>;
   /**
    * Reference cursor.
    */
@@ -314,5 +314,5 @@ export type CXIdxEntityRefInfo = {
   /**
    * Sets of symbol roles of the reference.
    */
-  role: CXSymbolRole;
+  role: EnumValue<CXSymbolRole>;
 };

@@ -20,7 +20,7 @@ struct ConvertJSStringArrayResult {
 
 ConvertJSStringArrayResult convertJSStringArray(emscripten::val v) {
   std::vector<std::string> vs = emscripten::vecFromJSArray<std::string>(v);
-  const char **ret = new const char *[vs.size()];
+  const char **ret = new const char *[vs.size()]; // TODO: memory leak
   for (int i = 0; i < vs.size(); i++) {
     ret[i] = strdup(vs[i].c_str());
   }

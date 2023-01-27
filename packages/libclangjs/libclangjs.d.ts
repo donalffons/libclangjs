@@ -18,7 +18,7 @@ export * from "./structs";
  * The visitor should return one of the {@link CXChildVisitResult} values
  * to direct clang_visitCursorChildren().
  */
-type CXCursorVisitor = (cursor: CXCursor, parent: CXCursor) => CXChildVisitResult[keyof CXChildVisitResult];
+type CXCursorVisitor = (cursor: CXCursor, parent: CXCursor) => EnumValue<CXChildVisitResult>;
 
 export type LibClang = EmscriptenModule & {
   /**
@@ -627,7 +627,7 @@ export type LibClang = EmscriptenModule & {
    * Returns the human-readable null-terminated C string that represents
    *  the name of the memory category.  This string should never be freed.
    */
-  clang_getTUResourceUsageName: (kind: CXTUResourceUsageKind) => string | null;
+  clang_getTUResourceUsageName: (kind: EnumValue<CXTUResourceUsageKind>) => string | null;
 
   // skipped CXTUResourceUsageEntry
   // skipped CXTUResourceUsage
@@ -674,7 +674,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * Determine whether the given cursor kind represents a declaration.
    */
-  clang_isDeclaration: (kind: CXCursorKind) => number;
+  clang_isDeclaration: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given declaration is invalid.
@@ -694,22 +694,22 @@ export type LibClang = EmscriptenModule & {
    * other cursors. Use {@link LibClang.clang_getCursorReferenced | clang_getCursorReferenced()} to determine whether a
    * particular cursor refers to another entity.
    */
-  clang_isReference: (kind: CXCursorKind) => number;
+  clang_isReference: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor kind represents an expression.
    */
-  clang_isExpression: (kind: CXCursorKind) => number;
+  clang_isExpression: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor kind represents a statement.
    */
-  clang_isStatement: (kind: CXCursorKind) => number;
+  clang_isStatement: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor kind represents an attribute.
    */
-  clang_isAttribute: (kind: CXCursorKind) => number;
+  clang_isAttribute: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor has any attributes.
@@ -720,30 +720,30 @@ export type LibClang = EmscriptenModule & {
    * Determine whether the given cursor kind represents an invalid
    * cursor.
    */
-  clang_isInvalid: (kind: CXCursorKind) => number;
+  clang_isInvalid: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor kind represents a translation
    * unit.
    */
-  clang_isTranslationUnit: (kind: CXCursorKind) => number;
+  clang_isTranslationUnit: (kind: EnumValue<CXCursorKind>) => number;
 
   /***
    * Determine whether the given cursor represents a preprocessing
    * element, such as a preprocessor directive or macro instantiation.
    */
-  clang_isPreprocessing: (kind: CXCursorKind) => number;
+  clang_isPreprocessing: (kind: EnumValue<CXCursorKind>) => number;
 
   /***
    * Determine whether the given cursor represents a currently
    *  unexposed piece of the AST (e.g., CXCursor_UnexposedStmt).
    */
-  clang_isUnexposed: (kind: CXCursorKind) => number;
+  clang_isUnexposed: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine the linkage of the entity referred to by a given cursor.
    */
-  clang_getCursorLinkage: (cursor: CXCursor) => CXLinkageKind;
+  clang_getCursorLinkage: (cursor: CXCursor) => EnumValue<CXLinkageKind>;
 
   /**
    * Describe the visibility of the entity referred to by a cursor.
@@ -756,7 +756,7 @@ export type LibClang = EmscriptenModule & {
    *
    * @returns The visibility of the cursor.
    */
-  clang_getCursorVisibility: (cursor: CXCursor) => CXVisibilityKind;
+  clang_getCursorVisibility: (cursor: CXCursor) => EnumValue<CXVisibilityKind>;
 
   /**
    * Determine the availability of the entity that this cursor refers to,
@@ -766,7 +766,7 @@ export type LibClang = EmscriptenModule & {
    *
    * @returns The availability of the cursor.
    */
-  clang_getCursorAvailability: (cursor: CXCursor) => CXAvailabilityKind;
+  clang_getCursorAvailability: (cursor: CXCursor) => EnumValue<CXAvailabilityKind>;
 
   // skipped CXPlatformAvailability
   // skipped clang_getCursorPlatformAvailability
@@ -795,13 +795,13 @@ export type LibClang = EmscriptenModule & {
   /**
    * Determine the "language" of the entity referred to by a given cursor.
    */
-  clang_getCursorLanguage: (cursor: CXCursor) => CXLanguageKind;
+  clang_getCursorLanguage: (cursor: CXCursor) => EnumValue<CXLanguageKind>;
 
   /**
    * Determine the "thread-local storage (TLS) kind" of the declaration
    * referred to by a cursor.
    */
-  clang_getCursorTLSKind: (cursor: CXCursor) => CXTLSKind;
+  clang_getCursorTLSKind: (cursor: CXCursor) => EnumValue<CXTLSKind>;
 
   /**
    * Returns the translation unit that a cursor originated from.
@@ -1043,7 +1043,7 @@ export type LibClang = EmscriptenModule & {
    * For I = 0, 1, and 2, Type, Integral, and Integral will be returned,
    * respectively.
    */
-  clang_Cursor_getTemplateArgumentKind: (C: CXCursor, I: number) => CXTemplateArgumentKind;
+  clang_Cursor_getTemplateArgumentKind: (C: CXCursor, I: number) => EnumValue<CXTemplateArgumentKind>;
 
   /**
    * Retrieve a CXType representing the type of a TemplateArgument of a
@@ -1193,14 +1193,14 @@ export type LibClang = EmscriptenModule & {
   /**
    * Retrieve the spelling of a given CXTypeKind.
    */
-  clang_getTypeKindSpelling: (kind: CXTypeKind) => string;
+  clang_getTypeKindSpelling: (kind: EnumValue<CXTypeKind>) => string;
 
   /**
    * Retrieve the calling convention associated with a function type.
    *
    * If a non-function type is passed in, CXCallingConv_Invalid is returned.
    */
-  clang_getFunctionTypeCallingConv: (T: CXType) => CXCallingConv;
+  clang_getFunctionTypeCallingConv: (T: CXType) => EnumValue<CXCallingConv>;
 
   /**
    * Retrieve the return type associated with a function type.
@@ -1347,7 +1347,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * Retrieve the nullability kind of a pointer type.
    */
-  clang_Type_getNullability: (T: CXType) => CXTypeNullabilityKind;
+  clang_Type_getNullability: (T: CXType) => EnumValue<CXTypeNullabilityKind>;
 
   /**
    * Return the alignment of a type in bytes as per C++[expr.alignof]
@@ -1464,7 +1464,7 @@ export type LibClang = EmscriptenModule & {
    * The ref-qualifier is returned for C++ functions or methods. For other types
    * or non-C++ declarations, CXRefQualifier_None is returned.
    */
-  clang_Type_getCXXRefQualifier: (T: CXType) => CXRefQualifierKind;
+  clang_Type_getCXXRefQualifier: (T: CXType) => EnumValue<CXRefQualifierKind>;
 
   /**
    * Returns non-zero if the cursor specifies a Record member that is a
@@ -1485,7 +1485,7 @@ export type LibClang = EmscriptenModule & {
    * its parent scope is returned. Otherwise, if the cursor refers to a base
    * specifier or access specifier, the specifier itself is returned.
    */
-  clang_getCXXAccessSpecifier: (C: CXCursor) => CX_CXXAccessSpecifier;
+  clang_getCXXAccessSpecifier: (C: CXCursor) => EnumValue<CX_CXXAccessSpecifier>;
 
   /**
    * Returns the storage class for a function or variable declaration.
@@ -1493,7 +1493,7 @@ export type LibClang = EmscriptenModule & {
    * If the passed in Cursor is not a function or variable declaration,
    * CX_SC_Invalid is returned else the storage class.
    */
-  clang_Cursor_getStorageClass: (C: CXCursor) => CX_StorageClass;
+  clang_Cursor_getStorageClass: (C: CXCursor) => EnumValue<CX_StorageClass>;
 
   /**
    * Determine the number of overloaded declarations referenced by a
@@ -1604,12 +1604,12 @@ export type LibClang = EmscriptenModule & {
    * Get a property value for the given printing policy.
    */
 
-  clang_PrintingPolicy_getProperty: (Policy: CXPrintingPolicy, Property: CXPrintingPolicyProperty) => number;
+  clang_PrintingPolicy_getProperty: (Policy: CXPrintingPolicy, Property: EnumValue<CXPrintingPolicyProperty>) => number;
 
   /**
    * Set a property value for the given printing policy.
    */
-  clang_PrintingPolicy_setProperty: (Policy: CXPrintingPolicy, Property: CXPrintingPolicyProperty, Value: number) => void;
+  clang_PrintingPolicy_setProperty: (Policy: CXPrintingPolicy, Property: EnumValue<CXPrintingPolicyProperty>, Value: number) => void;
 
   /**
    * Retrieve the default policy for the cursor.
@@ -1969,7 +1969,7 @@ export type LibClang = EmscriptenModule & {
    * by instantiating the template \p C. If \p C is not a template, returns
    * \c CXCursor_NoDeclFound.
    */
-  clang_getTemplateCursorKind: (C: CXCursor) => CXCursorKind;
+  clang_getTemplateCursorKind: (C: CXCursor) => EnumValue<CXCursorKind>;
 
   /**
    * Given a cursor that may represent a specialization or instantiation
@@ -2037,7 +2037,7 @@ export type LibClang = EmscriptenModule & {
   /**
   * Determine the kind of the given token.
   */
-  clang_getTokenKind: (T: CXToken) => CXTokenKind;
+  clang_getTokenKind: (T: CXToken) => EnumValue<CXTokenKind>;
 
   /**
   * Determine the spelling of the given token.
@@ -2064,7 +2064,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * For debug / testing
    */
-  clang_getCursorKindSpelling: (Kind: EnumValue<CXCursorKind>) => string;
+  clang_getCursorKindSpelling: (Kind: EnumValue<EnumValue<CXCursorKind>>) => string;
 
   // skipped clang_getDefinitionSpellingAndExtent
   // skipped clang_getDefinitionSpellingAndExtent
@@ -2330,7 +2330,7 @@ export type LibClang = EmscriptenModule & {
 
   CXIdxEntityCXXTemplateKind: CXIdxEntityCXXTemplateKind;
 
-  CXIdxAttrKind: CXIdxAttrKind
+  CXIdxAttrKind: CXIdxAttrKind;
 
   CXIdxDeclInfoFlags: CXIdxDeclInfoFlags;
 
