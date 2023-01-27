@@ -1,5 +1,12 @@
 # libclangjs
 
+## 0.2.1
+
+### Patch Changes
+
+- 360e324: fix usage of enum values
+- ef39d23: add repository info and description
+
 ## 0.2.0
 
 ### Minor Changes
