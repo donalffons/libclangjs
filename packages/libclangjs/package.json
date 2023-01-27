@@ -1,6 +1,11 @@
 {
   "name": "libclangjs",
   "version": "0.1.8",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/donalffons/libclangjs"
+  },
+  "description": "JavaScript bindings to the libClang API via WebAssembly and Emscripten.",
   "scripts": {
     "clean": "ts-node clean.ts",
     "build": "ts-node build.ts"
