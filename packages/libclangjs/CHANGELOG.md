@@ -1,5 +1,12 @@
 # libclangjs
 
+## 0.2.2
+
+### Patch Changes
+
+- 1c60ee1: use readme from workspace
+- b035294: fix types of init function
+
 ## 0.2.1
 
 ### Patch Changes
