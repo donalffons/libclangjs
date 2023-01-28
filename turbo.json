@@ -12,7 +12,8 @@
         "node.worker.js",
         "web.js",
         "web.worker.js",
-        "libclang.wasm"
+        "libclang.wasm",
+        "README.md"
       ]
     },
     "test": {

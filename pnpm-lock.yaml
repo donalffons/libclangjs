@@ -12,6 +12,7 @@ importers:
 
   packages/libclangjs:
     specifiers:
+      '@pnpm/find-workspace-dir': ^5.0.1
       '@types/node': ^18.11.18
       '@types/shelljs': ^0.8.11
       llvm-project-emscripten: workspace:*
@@ -19,6 +20,7 @@ importers:
       ts-node: ^10.9.1
       typescript: ^4.9.4
     devDependencies:
+      '@pnpm/find-workspace-dir': 5.0.1
       '@types/node': 18.11.18
       '@types/shelljs': 0.8.11
       llvm-project-emscripten: link:../llvm-project-emscripten
@@ -911,6 +913,26 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+    dev: true
+
+  /@pnpm/constants/6.2.0:
+    resolution: {integrity: sha512-GlDVUkeTR2WK0oZAM+wtDY6RBMLw6b0Z/5qKgBbDszx4e+R7CHyfG7JofyypogRCfeWXeAXp2C2FkFTh+sNgIg==}
+    engines: {node: '>=14.6'}
+    dev: true
+
+  /@pnpm/error/4.0.1:
+    resolution: {integrity: sha512-6UFakGqUDhnZVzYCfN+QaG1epxtBVS1M9mb9RzoBuvWxcimBYTT04fdYuyk1Nay8y/TvAVl3AVB/lCziWG0+2w==}
+    engines: {node: '>=14.6'}
+    dependencies:
+      '@pnpm/constants': 6.2.0
+    dev: true
+
+  /@pnpm/find-workspace-dir/5.0.1:
+    resolution: {integrity: sha512-oi0robLrR07GzNkVBsJiYTTxqEks4pcUD5lCwBR8BGd0evOuy9fpIbxNwCcuTvJNN1FXhS2ZqRqtRcvGFp4TgQ==}
+    engines: {node: '>=14.6'}
+    dependencies:
+      '@pnpm/error': 4.0.1
+      find-up: 5.0.0
     dev: true
 
   /@sinclair/typebox/0.24.51:

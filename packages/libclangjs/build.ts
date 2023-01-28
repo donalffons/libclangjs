@@ -2,6 +2,7 @@ import { exec } from "shelljs";
 import path from "path";
 import fs from "fs";
 import os from "os";
+import { findWorkspaceDir } from "@pnpm/find-workspace-dir";
 
 const buildPath = path.join(__dirname, "build");
 const distPath = path.join(__dirname);
@@ -41,5 +42,12 @@ const configureAndRunBuild = (environment: "node" | "web") => {
   }
 };
 
+const copyReadme = async () => {
+  const workspaceDir = await findWorkspaceDir(__dirname);
+  if (!workspaceDir) throw new Error("Cannot find workspace directory");
+  fs.copyFileSync(path.join(workspaceDir, "README.md"), "README.md")
+};
+
 configureAndRunBuild("node");
 configureAndRunBuild("web");
+copyReadme();
