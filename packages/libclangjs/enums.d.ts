@@ -1,5 +1,8 @@
 
 export type EnumValue<T> = {
+  constructor: {
+    name: string;
+  };
   value: number;
   /**
    * @private
