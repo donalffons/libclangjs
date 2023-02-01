@@ -36,8 +36,12 @@ const configureAndRunBuild = (environment: "node" | "web") => {
 
     fs.writeFileSync(mainJs,
       fs.readFileSync(mainJs, { encoding: "utf8" })
-        .replace("LIBCLANG_OUTPUT_NAME.worker.js", `${environment}.worker.js`)
-        .replace("LIBCLANG_OUTPUT_NAME.wasm", "libclang.wasm")
+        .replace(/LIBCLANG_OUTPUT_NAME\.worker\.js/g, `${environment}.worker.js`)
+        .replace(/LIBCLANG_OUTPUT_NAME\.wasm/g, "libclang.wasm")
+    );
+    fs.writeFileSync(workerJs,
+      fs.readFileSync(workerJs, { encoding: "utf8" })
+        .replace(/LIBCLANG_OUTPUT_NAME\.js/g, `${environment}.js`)
     );
   }
 };
