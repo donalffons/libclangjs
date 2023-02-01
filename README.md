@@ -84,6 +84,26 @@ init().then(clang => {
 });
 ```
 
+Libclang uses multi-threading for maximum performance, which requires the use of a SharedArrayBuffer, which is a [well supported feature](https://caniuse.com/sharedarraybuffer) in modern browsers. Enabling this feature requires setting the `Cross-Origin-Opener-Policy: same-origin` and `Cross-Origin-Embedder-Policy: require-corp` headers on the top level document, as described [here](https://web.dev/cross-origin-isolation-guide/). An example config for NextJS would look like this:
+
+```js
+// next.config.js
+const nextConfig = {
+  headers: async () => [{
+    source: "/:path*",
+    headers: [{
+      key: "Cross-Origin-Opener-Policy",
+      value: "same-origin",
+    }, {
+      key: "Cross-Origin-Embedder-Policy",
+      value: "require-corp",
+    }],
+  }],
+}
+
+module.exports = nextConfig
+```
+
 ## 3. Output
 
 ```txt
