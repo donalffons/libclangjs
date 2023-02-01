@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.2.4
+
+### Patch Changes
+
+- 2d81be7: Add logos, document NodeJS usage
+
 ## 0.2.3
 
 ### Patch Changes
