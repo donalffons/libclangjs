@@ -10,13 +10,13 @@ export * from "./structs";
  * Visitor invoked for each cursor found by a traversal.
  *
  * This visitor function will be invoked for each cursor found by
- * {@link LibClang.clang_visitCursorChildren | clang_visitCursorChildren()}. Its first argument is the cursor being
+ * {@link LibClang.visitCursorChildren | visitCursorChildren()}. Its first argument is the cursor being
  * visited, its second argument is the parent visitor for that cursor,
  * and its third argument is the client data provided to
- * clang_visitCursorChildren().
+ * visitCursorChildren().
  *
  * The visitor should return one of the {@link CXChildVisitResult} values
- * to direct clang_visitCursorChildren().
+ * to direct visitCursorChildren().
  */
 type CXCursorVisitor = (cursor: CXCursor, parent: CXCursor) => EnumValue<CXChildVisitResult>;
 
@@ -36,32 +36,32 @@ export type LibClang = EmscriptenModule & {
    *
    * ```cpp
    *   // excludeDeclsFromPCH = 1, displayDiagnostics=1
-   *   Idx = clang_createIndex(1, 1);
+   *   Idx = createIndex(1, 1);
    *
    *   // IndexTest.pch was produced with the following command:
    *   // "clang -x c IndexTest.h -emit-ast -o IndexTest.pch"
-   *   TU = clang_createTranslationUnit(Idx, "IndexTest.pch");
+   *   TU = createTranslationUnit(Idx, "IndexTest.pch");
    *
    *   // This will load all the symbols from 'IndexTest.pch'
-   *   clang_visitChildren(clang_getTranslationUnitCursor(TU),
+   *   visitChildren(getTranslationUnitCursor(TU),
    *                       TranslationUnitVisitor, 0);
-   *   clang_disposeTranslationUnit(TU);
+   *   disposeTranslationUnit(TU);
    *
    *   // This will load all the symbols from 'IndexTest.c', excluding symbols
    *   // from 'IndexTest.pch'.
    *   char *args[] = { "-Xclang", "-include-pch=IndexTest.pch" };
-   *   TU = clang_createTranslationUnitFromSourceFile(Idx, "IndexTest.c", 2, args,
+   *   TU = createTranslationUnitFromSourceFile(Idx, "IndexTest.c", 2, args,
    *                                                  0, 0);
-   *   clang_visitChildren(clang_getTranslationUnitCursor(TU),
+   *   visitChildren(getTranslationUnitCursor(TU),
    *                       TranslationUnitVisitor, 0);
-   *   clang_disposeTranslationUnit(TU);
+   *   disposeTranslationUnit(TU);
    * ```
    *
    * This process of creating the 'pch', loading it separately, and using it (via
    * -include-pch) allows 'excludeDeclsFromPCH' to remove redundant callbacks
    * (which gives the indexer the same performance benefit as the compiler).
    */
-  clang_createIndex: (excludeDeclarationsFromPCH: number, displayDiagnostics: number) => CXIndex;
+  createIndex: (excludeDeclarationsFromPCH: number, displayDiagnostics: number) => CXIndex;
 
   /**
    * Destroy the given index.
@@ -69,7 +69,7 @@ export type LibClang = EmscriptenModule & {
    * The index must not be destroyed until all of the translation units created
    * within that index have been destroyed.
    */
-  clang_disposeIndex: (index: CXIndex) => void;
+  disposeIndex: (index: CXIndex) => void;
 
   /**
    * Sets general options associated with a CXIndex.
@@ -77,14 +77,14 @@ export type LibClang = EmscriptenModule & {
    * For example:
    * ```cpp
    * CXIndex idx = ...;
-   * clang_CXIndex_setGlobalOptions(idx,
-   *     clang_CXIndex_getGlobalOptions(idx) |
+   * CXIndex_setGlobalOptions(idx,
+   *     CXIndex_getGlobalOptions(idx) |
    *     CXGlobalOpt_ThreadBackgroundPriorityForIndexing);
    * ```
    *
    * @param options A bitmask of options, a bitwise OR of CXGlobalOpt_XXX flags.
    */
-  clang_CXIndex_setGlobalOptions: (index: CXIndex, options: number) => void;
+  CXIndex_setGlobalOptions: (index: CXIndex, options: number) => void;
 
   /**
    * Gets the general options associated with a CXIndex.
@@ -92,7 +92,7 @@ export type LibClang = EmscriptenModule & {
    * @returns A bitmask of options, a bitwise OR of CXGlobalOpt_XXX flags that
    * are associated with the given CXIndex object.
    */
-  clang_CXIndex_getGlobalOptions: (index: CXIndex) => number;
+  CXIndex_getGlobalOptions: (index: CXIndex) => number;
 
   /**
    * Sets the invocation emission path option in a CXIndex.
@@ -101,27 +101,27 @@ export type LibClang = EmscriptenModule & {
    * files for certain libclang invocations. A null value (default) implies that
    * libclang invocations are not logged..
    */
-  clang_CXIndex_setInvocationEmissionPathOption: (index: CXIndex, path: string | null) => void;
+  CXIndex_setInvocationEmissionPathOption: (index: CXIndex, path: string | null) => void;
 
   /**
    * Retrieve the complete file and path name of the given file.
    */
-  clang_getFileName: (SFile: CXFile) => string;
+  getFileName: (SFile: CXFile) => string;
 
   /**
    * Retrieve the last modification time of the given file.
    */
-  clang_getFileTime: (SFile: CXFile) => number;
+  getFileTime: (SFile: CXFile) => number;
 
   // skipped CXFileUniqueID
-  // skipped clang_getFileUniqueID
+  // skipped getFileUniqueID
 
   /**
    * Determine whether the given header is guarded against
    * multiple inclusions, either with the conventional
    * `#ifndef #define #endif` macro guards or with `#pragma once`.
    */
-  clang_isFileMultipleIncludeGuarded: (tu: CXTranslationUnit, file: CXFile) => number;
+  isFileMultipleIncludeGuarded: (tu: CXTranslationUnit, file: CXFile) => number;
 
   /**
    * Retrieve a file handle within the given translation unit.
@@ -133,7 +133,7 @@ export type LibClang = EmscriptenModule & {
    * @returns the file handle for the named file in the translation unit `tu`,
    * or a NULL file handle if the file was not a part of this translation unit.
    */
-  clang_getFile: (tu: CXTranslationUnit, file_name: string | null) => CXFile;
+  getFile: (tu: CXTranslationUnit, file_name: string | null) => CXFile;
 
   /**
    * Retrieve the buffer associated with the given file.
@@ -145,25 +145,25 @@ export type LibClang = EmscriptenModule & {
    * @returns a pointer to the buffer in memory that holds the contents of
    * `file`, or a NULL pointer when the file is not loaded.
    */
-  clang_getFileContents: (tu: CXTranslationUnit, file: CXFile) => string;
+  getFileContents: (tu: CXTranslationUnit, file: CXFile) => string;
 
   /**
    * Returns non-zero if the `file1` and `file2` point to the same file,
    * or they are both NULL.
    */
-  clang_File_isEqual: (file1: CXFile, file2: CXFile) => number;
+  File_isEqual: (file1: CXFile, file2: CXFile) => number;
 
   /**
    * Returns the real path name of \c file.
    *
-   * An empty string may be returned. Use \c clang_getFileName() in that case.
+   * An empty string may be returned. Use \c getFileName() in that case.
    */
-  clang_File_tryGetRealPathName: (file: CXFile) => string;
+  File_tryGetRealPathName: (file: CXFile) => string;
 
   /**
    * Retrieve a NULL (invalid) source location.
    */
-  clang_getNullLocation: () => CXSourceLocation;
+  getNullLocation: () => CXSourceLocation;
 
   /**
    * Determine whether two source locations, which must refer into
@@ -173,53 +173,53 @@ export type LibClang = EmscriptenModule & {
    * @returns non-zero if the source locations refer to the same location, zero
    * if they refer to different locations.
    */
-  clang_equalLocations: (loc1: CXSourceLocation, loc2: CXSourceLocation) => number;
+  equalLocations: (loc1: CXSourceLocation, loc2: CXSourceLocation) => number;
 
   /**
    * Retrieves the source location associated with a given file/line/column
    * in a particular translation unit.
    */
-  clang_getLocation: (tu: CXTranslationUnit, file: CXFile, line: number, column: number) => CXSourceLocation;
+  getLocation: (tu: CXTranslationUnit, file: CXFile, line: number, column: number) => CXSourceLocation;
 
   /**
   * Retrieves the source location associated with a given character offset
   * in a particular translation unit.
   */
-  clang_getLocationForOffset: (tu: CXTranslationUnit, file: CXFile, offset: number) => CXSourceLocation;
+  getLocationForOffset: (tu: CXTranslationUnit, file: CXFile, offset: number) => CXSourceLocation;
 
   /**
   * Returns non-zero if the given source location is in a system header.
   */
-  clang_Location_isInSystemHeader: (location: CXSourceLocation) => number;
+  Location_isInSystemHeader: (location: CXSourceLocation) => number;
 
   /**
   * Returns non-zero if the given source location is in the main file of
   * the corresponding translation unit.
   */
-  clang_Location_isFromMainFile: (location: CXSourceLocation) => number;
+  Location_isFromMainFile: (location: CXSourceLocation) => number;
 
   /**
    * Retrieve a NULL (invalid) source range.
    */
-  clang_getNullRange: () => CXSourceRange;
+  getNullRange: () => CXSourceRange;
 
   /**
    * Retrieve a source range given the beginning and ending source
    * locations.
    */
-  clang_getRange: (begin: CXSourceLocation, end: CXSourceLocation) => CXSourceRange;
+  getRange: (begin: CXSourceLocation, end: CXSourceLocation) => CXSourceRange;
 
   /**
    * Determine whether two ranges are equivalent.
    *
    * @returns non-zero if the ranges are the same, zero if they differ.
    */
-  clang_equalRanges: (range1: CXSourceRange, range2: CXSourceRange) => number;
+  equalRanges: (range1: CXSourceRange, range2: CXSourceRange) => number;
 
   /**
    * @returns non-zero if `range` is null.
    */
-  clang_Range_isNull: (range: CXSourceRange) => number;
+  Range_isNull: (range: CXSourceRange) => number;
 
   /**
    * Retrieve the file, line, column, and offset represented by
@@ -243,7 +243,7 @@ export type LibClang = EmscriptenModule & {
    * offset is set to the offset into the
    * buffer to which the given source location points.
    */
-  clang_getExpansionLocation: (location: CXSourceLocation) => {
+  getExpansionLocation: (location: CXSourceLocation) => {
     file: CXFile;
     line: number;
     column: number;
@@ -269,7 +269,7 @@ export type LibClang = EmscriptenModule & {
    *
    * File: dummy.c Line: 124 Column: 12
    *
-   * whereas clang_getExpansionLocation would have returned
+   * whereas getExpansionLocation would have returned
    *
    * File: somefile.c Line: 3 Column: 12
    *
@@ -281,7 +281,7 @@ export type LibClang = EmscriptenModule & {
    * which don't necessarily exist on the machine running clang - e.g. when
    * parsing preprocessed output obtained from a different environment. If
    * a non-NULL value is passed in, remember to dispose of the returned value
-   * using \c clang_disposeString() once you've finished with it. For an invalid
+   * using \c disposeString() once you've finished with it. For an invalid
    * source location, an empty string is returned.
    *
    * line will be set to the line number of the
@@ -290,7 +290,7 @@ export type LibClang = EmscriptenModule & {
    * column will be set to the column number of the
    * source location. For an invalid source location, zero is returned.
    */
-  clang_getPresumedLocation: (location: CXSourceLocation) => {
+  getPresumedLocation: (location: CXSourceLocation) => {
     filename: string;
     line: number;
     column: number;
@@ -301,10 +301,10 @@ export type LibClang = EmscriptenModule & {
    * by the given source location.
    *
    * This interface has been replaced by the newer interface
-   * #clang_getExpansionLocation(). See that interface's documentation for
+   * #getExpansionLocation(). See that interface's documentation for
    * details.
    */
-  clang_getInstantiationLocation: (location: CXSourceLocation) => {
+  getInstantiationLocation: (location: CXSourceLocation) => {
     file: CXFile;
     line: number;
     column: number;
@@ -333,7 +333,7 @@ export type LibClang = EmscriptenModule & {
    * offset will be set to the offset into the
    * buffer to which the given source location points.
    */
-  clang_getSpellingLocation: (location: CXSourceLocation) => {
+  getSpellingLocation: (location: CXSourceLocation) => {
     file: CXFile;
     line: number;
     column: number;
@@ -363,7 +363,7 @@ export type LibClang = EmscriptenModule & {
    * offset will be set to the offset into the
    * buffer to which the given source location points.
    */
-  clang_getFileLocation: (location: CXSourceLocation) => {
+  getFileLocation: (location: CXSourceLocation) => {
     file: CXFile;
     line: number;
     column: number;
@@ -375,23 +375,23 @@ export type LibClang = EmscriptenModule & {
    * Retrieve a source location representing the first character within a
    * source range.
    */
-  clang_getRangeStart: (range: CXSourceRange) => CXSourceLocation;
+  getRangeStart: (range: CXSourceRange) => CXSourceLocation;
 
   /**
    * Retrieve a source location representing the last character within a
    * source range.
    */
-  clang_getRangeEnd: (range: CXSourceRange) => CXSourceLocation;
+  getRangeEnd: (range: CXSourceRange) => CXSourceLocation;
 
   // skipped CXSourceRangeList
-  // skipped clang_getSkippedRanges
-  // skipped clang_getAllSkippedRanges
-  // skipped clang_disposeSourceRangeList
+  // skipped getSkippedRanges
+  // skipped getAllSkippedRanges
+  // skipped disposeSourceRangeList
 
   /**
    * Determine the number of diagnostics in a {@link CXDiagnosticSet}.
    */
-  clang_getNumDiagnosticsInSet: (Diags: CXDiagnosticSet) => number;
+  getNumDiagnosticsInSet: (Diags: CXDiagnosticSet) => number;
 
   /**
    * Retrieve a diagnostic associated with the given {@link CXDiagnosticSet}.
@@ -400,48 +400,48 @@ export type LibClang = EmscriptenModule & {
    * @param Index the zero-based diagnostic number to retrieve.
    *
    * @returns the requested diagnostic. This diagnostic must be freed
-   * via a call to {@link LibClang.clang_disposeDiagnostic | clang_disposeDiagnostic()}.
+   * via a call to {@link LibClang.disposeDiagnostic | disposeDiagnostic()}.
    */
-  clang_getDiagnosticInSet: (Diags: CXDiagnosticSet, Index: number) => CXDiagnostic;
+  getDiagnosticInSet: (Diags: CXDiagnosticSet, Index: number) => CXDiagnostic;
 
-  // skipped clang_loadDiagnostics
+  // skipped loadDiagnostics
 
   /**
    * Release a CXDiagnosticSet and all of its contained diagnostics.
    */
-  clang_disposeDiagnosticSet: (Diags: CXDiagnosticSet) => void;
+  disposeDiagnosticSet: (Diags: CXDiagnosticSet) => void;
 
   /**
    * Retrieve the child diagnostics of a CXDiagnostic.
    *
    * This CXDiagnosticSet does not need to be released by
-   * {@link clang_disposeDiagnosticSet}.
+   * {@link disposeDiagnosticSet}.
    */
-  clang_getChildDiagnostics: (D: CXDiagnostic) => CXDiagnosticSet;
+  getChildDiagnostics: (D: CXDiagnostic) => CXDiagnosticSet;
 
-  // skipped clang_getNumDiagnostics
-  // skipped clang_getDiagnostic
-  // skipped clang_getDiagnosticSetFromTU
-  // skipped clang_disposeDiagnostic
+  // skipped getNumDiagnostics
+  // skipped getDiagnostic
+  // skipped getDiagnosticSetFromTU
+  // skipped disposeDiagnostic
   // skipped CXDiagnosticDisplayOptions
-  // skipped clang_formatDiagnostic
-  // skipped clang_defaultDiagnosticDisplayOptions
-  // skipped clang_getDiagnosticSeverity
-  // skipped clang_getDiagnosticLocation
-  // skipped clang_getDiagnosticSpelling
-  // skipped clang_getDiagnosticOption
-  // skipped clang_getDiagnosticCategory
-  // skipped clang_getDiagnosticCategoryName
-  // skipped clang_getDiagnosticCategoryText
-  // skipped clang_getDiagnosticNumRanges
-  // skipped clang_getDiagnosticRange
-  // skipped clang_getDiagnosticNumFixIts
-  // skipped clang_getDiagnosticFixIt
+  // skipped formatDiagnostic
+  // skipped defaultDiagnosticDisplayOptions
+  // skipped getDiagnosticSeverity
+  // skipped getDiagnosticLocation
+  // skipped getDiagnosticSpelling
+  // skipped getDiagnosticOption
+  // skipped getDiagnosticCategory
+  // skipped getDiagnosticCategoryName
+  // skipped getDiagnosticCategoryText
+  // skipped getDiagnosticNumRanges
+  // skipped getDiagnosticRange
+  // skipped getDiagnosticNumFixIts
+  // skipped getDiagnosticFixIt
 
   /**
    * Get the original translation unit source file name.
    */
-  clang_getTranslationUnitSpelling: (CTUnit: CXTranslationUnit) => string;
+  getTranslationUnitSpelling: (CTUnit: CXTranslationUnit) => string;
 
   /**
    * Return the CXTranslationUnit for a given source file and the provided
@@ -451,7 +451,7 @@ export type LibClang = EmscriptenModule & {
    * NULL pointer, the name of the source file is expected to reside in the
    * specified command line arguments.
    *
-   * Note: When encountered in 'clang_command_line_args', the following options
+   * Note: When encountered in 'command_line_args', the following options
    * are ignored:
    *
    *   '-c'
@@ -463,12 +463,12 @@ export type LibClang = EmscriptenModule & {
    * associated.
    *
    * @param source_filename The name of the source file to load, or NULL if the
-   * source file is included in \p clang_command_line_args.
+   * source file is included in \p command_line_args.
    *
-   * @param num_clang_command_line_args The number of command-line arguments in
-   * clang_command_line_args.
+   * @param num_command_line_args The number of command-line arguments in
+   * command_line_args.
    *
-   * @param clang_command_line_args The command-line arguments that would be
+   * @param command_line_args The command-line arguments that would be
    * passed to the \c clang executable if it were being invoked out-of-process.
    * These command-line options will be parsed and will affect how the translation
    * unit is parsed. Note that the following options are ignored: '-c',
@@ -483,53 +483,53 @@ export type LibClang = EmscriptenModule & {
    * CXUnsavedFile) are copied when necessary, so the client only needs to
    * guarantee their validity until the call to this function returns.
    */
-  clang_createTranslationUnitFromSourceFile: (CIdx: CXIndex, source_filename: null | string, clang_command_line_args: string[] | null, unsaved_files: CXUnsavedFile[] | null) => CXTranslationUnit;
+  createTranslationUnitFromSourceFile: (CIdx: CXIndex, source_filename: null | string, command_line_args: string[] | null, unsaved_files: CXUnsavedFile[] | null) => CXTranslationUnit;
 
   /**
-   * Same as {@link LibClang.clang_createTranslationUnit2 | clang_createTranslationUnit2}, but returns
+   * Same as {@link LibClang.createTranslationUnit2 | createTranslationUnit2}, but returns
    * the \c CXTranslationUnit instead of an error code.  In case of an error this
    * routine returns a \c NULL \c CXTranslationUnit, without further detailed
    * error codes.
    */
-  clang_createTranslationUnit: (CIdx: CXIndex, ast_filename: string | null) => CXTranslationUnit;
+  createTranslationUnit: (CIdx: CXIndex, ast_filename: string | null) => CXTranslationUnit;
 
-  // skipped clang_createTranslationUnit2
+  // skipped createTranslationUnit2
 
   /**
    * Returns the set of flags that is suitable for parsing a translation
    * unit that is being edited.
    *
-   * The set of flags returned provide options for {@link clang_parseTranslationUnit | clang_parseTranslationUnit()}
+   * The set of flags returned provide options for {@link parseTranslationUnit | parseTranslationUnit()}
    * to indicate that the translation unit is likely to be reparsed many times,
-   * either explicitly (via {@link clang_reparseTranslationUnit | clang_reparseTranslationUnit()}) or implicitly
-   * (e.g., by code completion ({@link clang_codeCompletionAt | clang_codeCompletionAt()})). The returned flag
+   * either explicitly (via {@link reparseTranslationUnit | reparseTranslationUnit()}) or implicitly
+   * (e.g., by code completion ({@link codeCompletionAt | codeCompletionAt()})). The returned flag
    * set contains an unspecified set of optimizations (e.g., the precompiled
    * preamble) geared toward improving the performance of these routines. The
    * set of optimizations enabled may change from one version to the next.
    */
-  clang_defaultEditingTranslationUnitOptions: () => void;
+  defaultEditingTranslationUnitOptions: () => void;
 
   /**
-   * Same as `clang_parseTranslationUnit2`, but returns
+   * Same as `parseTranslationUnit2`, but returns
    * the `CXTranslationUnit` instead of an error code.  In case of an error this
    * routine returns a `NULL` `CXTranslationUnit`, without further detailed
    * error codes.
    */
-  clang_parseTranslationUnit: (CIdx: CXIndex, source_filename: string | null, command_line_args: string[] | null, unsaved_files: CXUnsavedFile[] | null, options: number) => CXTranslationUnit;
+  parseTranslationUnit: (CIdx: CXIndex, source_filename: string | null, command_line_args: string[] | null, unsaved_files: CXUnsavedFile[] | null, options: number) => CXTranslationUnit;
 
-  // skipped clang_parseTranslationUnit2
-  // skipped clang_parseTranslationUnit2FullArgv
+  // skipped parseTranslationUnit2
+  // skipped parseTranslationUnit2FullArgv
 
   /**
    * Returns the set of flags that is suitable for saving a translation
    * unit.
    *
    * The set of flags returned provide options for
-   * {@link LibClang.clang_saveTranslationUnit | clang_saveTranslationUnit()} by default. The returned flag
+   * {@link LibClang.saveTranslationUnit | saveTranslationUnit()} by default. The returned flag
    * set contains an unspecified set of options that save translation units with
    * the most commonly-requested data.
    */
-  clang_defaultSaveOptions: (TU: CXTranslationUnit) => number;
+  defaultSaveOptions: (TU: CXTranslationUnit) => number;
 
   /**
    * Saves a translation unit into a serialized representation of
@@ -537,7 +537,7 @@ export type LibClang = EmscriptenModule & {
    *
    * Any translation unit that was parsed without error can be saved
    * into a file. The translation unit can then be deserialized into a
-   * new {@link CXTranslationUnit} with {@link LibClang.clang_createTranslationUnit | clang_createTranslationUnit()} or,
+   * new {@link CXTranslationUnit} with {@link LibClang.createTranslationUnit | createTranslationUnit()} or,
    * if it is an incomplete translation unit that corresponds to a
    * header, used as a precompiled header when parsing other translation
    * units.
@@ -554,33 +554,33 @@ export type LibClang = EmscriptenModule & {
    * enumeration. Zero (CXSaveError_None) indicates that the translation unit was
    * saved successfully, while a non-zero value indicates that a problem occurred.
    */
-  clang_saveTranslationUnit: (TU: CXTranslationUnit, FileName: string | null, options: number) => number;
+  saveTranslationUnit: (TU: CXTranslationUnit, FileName: string | null, options: number) => number;
 
   /**
   * Suspend a translation unit in order to free memory associated with it.
   *
   * A suspended translation unit uses significantly less memory but on the other
-  * side does not support any other calls than {@link LibClang.clang_reparseTranslationUnit | clang_reparseTranslationUnit}
-  * to resume it or {@link LibClang.clang_disposeTranslationUnit | clang_disposeTranslationUnit} to dispose it completely.
+  * side does not support any other calls than {@link LibClang.reparseTranslationUnit | reparseTranslationUnit}
+  * to resume it or {@link LibClang.disposeTranslationUnit | disposeTranslationUnit} to dispose it completely.
   */
-  clang_suspendTranslationUnit: (TU: CXTranslationUnit) => number;
+  suspendTranslationUnit: (TU: CXTranslationUnit) => number;
 
   /**
   * Destroy the specified CXTranslationUnit object.
   */
-  clang_disposeTranslationUnit: (TU: CXTranslationUnit) => void;
+  disposeTranslationUnit: (TU: CXTranslationUnit) => void;
 
   /**
    * Returns the set of flags that is suitable for reparsing a translation
    * unit.
    *
    * The set of flags returned provide options for
-   * {@link LibClang.clang_reparseTranslationUnit | clang_reparseTranslationUnit()} by default. The returned flag
+   * {@link LibClang.reparseTranslationUnit | reparseTranslationUnit()} by default. The returned flag
    * set contains an unspecified set of optimizations geared toward common uses
    * of reparsing. The set of optimizations enabled may change from one version
    * to the next.
    */
-  clang_defaultReparseOptions: (TU: CXTranslationUnit) => number;
+  defaultReparseOptions: (TU: CXTranslationUnit) => number;
 
   /**
    * Reparse the source files that produced this translation unit.
@@ -600,7 +600,7 @@ export type LibClang = EmscriptenModule & {
    *
    * @param TU The translation unit whose contents will be re-parsed. The
    * translation unit must originally have been built with
-   * {@link LibClang.clang_createTranslationUnitFromSourceFile | clang_createTranslationUnitFromSourceFile()}.
+   * {@link LibClang.createTranslationUnitFromSourceFile | createTranslationUnitFromSourceFile()}.
    *
    * @param num_unsaved_files The number of unsaved file entries in \p
    * unsaved_files.
@@ -612,36 +612,36 @@ export type LibClang = EmscriptenModule & {
    * guarantee their validity until the call to this function returns.
    *
    * @param options A bitset of options composed of the flags in {@link CXReparse_Flags}.
-   * The function {@link LibClang.clang_defaultReparseOptions | clang_defaultReparseOptions()} produces a default set of
+   * The function {@link LibClang.defaultReparseOptions | defaultReparseOptions()} produces a default set of
    * options recommended for most uses, based on the translation unit.
    *
    * @returns 0 if the sources could be reparsed.  A non-zero error code will be
    * returned if reparsing was impossible, such that the translation unit is
    * invalid. In such cases, the only valid call for TU is
-   * {@link LibClang.clang_disposeTranslationUnit | clang_disposeTranslationUnit(TU)}.  The error codes returned by this
+   * {@link LibClang.disposeTranslationUnit | disposeTranslationUnit(TU)}.  The error codes returned by this
    * routine are described by the {@link CXErrorCode} enum.
    */
-  clang_reparseTranslationUnit: (TU: CXTranslationUnit, unsaved_files: CXUnsavedFile[] | null, options: number) => number;
+  reparseTranslationUnit: (TU: CXTranslationUnit, unsaved_files: CXUnsavedFile[] | null, options: number) => number;
 
   /**
    * Returns the human-readable null-terminated C string that represents
    *  the name of the memory category.  This string should never be freed.
    */
-  clang_getTUResourceUsageName: (kind: EnumValue<CXTUResourceUsageKind>) => string | null;
+  getTUResourceUsageName: (kind: EnumValue<CXTUResourceUsageKind>) => string | null;
 
   // skipped CXTUResourceUsageEntry
   // skipped CXTUResourceUsage
-  // skipped clang_getCXTUResourceUsage
-  // skipped clang_disposeCXTUResourceUsage
-  // skipped clang_getTranslationUnitTargetInfo
-  // skipped clang_TargetInfo_dispose
-  // skipped clang_TargetInfo_getTriple
-  // skipped clang_TargetInfo_getPointerWidth
+  // skipped getCXTUResourceUsage
+  // skipped disposeCXTUResourceUsage
+  // skipped getTranslationUnitTargetInfo
+  // skipped TargetInfo_dispose
+  // skipped TargetInfo_getTriple
+  // skipped TargetInfo_getPointerWidth
 
   /**
    * Retrieve the NULL cursor, which represents no entity.
    */
-  clang_getNullCursor: () => CXCursor;
+  getNullCursor: () => CXCursor;
 
   /**
    * Retrieve the cursor that represents the given translation unit.
@@ -649,32 +649,32 @@ export type LibClang = EmscriptenModule & {
    * The translation unit cursor can be used to start traversing the
    * various declarations within the given translation unit.
    */
-  clang_getTranslationUnitCursor: (TU: CXTranslationUnit) => CXCursor;
+  getTranslationUnitCursor: (TU: CXTranslationUnit) => CXCursor;
 
   /**
    * Determine whether two cursors are equivalent.
    */
-  clang_equalCursors: (c1: CXCursor, c2: CXCursor) => number;
+  equalCursors: (c1: CXCursor, c2: CXCursor) => number;
 
   /**
    * Returns non-zero if \p cursor is null.
    */
-  clang_Cursor_isNull: (cursor: CXCursor) => number;
+  Cursor_isNull: (cursor: CXCursor) => number;
 
   /**
    * Compute a hash value for the given cursor.
    */
-  clang_hashCursor: (cursor: CXCursor) => number;
+  hashCursor: (cursor: CXCursor) => number;
 
   /**
    * Retrieve the kind of the given cursor.
    */
-  clang_getCursorKind: (cursor: CXCursor) => EnumValue<CXCursorKind>;
+  getCursorKind: (cursor: CXCursor) => EnumValue<CXCursorKind>;
 
   /**
    * Determine whether the given cursor kind represents a declaration.
    */
-  clang_isDeclaration: (kind: EnumValue<CXCursorKind>) => number;
+  isDeclaration: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given declaration is invalid.
@@ -684,66 +684,66 @@ export type LibClang = EmscriptenModule & {
    * @returns non-zero if the cursor represents a declaration and it is
    * invalid, otherwise NULL.
    */
-  clang_isInvalidDeclaration: (cursor: CXCursor) => number;
+  isInvalidDeclaration: (cursor: CXCursor) => number;
 
   /**
    * Determine whether the given cursor kind represents a simple
    * reference.
    *
    * Note that other kinds of cursors (such as expressions) can also refer to
-   * other cursors. Use {@link LibClang.clang_getCursorReferenced | clang_getCursorReferenced()} to determine whether a
+   * other cursors. Use {@link LibClang.getCursorReferenced | getCursorReferenced()} to determine whether a
    * particular cursor refers to another entity.
    */
-  clang_isReference: (kind: EnumValue<CXCursorKind>) => number;
+  isReference: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor kind represents an expression.
    */
-  clang_isExpression: (kind: EnumValue<CXCursorKind>) => number;
+  isExpression: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor kind represents a statement.
    */
-  clang_isStatement: (kind: EnumValue<CXCursorKind>) => number;
+  isStatement: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor kind represents an attribute.
    */
-  clang_isAttribute: (kind: EnumValue<CXCursorKind>) => number;
+  isAttribute: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor has any attributes.
    */
-  clang_Cursor_hasAttrs: (C: CXCursor) => number;
+  Cursor_hasAttrs: (C: CXCursor) => number;
 
   /**
    * Determine whether the given cursor kind represents an invalid
    * cursor.
    */
-  clang_isInvalid: (kind: EnumValue<CXCursorKind>) => number;
+  isInvalid: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine whether the given cursor kind represents a translation
    * unit.
    */
-  clang_isTranslationUnit: (kind: EnumValue<CXCursorKind>) => number;
+  isTranslationUnit: (kind: EnumValue<CXCursorKind>) => number;
 
   /***
    * Determine whether the given cursor represents a preprocessing
    * element, such as a preprocessor directive or macro instantiation.
    */
-  clang_isPreprocessing: (kind: EnumValue<CXCursorKind>) => number;
+  isPreprocessing: (kind: EnumValue<CXCursorKind>) => number;
 
   /***
    * Determine whether the given cursor represents a currently
    *  unexposed piece of the AST (e.g., CXCursor_UnexposedStmt).
    */
-  clang_isUnexposed: (kind: EnumValue<CXCursorKind>) => number;
+  isUnexposed: (kind: EnumValue<CXCursorKind>) => number;
 
   /**
    * Determine the linkage of the entity referred to by a given cursor.
    */
-  clang_getCursorLinkage: (cursor: CXCursor) => EnumValue<CXLinkageKind>;
+  getCursorLinkage: (cursor: CXCursor) => EnumValue<CXLinkageKind>;
 
   /**
    * Describe the visibility of the entity referred to by a cursor.
@@ -756,7 +756,7 @@ export type LibClang = EmscriptenModule & {
    *
    * @returns The visibility of the cursor.
    */
-  clang_getCursorVisibility: (cursor: CXCursor) => EnumValue<CXVisibilityKind>;
+  getCursorVisibility: (cursor: CXCursor) => EnumValue<CXVisibilityKind>;
 
   /**
    * Determine the availability of the entity that this cursor refers to,
@@ -766,52 +766,52 @@ export type LibClang = EmscriptenModule & {
    *
    * @returns The availability of the cursor.
    */
-  clang_getCursorAvailability: (cursor: CXCursor) => EnumValue<CXAvailabilityKind>;
+  getCursorAvailability: (cursor: CXCursor) => EnumValue<CXAvailabilityKind>;
 
   // skipped CXPlatformAvailability
-  // skipped clang_getCursorPlatformAvailability
-  // skipped clang_disposeCXPlatformAvailability
+  // skipped getCursorPlatformAvailability
+  // skipped disposeCXPlatformAvailability
 
   /**
    * If cursor refers to a variable declaration and it has initializer returns
    * cursor referring to the initializer otherwise return null cursor.
    */
-  clang_Cursor_getVarDeclInitializer: (cursor: CXCursor) => CXCursor;
+  Cursor_getVarDeclInitializer: (cursor: CXCursor) => CXCursor;
 
   /**
    * If cursor refers to a variable declaration that has global storage returns 1.
    * If cursor refers to a variable declaration that doesn't have global storage
    * returns 0. Otherwise returns -1.
    */
-  clang_Cursor_hasVarDeclGlobalStorage: (cursor: CXCursor) => number;
+  Cursor_hasVarDeclGlobalStorage: (cursor: CXCursor) => number;
 
   /**
    * If cursor refers to a variable declaration that has external storage
    * returns 1. If cursor refers to a variable declaration that doesn't have
    * external storage returns 0. Otherwise returns -1.
    */
-  clang_Cursor_hasVarDeclExternalStorage: (cursor: CXCursor) => number;
+  Cursor_hasVarDeclExternalStorage: (cursor: CXCursor) => number;
 
   /**
    * Determine the "language" of the entity referred to by a given cursor.
    */
-  clang_getCursorLanguage: (cursor: CXCursor) => EnumValue<CXLanguageKind>;
+  getCursorLanguage: (cursor: CXCursor) => EnumValue<CXLanguageKind>;
 
   /**
    * Determine the "thread-local storage (TLS) kind" of the declaration
    * referred to by a cursor.
    */
-  clang_getCursorTLSKind: (cursor: CXCursor) => EnumValue<CXTLSKind>;
+  getCursorTLSKind: (cursor: CXCursor) => EnumValue<CXTLSKind>;
 
   /**
    * Returns the translation unit that a cursor originated from.
    */
-  clang_Cursor_getTranslationUnit: (cursor: CXCursor) => CXTranslationUnit;
+  Cursor_getTranslationUnit: (cursor: CXCursor) => CXTranslationUnit;
 
-  // skipped clang_createCXCursorSet
-  // skipped clang_disposeCXCursorSet
-  // skipped clang_CXCursorSet_contains
-  // skipped clang_CXCursorSet_insert
+  // skipped createCXCursorSet
+  // skipped disposeCXCursorSet
+  // skipped CXCursorSet_contains
+  // skipped CXCursorSet_insert
 
   /**
    * Determine the semantic parent of the given cursor.
@@ -819,7 +819,7 @@ export type LibClang = EmscriptenModule & {
    * The semantic parent of a cursor is the cursor that semantically contains
    * the given \p cursor. For many declarations, the lexical and semantic parents
    * are equivalent (the lexical parent is returned by
-   * {@link libclang.clang_getCursorLexicalParent | clang_getCursorLexicalParent()}). They diverge when declarations or
+   * {@link libclang.getCursorLexicalParent | getCursorLexicalParent()}). They diverge when declarations or
    * definitions are provided out-of-line. For example:
    *
    * ```cpp
@@ -846,7 +846,7 @@ export type LibClang = EmscriptenModule & {
    *
    * For global declarations, the semantic parent is the translation unit.
    */
-  clang_getCursorSemanticParent: (cursor: CXCursor) => CXCursor;
+  getCursorSemanticParent: (cursor: CXCursor) => CXCursor;
 
   /**
    * Determine the lexical parent of the given cursor.
@@ -854,7 +854,7 @@ export type LibClang = EmscriptenModule & {
    * The lexical parent of a cursor is the cursor in which the given \p cursor
    * was actually written. For many declarations, the lexical and semantic parents
    * are equivalent (the semantic parent is returned by
-   * {@link LibClang.clang_getCursorSemanticParent | clang_getCursorSemanticParent()}). They diverge when declarations or
+   * {@link LibClang.getCursorSemanticParent | getCursorSemanticParent()}). They diverge when declarations or
    * definitions are provided out-of-line. For example:
    *
    * ```cpp
@@ -882,33 +882,33 @@ export type LibClang = EmscriptenModule & {
    * For declarations written in the global scope, the lexical parent is
    * the translation unit.
    */
-  clang_getCursorLexicalParent: (cursor: CXCursor) => CXCursor;
+  getCursorLexicalParent: (cursor: CXCursor) => CXCursor;
 
-  // skipped clang_getOverriddenCursors
-  // skipped clang_disposeOverriddenCursors
+  // skipped getOverriddenCursors
+  // skipped disposeOverriddenCursors
 
   /**
    * Retrieve the file that is included by the given inclusion directive
    * cursor.
    */
-  clang_getIncludedFile: (cursor: CXCursor) => CXFile;
+  getIncludedFile: (cursor: CXCursor) => CXFile;
 
   /**
    * Map a source location to the cursor that describes the entity at that
    * location in the source code.
    *
-   * clang_getCursor() maps an arbitrary source location within a translation
+   * getCursor() maps an arbitrary source location within a translation
    * unit down to the most specific cursor that describes the entity at that
    * location. For example, given an expression \c x + y, invoking
-   * clang_getCursor() with a source location pointing to "x" will return the
+   * getCursor() with a source location pointing to "x" will return the
    * cursor for "x"; similarly for "y". If the cursor points anywhere between
-   * "x" or "y" (e.g., on the + or the whitespace around it), clang_getCursor()
+   * "x" or "y" (e.g., on the + or the whitespace around it), getCursor()
    * will return a cursor referring to the "+" expression.
    *
    * @returns a cursor representing the entity at the given source location, or
    * a NULL cursor if no such entity can be found.
    */
-  clang_getCursor: (tu: CXTranslationUnit, loc: CXSourceLocation) => CXCursor;
+  getCursor: (tu: CXTranslationUnit, loc: CXSourceLocation) => CXCursor;
 
   /**
    * Retrieve the physical location of the source constructor referenced
@@ -920,7 +920,7 @@ export type LibClang = EmscriptenModule & {
    * The location of a reference is where that reference occurs within the
    * source code.
    */
-  clang_getCursorLocation: (cursor: CXCursor) => CXSourceLocation;
+  getCursorLocation: (cursor: CXCursor) => CXSourceLocation;
 
   /**
    * Retrieve the physical extent of the source construct referenced by
@@ -933,12 +933,12 @@ export type LibClang = EmscriptenModule & {
    * the extent covers the location of the reference (e.g., where the referenced
    * entity was actually used).
    */
-  clang_getCursorExtent: (cursor: CXCursor) => CXSourceRange;
+  getCursorExtent: (cursor: CXCursor) => CXSourceRange;
 
   /**
    * Retrieve the type of a CXCursor (if any).
    */
-  clang_getCursorType: (C: CXCursor) => CXType;
+  getCursorType: (C: CXCursor) => CXType;
 
   /**
    * Pretty-print the underlying type using the rules of the
@@ -946,7 +946,7 @@ export type LibClang = EmscriptenModule & {
    *
    * If the type is invalid, an empty string is returned.
    */
-  clang_getTypeSpelling: (CT: CXType) => string;
+  getTypeSpelling: (CT: CXType) => string;
 
   /**
    * Retrieve the underlying type of a typedef declaration.
@@ -954,7 +954,7 @@ export type LibClang = EmscriptenModule & {
    * If the cursor does not reference a typedef declaration, an invalid type is
    * returned.
    */
-  clang_getTypedefDeclUnderlyingType: (C: CXCursor) => CXType;
+  getTypedefDeclUnderlyingType: (C: CXCursor) => CXType;
 
   /**
    * Retrieve the integer type of an enum declaration.
@@ -962,7 +962,7 @@ export type LibClang = EmscriptenModule & {
    * If the cursor does not reference an enum declaration, an invalid type is
    * returned.
    */
-  clang_getEnumDeclIntegerType: (C: CXCursor) => CXType;
+  getEnumDeclIntegerType: (C: CXCursor) => CXType;
 
   /**
    * Retrieve the integer value of an enum constant declaration as a signed
@@ -972,7 +972,7 @@ export type LibClang = EmscriptenModule & {
    * returned. Since this is also potentially a valid constant value, the kind of
    * the cursor must be verified before calling this function.
    */
-  clang_getEnumConstantDeclValue: (C: CXCursor) => number;
+  getEnumConstantDeclValue: (C: CXCursor) => number;
 
   /**
    * Retrieve the integer value of an enum constant declaration as an unsigned
@@ -982,14 +982,14 @@ export type LibClang = EmscriptenModule & {
    * returned. Since this is also potentially a valid constant value, the kind of
    * the cursor must be verified before calling this function.
    */
-  clang_getEnumConstantDeclUnsignedValue: (C: CXCursor) => number;
+  getEnumConstantDeclUnsignedValue: (C: CXCursor) => number;
 
   /**
    * Retrieve the bit width of a bit field declaration as an integer.
    *
    * If a cursor that is not a bit field declaration is passed in, -1 is returned.
    */
-  clang_getFieldDeclBitWidth: (C: CXCursor) => number;
+  getFieldDeclBitWidth: (C: CXCursor) => number;
 
   /**
    * Retrieve the number of non-variadic arguments associated with a given
@@ -998,7 +998,7 @@ export type LibClang = EmscriptenModule & {
    * The number of arguments can be determined for calls as well as for
    * declarations of functions or methods. For other cursors -1 is returned.
    */
-  clang_Cursor_getNumArguments: (C: CXCursor) => number;
+  Cursor_getNumArguments: (C: CXCursor) => number;
 
   /**
    * Retrieve the argument cursor of a function or method.
@@ -1007,7 +1007,7 @@ export type LibClang = EmscriptenModule & {
    * of functions or methods. For other cursors and for invalid indices, an
    * invalid cursor is returned.
    */
-  clang_Cursor_getArgument: (C: CXCursor, i: number) => CXCursor;
+  Cursor_getArgument: (C: CXCursor, i: number) => CXCursor;
 
   /**
    *Returns the number of template args of a function decl representing a
@@ -1025,7 +1025,7 @@ export type LibClang = EmscriptenModule & {
    *
    * The value 3 would be returned from this call.
    */
-  clang_Cursor_getNumTemplateArguments: (C: CXCursor) => number;
+  Cursor_getNumTemplateArguments: (C: CXCursor) => number;
 
   /**
    * Retrieve the kind of the I'th template argument of the CXCursor C.
@@ -1043,7 +1043,7 @@ export type LibClang = EmscriptenModule & {
    * For I = 0, 1, and 2, Type, Integral, and Integral will be returned,
    * respectively.
    */
-  clang_Cursor_getTemplateArgumentKind: (C: CXCursor, I: number) => EnumValue<CXTemplateArgumentKind>;
+  Cursor_getTemplateArgumentKind: (C: CXCursor, I: number) => EnumValue<CXTemplateArgumentKind>;
 
   /**
    * Retrieve a CXType representing the type of a TemplateArgument of a
@@ -1063,7 +1063,7 @@ export type LibClang = EmscriptenModule & {
    * If called with I = 0, "float", will be returned.
    * Invalid types will be returned for I == 1 or 2.
    */
-  clang_Cursor_getTemplateArgumentType: (C: CXCursor, I: number) => CXType;
+  Cursor_getTemplateArgumentType: (C: CXCursor, I: number) => CXType;
 
   /**
    * Retrieve the value of an Integral TemplateArgument (of a function
@@ -1082,7 +1082,7 @@ export type LibClang = EmscriptenModule & {
    * If called with I = 1 or 2, -7 or true will be returned, respectively.
    * For I == 0, this function's behavior is undefined.
    */
-  clang_Cursor_getTemplateArgumentValue: (C: CXCursor, I: number) => number;
+  Cursor_getTemplateArgumentValue: (C: CXCursor, I: number) => number;
 
   /**
    * Retrieve the value of an Integral TemplateArgument (of a function
@@ -1101,7 +1101,7 @@ export type LibClang = EmscriptenModule & {
    * If called with I = 1 or 2, 2147483649 or true will be returned, respectively.
    * For I == 0, this function's behavior is undefined.
    */
-  clang_Cursor_getTemplateArgumentUnsignedValue: (C: CXCursor, I: number) => number;
+  Cursor_getTemplateArgumentUnsignedValue: (C: CXCursor, I: number) => number;
 
   /**
    * Determine whether two CXTypes represent the same type.
@@ -1109,7 +1109,7 @@ export type LibClang = EmscriptenModule & {
    * \returns non-zero if the CXTypes represent the same type and
    *          zero otherwise.
    */
-  clang_equalTypes: (A: CXType, B: CXType) => number;
+  equalTypes: (A: CXType, B: CXType) => number;
 
   /**
    * Return the canonical type for a CXType.
@@ -1119,95 +1119,95 @@ export type LibClang = EmscriptenModule & {
    * type with all the "sugar" removed.  For example, if 'T' is a typedef
    * for 'int', the canonical type for 'T' would be 'int'.
    */
-  clang_getCanonicalType: (T: CXType) => CXType;
+  getCanonicalType: (T: CXType) => CXType;
 
   /**
    * Determine whether a CXType has the "const" qualifier set,
    * without looking through typedefs that may have added "const" at a
    * different level.
    */
-  clang_isConstQualifiedType: (T: CXType) => number;
+  isConstQualifiedType: (T: CXType) => number;
 
   /**
    * Determine whether a  CXCursor that is a macro, is
    * function like.
    */
-  clang_Cursor_isMacroFunctionLike: (C: CXCursor) => number;
+  Cursor_isMacroFunctionLike: (C: CXCursor) => number;
 
   /**
    * Determine whether a  CXCursor that is a macro, is a
    * builtin one.
    */
-  clang_Cursor_isMacroBuiltin: (C: CXCursor) => number;
+  Cursor_isMacroBuiltin: (C: CXCursor) => number;
 
   /**
    * Determine whether a  CXCursor that is a function declaration, is an
    * inline declaration.
    */
-  clang_Cursor_isFunctionInlined: (C: CXCursor) => number;
+  Cursor_isFunctionInlined: (C: CXCursor) => number;
 
   /**
    * Determine whether a CXType has the "volatile" qualifier set,
    * without looking through typedefs that may have added "volatile" at
    * a different level.
    */
-  clang_isVolatileQualifiedType: (T: CXType) => number;
+  isVolatileQualifiedType: (T: CXType) => number;
 
   /**
    * Determine whether a CXType has the "restrict" qualifier set,
    * without looking through typedefs that may have added "restrict" at a
    * different level.
    */
-  clang_isRestrictQualifiedType: (T: CXType) => number;
+  isRestrictQualifiedType: (T: CXType) => number;
 
   /**
    * Returns the address space of the given type.
    */
-  clang_getAddressSpace: (T: CXType) => number;
+  getAddressSpace: (T: CXType) => number;
 
   /**
    * Returns the typedef name of the given type.
    */
-  clang_getTypedefName: (CT: CXType) => string;
+  getTypedefName: (CT: CXType) => string;
 
   /**
    * For pointer types, returns the type of the pointee.
    */
-  clang_getPointeeType: (T: CXType) => CXType;
+  getPointeeType: (T: CXType) => CXType;
 
   /**
    * Return the cursor for the declaration of the given type.
    */
-  clang_getTypeDeclaration: (T: CXType) => CXCursor;
+  getTypeDeclaration: (T: CXType) => CXCursor;
 
   /**
    * Returns the Objective-C type encoding for the specified declaration.
    */
-  clang_getDeclObjCTypeEncoding: (C: CXCursor) => string;
+  getDeclObjCTypeEncoding: (C: CXCursor) => string;
 
   /**
    * Returns the Objective-C type encoding for the specified CXType.
    */
-  clang_Type_getObjCEncoding: (type: CXType) => string;
+  Type_getObjCEncoding: (type: CXType) => string;
 
   /**
    * Retrieve the spelling of a given CXTypeKind.
    */
-  clang_getTypeKindSpelling: (kind: EnumValue<CXTypeKind>) => string;
+  getTypeKindSpelling: (kind: EnumValue<CXTypeKind>) => string;
 
   /**
    * Retrieve the calling convention associated with a function type.
    *
    * If a non-function type is passed in, CXCallingConv_Invalid is returned.
    */
-  clang_getFunctionTypeCallingConv: (T: CXType) => EnumValue<CXCallingConv>;
+  getFunctionTypeCallingConv: (T: CXType) => EnumValue<CXCallingConv>;
 
   /**
    * Retrieve the return type associated with a function type.
    *
    * If a non-function type is passed in, an invalid type is returned.
    */
-  clang_getResultType: (T: CXType) => CXType;
+  getResultType: (T: CXType) => CXType;
 
   /**
    * Retrieve the exception specification type associated with a function type.
@@ -1215,7 +1215,7 @@ export type LibClang = EmscriptenModule & {
    *
    * If a non-function type is passed in, an error code of -1 is returned.
    */
-  clang_getExceptionSpecificationType: (T: CXType) => number;
+  getExceptionSpecificationType: (T: CXType) => number;
 
   /**
    * Retrieve the number of non-variadic parameters associated with a
@@ -1223,7 +1223,7 @@ export type LibClang = EmscriptenModule & {
    *
    * If a non-function type is passed in, -1 is returned.
    */
-  clang_getNumArgTypes: (T: CXType) => number;
+  getNumArgTypes: (T: CXType) => number;
 
   /**
    * Retrieve the type of a parameter of a function type.
@@ -1231,21 +1231,21 @@ export type LibClang = EmscriptenModule & {
    * If a non-function type is passed in or the function does not have enough
    * parameters, an invalid type is returned.
    */
-  clang_getArgType: (T: CXType, i: number) => CXType;
+  getArgType: (T: CXType, i: number) => CXType;
 
   /**
    * Retrieves the base type of the ObjCObjectType.
    *
    * If the type is not an ObjC object, an invalid type is returned.
    */
-  clang_Type_getObjCObjectBaseType: (T: CXType) => CXType;
+  Type_getObjCObjectBaseType: (T: CXType) => CXType;
 
   /**
    * Retrieve the number of protocol references associated with an ObjC object/id.
    *
    * If the type is not an ObjC object, 0 is returned.
    */
-  clang_Type_getNumObjCProtocolRefs: (T: CXType) => number;
+  Type_getNumObjCProtocolRefs: (T: CXType) => number;
 
   /**
    * Retrieve the decl for a protocol reference for an ObjC object/id.
@@ -1253,14 +1253,14 @@ export type LibClang = EmscriptenModule & {
    * If the type is not an ObjC object or there are not enough protocol
    * references, an invalid cursor is returned.
    */
-  clang_Type_getObjCProtocolDecl: (T: CXType, i: number) => CXCursor;
+  Type_getObjCProtocolDecl: (T: CXType, i: number) => CXCursor;
 
   /**
    * Retrieve the number of type arguments associated with an ObjC object.
    *
    * If the type is not an ObjC object, 0 is returned.
    */
-  clang_Type_getNumObjCTypeArgs: (T: CXType) => number;
+  Type_getNumObjCTypeArgs: (T: CXType) => number;
 
   /**
    * Retrieve a type argument associated with an ObjC object.
@@ -1268,19 +1268,19 @@ export type LibClang = EmscriptenModule & {
    * If the type is not an ObjC or the index is not valid,
    * an invalid type is returned.
    */
-  clang_Type_getObjCTypeArg: (T: CXType, i: number) => CXType;
+  Type_getObjCTypeArg: (T: CXType, i: number) => CXType;
 
   /**
    * Return 1 if the CXType is a variadic function type, and 0 otherwise.
    */
-  clang_isFunctionTypeVariadic: (T: CXType) => number;
+  isFunctionTypeVariadic: (T: CXType) => number;
 
   /**
    * Retrieve the return type associated with a given cursor.
    *
    * This only returns a valid type if the cursor refers to a function or method.
    */
-  clang_getCursorResultType: (C: CXCursor) => CXType;
+  getCursorResultType: (C: CXCursor) => CXType;
 
   /**
    * Retrieve the exception specification type associated with a given cursor.
@@ -1289,13 +1289,13 @@ export type LibClang = EmscriptenModule & {
    * This only returns a valid result if the cursor refers to a function or
    * method.
    */
-  clang_getCursorExceptionSpecificationType: (C: CXCursor) => number;
+  getCursorExceptionSpecificationType: (C: CXCursor) => number;
 
   /**
    * Return 1 if the CXType is a POD (plain old data) type, and 0
    *  otherwise.
    */
-  clang_isPODType: (T: CXType) => number;
+  isPODType: (T: CXType) => number;
 
   /**
    * Return the element type of an array, complex, or vector type.
@@ -1303,7 +1303,7 @@ export type LibClang = EmscriptenModule & {
    * If a type is passed in that is not an array, complex, or vector type,
    * an invalid type is returned.
    */
-  clang_getElementType: (T: CXType) => CXType;
+  getElementType: (T: CXType) => CXType;
 
   /**
    * Return the number of elements of an array or vector type.
@@ -1311,28 +1311,28 @@ export type LibClang = EmscriptenModule & {
    * If a type is passed in that is not an array or vector type,
    * -1 is returned.
    */
-  clang_getNumElements: (T: CXType) => number;
+  getNumElements: (T: CXType) => number;
 
   /**
    * Return the element type of an array type.
    *
    * If a non-array type is passed in, an invalid type is returned.
    */
-  clang_getArrayElementType: (T: CXType) => CXType;
+  getArrayElementType: (T: CXType) => CXType;
 
   /**
    * Return the array size of a constant array.
    *
    * If a non-array type is passed in, -1 is returned.
    */
-  clang_getArraySize: (T: CXType) => number;
+  getArraySize: (T: CXType) => number;
 
   /**
    * Retrieve the type named by the qualified-id.
    *
    * If a non-elaborated type is passed in, an invalid type is returned.
    */
-  clang_Type_getNamedType: (T: CXType) => CXType;
+  Type_getNamedType: (T: CXType) => CXType;
 
   /**
    * Determine if a typedef is 'transparent' tag.
@@ -1342,12 +1342,12 @@ export type LibClang = EmscriptenModule & {
    *
    * @returns non-zero if transparent and zero otherwise.
    */
-  clang_Type_isTransparentTagTypedef: (T: CXType) => number;
+  Type_isTransparentTagTypedef: (T: CXType) => number;
 
   /**
    * Retrieve the nullability kind of a pointer type.
    */
-  clang_Type_getNullability: (T: CXType) => EnumValue<CXTypeNullabilityKind>;
+  Type_getNullability: (T: CXType) => EnumValue<CXTypeNullabilityKind>;
 
   /**
    * Return the alignment of a type in bytes as per C++[expr.alignof]
@@ -1361,14 +1361,14 @@ export type LibClang = EmscriptenModule & {
    * If the type declaration is not a constant size type,
    *   CXTypeLayoutError_NotConstantSize is returned.
    */
-  clang_Type_getAlignOf: (T: CXType) => number;
+  Type_getAlignOf: (T: CXType) => number;
 
   /**
    * Return the class type of an member pointer type.
    *
    * If a non-member-pointer type is passed in, an invalid type is returned.
    */
-  clang_Type_getClassType: (T: CXType) => CXType;
+  Type_getClassType: (T: CXType) => CXType;
 
   /**
    * Return the size of a type in bytes as per C++[expr.sizeof] standard.
@@ -1379,7 +1379,7 @@ export type LibClang = EmscriptenModule & {
    * If the type declaration is a dependent type, CXTypeLayoutError_Dependent is
    *   returned.
    */
-  clang_Type_getSizeOf: (T: CXType) => number;
+  Type_getSizeOf: (T: CXType) => number;
 
   /**
    * Return the offset of a field named S in a record of type T in bits
@@ -1394,21 +1394,21 @@ export type LibClang = EmscriptenModule & {
    * If the field's name S is not found,
    *   CXTypeLayoutError_InvalidFieldName is returned.
    */
-  clang_Type_getOffsetOf: (T: CXType, S: string | null) => number;
+  Type_getOffsetOf: (T: CXType, S: string | null) => number;
 
   /**
    * Return the type that was modified by this attributed type.
    *
    * If the type is not an attributed type, an invalid type is returned.
    */
-  clang_Type_getModifiedType: (T: CXType) => CXType;
+  Type_getModifiedType: (T: CXType) => CXType;
 
   /**
    * Gets the type contained by this atomic type.
    *
    * If a non-atomic type is passed in, an invalid type is returned.
    */
-  clang_Type_getValueType: (CT: CXType) => CXType;
+  Type_getValueType: (CT: CXType) => CXType;
 
   /**
    * Return the offset of the field represented by the Cursor.
@@ -1423,31 +1423,31 @@ export type LibClang = EmscriptenModule & {
    * If the field's name S is not found,
    *   CXTypeLayoutError_InvalidFieldName is returned.
    */
-  clang_Cursor_getOffsetOfField: (C: CXCursor) => number;
+  Cursor_getOffsetOfField: (C: CXCursor) => number;
 
   /**
    * Determine whether the given cursor represents an anonymous
    * tag or namespace
    */
-  clang_Cursor_isAnonymous: (C: CXCursor) => number;
+  Cursor_isAnonymous: (C: CXCursor) => number;
 
   /**
    * Determine whether the given cursor represents an anonymous record
    * declaration.
    */
-  clang_Cursor_isAnonymousRecordDecl: (C: CXCursor) => number;
+  Cursor_isAnonymousRecordDecl: (C: CXCursor) => number;
 
   /**
    * Determine whether the given cursor represents an inline namespace
    * declaration.
    */
-  clang_Cursor_isInlineNamespace: (C: CXCursor) => number;
+  Cursor_isInlineNamespace: (C: CXCursor) => number;
 
   /**
    * Returns the number of template arguments for given template
    * specialization, or -1 if type \c T is not a template specialization.
    */
-  clang_Type_getNumTemplateArguments: (T: CXType) => number;
+  Type_getNumTemplateArguments: (T: CXType) => number;
 
   /**
    * Returns the type template argument of a template class specialization
@@ -1456,7 +1456,7 @@ export type LibClang = EmscriptenModule & {
    * This function only returns template type arguments and does not handle
    * template template arguments or variadic packs.
    */
-  clang_Type_getTemplateArgumentAsType: (T: CXType, i: number) => CXType;
+  Type_getTemplateArgumentAsType: (T: CXType, i: number) => CXType;
 
   /**
    * Retrieve the ref-qualifier kind of a function or method.
@@ -1464,19 +1464,19 @@ export type LibClang = EmscriptenModule & {
    * The ref-qualifier is returned for C++ functions or methods. For other types
    * or non-C++ declarations, CXRefQualifier_None is returned.
    */
-  clang_Type_getCXXRefQualifier: (T: CXType) => EnumValue<CXRefQualifierKind>;
+  Type_getCXXRefQualifier: (T: CXType) => EnumValue<CXRefQualifierKind>;
 
   /**
    * Returns non-zero if the cursor specifies a Record member that is a
    *   bitfield.
    */
-  clang_Cursor_isBitField: (C: CXCursor) => number;
+  Cursor_isBitField: (C: CXCursor) => number;
 
   /**
    * Returns 1 if the base class specified by the cursor with kind
    *   CX_CXXBaseSpecifier is virtual.
    */
-  clang_isVirtualBase: (C: CXCursor) => number;
+  isVirtualBase: (C: CXCursor) => number;
 
   /**
    * Returns the access control level for the referenced object.
@@ -1485,7 +1485,7 @@ export type LibClang = EmscriptenModule & {
    * its parent scope is returned. Otherwise, if the cursor refers to a base
    * specifier or access specifier, the specifier itself is returned.
    */
-  clang_getCXXAccessSpecifier: (C: CXCursor) => EnumValue<CX_CXXAccessSpecifier>;
+  getCXXAccessSpecifier: (C: CXCursor) => EnumValue<CX_CXXAccessSpecifier>;
 
   /**
    * Returns the storage class for a function or variable declaration.
@@ -1493,7 +1493,7 @@ export type LibClang = EmscriptenModule & {
    * If the passed in Cursor is not a function or variable declaration,
    * CX_SC_Invalid is returned else the storage class.
    */
-  clang_Cursor_getStorageClass: (C: CXCursor) => EnumValue<CX_StorageClass>;
+  Cursor_getStorageClass: (C: CXCursor) => EnumValue<CX_StorageClass>;
 
   /**
    * Determine the number of overloaded declarations referenced by a
@@ -1504,7 +1504,7 @@ export type LibClang = EmscriptenModule & {
    * @returns The number of overloaded declarations referenced by \c cursor. If it
    * is not a {@link LibClang.CXCursor_OverloadedDeclRef | CXCursor_OverloadedDeclRef} cursor, returns 0.
    */
-  clang_getNumOverloadedDecls: (cursor: CXCursor) => number;
+  getNumOverloadedDecls: (cursor: CXCursor) => number;
 
   /**
    * Retrieve a cursor for one of the overloaded declarations referenced
@@ -1518,16 +1518,16 @@ export type LibClang = EmscriptenModule & {
    * @returns A cursor representing the declaration referenced by the given
    * \c cursor at the specified \c index. If the cursor does not have an
    * associated set of overloaded declarations, or if the index is out of bounds,
-   * returns {@link LibClang.clang_getNullCursor | clang_getNullCursor()};
+   * returns {@link LibClang.getNullCursor | getNullCursor()};
    */
-  clang_getOverloadedDecl: (cursor: CXCursor, index: number) => CXCursor;
+  getOverloadedDecl: (cursor: CXCursor, index: number) => CXCursor;
 
   /**
    * For cursors representing an iboutletcollection attribute,
    *  this function returns the collection element type.
    *
    */
-  clang_getIBOutletCollectionType: (C: CXCursor) => CXType;
+  getIBOutletCollectionType: (C: CXCursor) => CXType;
 
   /**
    * Visit the children of a particular cursor.
@@ -1551,9 +1551,9 @@ export type LibClang = EmscriptenModule & {
    * @returns a non-zero value if the traversal was terminated
    * prematurely by the visitor returning \c CXChildVisit_Break.
    */
-  clang_visitChildren: (parent: CXCursor, visitor: CXCursorVisitor) => number;
+  visitChildren: (parent: CXCursor, visitor: CXCursorVisitor) => number;
 
-  // skipped clang_visitChildrenWithBlock
+  // skipped visitChildrenWithBlock
 
   /**
    * Retrieve a Unified Symbol Resolution (USR) for the entity referenced
@@ -1564,28 +1564,28 @@ export type LibClang = EmscriptenModule & {
    * compared across translation units to determine, e.g., when references in
    * one translation refer to an entity defined in another translation unit.
    */
-  clang_getCursorUSR: (C: CXCursor) => string;
+  getCursorUSR: (C: CXCursor) => string;
 
   /**
    * Construct a USR for a specified Objective-C class.
    */
-  clang_constructUSR_ObjCClass: (class_name: string | null) => string;
+  constructUSR_ObjCClass: (class_name: string | null) => string;
 
   /**
    * Construct a USR for a specified Objective-C category.
    */
-  clang_constructUSR_ObjCCategory: (class_name: string | null, category_name: string | null) => string;
+  constructUSR_ObjCCategory: (class_name: string | null, category_name: string | null) => string;
 
   /**
    * Construct a USR for a specified Objective-C protocol.
    */
-  clang_constructUSR_ObjCProtocol: (protocol_name: string | null) => string;
+  constructUSR_ObjCProtocol: (protocol_name: string | null) => string;
 
-  // skipped clang_constructUSR_ObjCIvar
-  // skipped clang_constructUSR_ObjCMethod
-  // skipped clang_constructUSR_ObjCProperty
+  // skipped constructUSR_ObjCIvar
+  // skipped constructUSR_ObjCMethod
+  // skipped constructUSR_ObjCProperty
 
-  clang_getCursorSpelling: (cursor: CXCursor) => string;
+  getCursorSpelling: (cursor: CXCursor) => string;
 
   /**
    * Retrieve a range for a piece that forms the cursors spelling name.
@@ -1598,30 +1598,30 @@ export type LibClang = EmscriptenModule & {
    *
    * @param options Reserved.
    */
-  clang_Cursor_getSpellingNameRange: (C: CXCursor, pieceIndex: number, options: number) => CXSourceRange;
+  Cursor_getSpellingNameRange: (C: CXCursor, pieceIndex: number, options: number) => CXSourceRange;
 
   /**
    * Get a property value for the given printing policy.
    */
 
-  clang_PrintingPolicy_getProperty: (Policy: CXPrintingPolicy, Property: EnumValue<CXPrintingPolicyProperty>) => number;
+  PrintingPolicy_getProperty: (Policy: CXPrintingPolicy, Property: EnumValue<CXPrintingPolicyProperty>) => number;
 
   /**
    * Set a property value for the given printing policy.
    */
-  clang_PrintingPolicy_setProperty: (Policy: CXPrintingPolicy, Property: EnumValue<CXPrintingPolicyProperty>, Value: number) => void;
+  PrintingPolicy_setProperty: (Policy: CXPrintingPolicy, Property: EnumValue<CXPrintingPolicyProperty>, Value: number) => void;
 
   /**
    * Retrieve the default policy for the cursor.
    *
-   * The policy should be released after use with {@link LibClang.clang_PrintingPolicy_dispose | clang_PrintingPolicy_dispose}.
+   * The policy should be released after use with {@link LibClang.PrintingPolicy_dispose | PrintingPolicy_dispose}.
    */
-  clang_getCursorPrintingPolicy: (C: CXCursor) => CXPrintingPolicy;
+  getCursorPrintingPolicy: (C: CXCursor) => CXPrintingPolicy;
 
   /**
    * Release a printing policy.
    */
-  clang_PrintingPolicy_dispose: (Policy: CXPrintingPolicy) => void;
+  PrintingPolicy_dispose: (Policy: CXPrintingPolicy) => void;
 
   /**
    * Pretty print declarations.
@@ -1634,7 +1634,7 @@ export type LibClang = EmscriptenModule & {
    * @returns The pretty printed declaration or the empty string for
    * other cursors.
    */
-  clang_getCursorPrettyPrinted: (Cursor: CXCursor, Policy: CXPrintingPolicy) => string;
+  getCursorPrettyPrinted: (Cursor: CXCursor, Policy: CXPrintingPolicy) => string;
 
   /**
    * Retrieve the display name for the entity referenced by this cursor.
@@ -1643,7 +1643,7 @@ export type LibClang = EmscriptenModule & {
    * such as the parameters of a function or template or the arguments of a
    * class template specialization.
    */
-  clang_getCursorDisplayName: (c: CXCursor) => string;
+  getCursorDisplayName: (c: CXCursor) => string;
 
   /** For a cursor that is a reference, retrieve a cursor representing the
    * entity that it references.
@@ -1655,7 +1655,7 @@ export type LibClang = EmscriptenModule & {
    * definition, it returns that declaration or definition unchanged.
    * Otherwise, returns the NULL cursor.
    */
-  clang_getCursorReferenced: (C: CXCursor) => CXCursor;
+  getCursorReferenced: (C: CXCursor) => CXCursor;
 
   /**
    *  For a cursor that is either a reference to or a declaration
@@ -1674,7 +1674,7 @@ export type LibClang = EmscriptenModule & {
    *  ```
    *
    *  there are three declarations of the function "f", but only the
-   *  second one is a definition. The clang_getCursorDefinition()
+   *  second one is a definition. The getCursorDefinition()
    *  function will take any cursor pointing to a declaration of "f"
    *  (the first or fourth lines of the example) or a cursor referenced
    *  that uses "f" (the call to "f' inside "g") and will return a
@@ -1685,13 +1685,13 @@ export type LibClang = EmscriptenModule & {
    *  e.g., because there is no definition of that entity within this
    *  translation unit, returns a NULL cursor.
    */
-  clang_getCursorDefinition: (C: CXCursor) => CXCursor;
+  getCursorDefinition: (C: CXCursor) => CXCursor;
 
   /**
    * Determine whether the declaration pointed to by this cursor
    * is also a definition of that entity.
    */
-  clang_isCursorDefinition: (C: CXCursor) => number;
+  isCursorDefinition: (C: CXCursor) => number;
 
   /**
    * Retrieve the canonical cursor corresponding to the given cursor.
@@ -1717,20 +1717,20 @@ export type LibClang = EmscriptenModule & {
    *
    * @returns The canonical cursor for the entity referred to by the given cursor.
    */
-  clang_getCanonicalCursor: (C: CXCursor) => CXCursor;
+  getCanonicalCursor: (C: CXCursor) => CXCursor;
 
   /**
    * If the cursor points to a selector identifier in an Objective-C
    * method or message expression, this returns the selector index.
    *
-   * After getting a cursor with #clang_getCursor, this can be called to
+   * After getting a cursor with #getCursor, this can be called to
    * determine if the location points to a selector identifier.
    *
    * @returns The selector index if the cursor is an Objective-C method or message
    * expression and the cursor is pointing to a selector identifier, or -1
    * otherwise.
    */
-  clang_Cursor_getObjCSelectorIndex: (c: CXCursor) => number;
+  Cursor_getObjCSelectorIndex: (c: CXCursor) => number;
 
   /**
    * Given a cursor pointing to a C++ method call or an Objective-C
@@ -1743,13 +1743,13 @@ export type LibClang = EmscriptenModule & {
    * If the method/message is "static" or the cursor does not point to a
    * method/message, it will return zero.
    */
-  clang_Cursor_isDynamicCall: (C: CXCursor) => number;
+  Cursor_isDynamicCall: (C: CXCursor) => number;
 
   /**
    * Given a cursor pointing to an Objective-C message or property
    * reference, or C++ method call, returns the CXType of the receiver.
    */
-  clang_Cursor_getReceiverType: (C: CXCursor) => CXType;
+  Cursor_getReceiverType: (C: CXCursor) => CXType;
 
   /**
    * Given a cursor that represents a property declaration, return the
@@ -1758,19 +1758,19 @@ export type LibClang = EmscriptenModule & {
    *
    * @param reserved Reserved for future use, pass 0.
    */
-  clang_Cursor_getObjCPropertyAttributes: (C: CXCursor, reserved: number) => number;
+  Cursor_getObjCPropertyAttributes: (C: CXCursor, reserved: number) => number;
 
   /**
    * Given a cursor that represents a property declaration, return the
    * name of the method that implements the getter.
    */
-  clang_Cursor_getObjCPropertyGetterName: (C: CXCursor) => string;
+  Cursor_getObjCPropertyGetterName: (C: CXCursor) => string;
 
   /**
    * Given a cursor that represents a property declaration, return the
    * name of the method that implements the setter, if any.
    */
-  clang_Cursor_getObjCPropertySetterName: (C: CXCursor) => string;
+  Cursor_getObjCPropertySetterName: (C: CXCursor) => string;
 
   /**
    * Given a cursor that represents an Objective-C method or parameter
@@ -1778,67 +1778,67 @@ export type LibClang = EmscriptenModule & {
    * type or the parameter respectively. The bits are formed from
    * {@link CXObjCDeclQualifierKind}.
    */
-  clang_Cursor_getObjCDeclQualifiers: (C: CXCursor) => number;
+  Cursor_getObjCDeclQualifiers: (C: CXCursor) => number;
 
   /**
    * Given a cursor that represents an Objective-C method or property
    * declaration, return non-zero if the declaration was affected by "@optional".
    * Returns zero if the cursor is not such a declaration or it is "@required".
    */
-  clang_Cursor_isObjCOptional: (C: CXCursor) => number;
+  Cursor_isObjCOptional: (C: CXCursor) => number;
 
   /**
    * Returns non-zero if the given cursor is a variadic function or method.
    */
-  clang_Cursor_isVariadic: (C: CXCursor) => number;
+  Cursor_isVariadic: (C: CXCursor) => number;
 
-  // skipped clang_Cursor_isExternalSymbol
+  // skipped Cursor_isExternalSymbol
 
   /**
    * Given a cursor that represents a declaration, return the associated
    * comment's source range.  The range may include multiple consecutive comments
    * with whitespace in between.
    */
-  clang_Cursor_getCommentRange: (C: CXCursor) => CXSourceRange;
+  Cursor_getCommentRange: (C: CXCursor) => CXSourceRange;
 
   /**
    * Given a cursor that represents a declaration, return the associated
    * comment text, including comment markers.
    */
-  clang_Cursor_getRawCommentText: (C: CXCursor) => string;
+  Cursor_getRawCommentText: (C: CXCursor) => string;
 
   /**
    * Given a cursor that represents a documentable entity (e.g.,
    * declaration), return the associated \paragraph; otherwise return the
    * first paragraph.
    */
-  clang_Cursor_getBriefCommentText: (C: CXCursor) => string;
+  Cursor_getBriefCommentText: (C: CXCursor) => string;
 
   /**
    * Retrieve the CXString representing the mangled name of the cursor.
    */
-  clang_Cursor_getMangling: (C: CXCursor) => string;
+  Cursor_getMangling: (C: CXCursor) => string;
 
-  // skipped clang_Cursor_getCXXManglings
-  // skipped clang_Cursor_getObjCManglings
+  // skipped Cursor_getCXXManglings
+  // skipped Cursor_getObjCManglings
 
   /**
    * Given a CXCursor_ModuleImportDecl cursor, return the associated module.
    */
-  clang_Cursor_getModule: (C: CXCursor) => CXModule;
+  Cursor_getModule: (C: CXCursor) => CXModule;
 
   /**
    * Given a CXFile header file, return the module that contains it, if one
    * exists.
    */
-  clang_getModuleForFile: (TU: CXTranslationUnit, F: CXFile) => CXModule;
+  getModuleForFile: (TU: CXTranslationUnit, F: CXFile) => CXModule;
 
   /**
    * @param Module a module object.
    *
    * @returns the module file where the provided module object came from.
    */
-  clang_Module_getASTFile: (Module: CXModule) => CXFile;
+  Module_getASTFile: (Module: CXModule) => CXFile;
 
   /**
    * @param Module a module object.
@@ -1846,7 +1846,7 @@ export type LibClang = EmscriptenModule & {
    * @returns the parent of a sub-module or NULL if the given module is top-level,
    * e.g. for 'std.vector' it will return the 'std' module.
    */
-  clang_Module_getParent: (Module: CXModule) => CXModule;
+  Module_getParent: (Module: CXModule) => CXModule;
 
   /**
    * @param Module a module object.
@@ -1854,28 +1854,28 @@ export type LibClang = EmscriptenModule & {
    * @returns the name of the module, e.g. for the 'std.vector' sub-module it
    * will return "vector".
    */
-  clang_Module_getName: (Module: CXModule) => string;
+  Module_getName: (Module: CXModule) => string;
 
   /**
    * @param Module a module object.
    *
    * @returns the full name of the module, e.g. "std.vector".
    */
-  clang_Module_getFullName: (Module: CXModule) => string;
+  Module_getFullName: (Module: CXModule) => string;
 
   /**
    * @param Module a module object.
    *
    * @returns non-zero if the module is a system one.
    */
-  clang_Module_isSystem: (Module: CXModule) => number;
+  Module_isSystem: (Module: CXModule) => number;
 
   /**
    * @param Module a module object.
    *
    * @returns the number of top level headers associated with this module.
    */
-  clang_Module_getNumTopLevelHeaders: (TU: CXTranslationUnit, Module: CXModule) => number;
+  Module_getNumTopLevelHeaders: (TU: CXTranslationUnit, Module: CXModule) => number;
 
   /**
    * @param Module a module object.
@@ -1884,73 +1884,73 @@ export type LibClang = EmscriptenModule & {
    *
    * @returns the specified top level header associated with the module.
    */
-  clang_Module_getTopLevelHeader: (TU: CXTranslationUnit, Module: CXModule, Index: number) => CXFile;
+  Module_getTopLevelHeader: (TU: CXTranslationUnit, Module: CXModule, Index: number) => CXFile;
 
   /**
    * Determine if a C++ constructor is a converting constructor.
    */
-  clang_CXXConstructor_isConvertingConstructor: (C: CXCursor) => number;
+  CXXConstructor_isConvertingConstructor: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ constructor is a copy constructor.
    */
-  clang_CXXConstructor_isCopyConstructor: (C: CXCursor) => number;
+  CXXConstructor_isCopyConstructor: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ constructor is the default constructor.
    */
-  clang_CXXConstructor_isDefaultConstructor: (C: CXCursor) => number;
+  CXXConstructor_isDefaultConstructor: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ constructor is a move constructor.
    */
-  clang_CXXConstructor_isMoveConstructor: (C: CXCursor) => number;
+  CXXConstructor_isMoveConstructor: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ field is declared 'mutable'.
    */
-  clang_CXXField_isMutable: (C: CXCursor) => number;
+  CXXField_isMutable: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ method is declared '= default'.
    */
-  clang_CXXMethod_isDefaulted: (C: CXCursor) => number;
+  CXXMethod_isDefaulted: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ member function or member function template is
    * pure virtual.
    */
-  clang_CXXMethod_isPureVirtual: (C: CXCursor) => number;
+  CXXMethod_isPureVirtual: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ member function or member function template is
    * declared 'static'.
    */
-  clang_CXXMethod_isStatic: (C: CXCursor) => number;
+  CXXMethod_isStatic: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ member function or member function template is
    * explicitly declared 'virtual' or if it overrides a virtual method from
    * one of the base classes.
    */
-  clang_CXXMethod_isVirtual: (C: CXCursor) => number;
+  CXXMethod_isVirtual: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ record is abstract, i.e. whether a class or struct
    * has a pure virtual member function.
    */
-  clang_CXXRecord_isAbstract: (C: CXCursor) => number;
+  CXXRecord_isAbstract: (C: CXCursor) => number;
 
   /**
    * Determine if an enum declaration refers to a scoped enum.
    */
-  clang_EnumDecl_isScoped: (C: CXCursor) => number;
+  EnumDecl_isScoped: (C: CXCursor) => number;
 
   /**
    * Determine if a C++ member function or member function template is
    * declared 'const'.
    */
-  clang_CXXMethod_isConst: (C: CXCursor) => number;
+  CXXMethod_isConst: (C: CXCursor) => number;
 
   /**
    * Given a cursor that represents a template, determine
@@ -1969,7 +1969,7 @@ export type LibClang = EmscriptenModule & {
    * by instantiating the template \p C. If \p C is not a template, returns
    * \c CXCursor_NoDeclFound.
    */
-  clang_getTemplateCursorKind: (C: CXCursor) => EnumValue<CXCursorKind>;
+  getTemplateCursorKind: (C: CXCursor) => EnumValue<CXCursorKind>;
 
   /**
    * Given a cursor that may represent a specialization or instantiation
@@ -1999,7 +1999,7 @@ export type LibClang = EmscriptenModule & {
    * template or a member thereof, the template or member that it specializes or
    * from which it was instantiated. Otherwise, returns a NULL cursor.
    */
-  clang_getSpecializedCursorTemplate: (C: CXCursor) => CXCursor;
+  getSpecializedCursorTemplate: (C: CXCursor) => CXCursor;
 
   /**
    * Given a cursor that references something else, return the source range
@@ -2019,7 +2019,7 @@ export type LibClang = EmscriptenModule & {
    * @returns The piece of the name pointed to by the given cursor. If there is no
    * name, or if the PieceIndex is out-of-range, a null-cursor will be returned.
    */
-  clang_getCursorReferenceNameRange: (C: CXCursor, NameFlags: number, PieceIndex: number) => CXSourceRange;
+  getCursorReferenceNameRange: (C: CXCursor, NameFlags: number, PieceIndex: number) => CXSourceRange;
 
   /**
    * Get the raw lexical token starting with the given location.
@@ -2029,15 +2029,15 @@ export type LibClang = EmscriptenModule & {
    * @param Location the source location with which the token starts.
    *
    * @returns The token starting with the given location or NULL if no such token
-   * exist. The returned pointer must be freed with clang_disposeTokens before the
+   * exist. The returned pointer must be freed with disposeTokens before the
    * translation unit is destroyed.
    */
-  clang_getToken: (TU: CXTranslationUnit, Location: CXSourceLocation) => CXToken;
+  getToken: (TU: CXTranslationUnit, Location: CXSourceLocation) => CXToken;
 
   /**
   * Determine the kind of the given token.
   */
-  clang_getTokenKind: (T: CXToken) => EnumValue<CXTokenKind>;
+  getTokenKind: (T: CXToken) => EnumValue<CXTokenKind>;
 
   /**
   * Determine the spelling of the given token.
@@ -2045,109 +2045,109 @@ export type LibClang = EmscriptenModule & {
   * The spelling of a token is the textual representation of that token, e.g.,
   * the text of an identifier or keyword.
   */
-  clang_getTokenSpelling: (TU: CXTranslationUnit, T: CXToken) => string;
+  getTokenSpelling: (TU: CXTranslationUnit, T: CXToken) => string;
 
   /**
   * Retrieve the source location of the given token.
   */
-  clang_getTokenLocation: (TU: CXTranslationUnit, T: CXToken) => CXSourceLocation;
+  getTokenLocation: (TU: CXTranslationUnit, T: CXToken) => CXSourceLocation;
 
   /**
   * Retrieve a source range that covers the given token.
   */
-  clang_getTokenExtent: (TU: CXTranslationUnit, T: CXToken) => CXSourceRange;
+  getTokenExtent: (TU: CXTranslationUnit, T: CXToken) => CXSourceRange;
 
-  // skipped clang_tokenize
-  // skipped clang_annotateTokens
-  // skipped clang_disposeTokens
-
-  /**
-   * For debug / testing
-   */
-  clang_getCursorKindSpelling: (Kind: EnumValue<CXCursorKind>) => string;
-
-  // skipped clang_getDefinitionSpellingAndExtent
-  // skipped clang_getDefinitionSpellingAndExtent
+  // skipped tokenize
+  // skipped annotateTokens
+  // skipped disposeTokens
 
   /**
    * For debug / testing
    */
-  clang_enableStackTraces: () => void;
+  getCursorKindSpelling: (Kind: EnumValue<CXCursorKind>) => string;
 
-  // clang_executeOnThread
+  // skipped getDefinitionSpellingAndExtent
+  // skipped getDefinitionSpellingAndExtent
 
-  // skipped clang_getCompletionChunkKind
-  // skipped clang_getCompletionChunkText
-  // skipped clang_getCompletionChunkCompletionString
-  // skipped clang_getNumCompletionChunks
-  // skipped clang_getCompletionPriority
-  // skipped clang_getCompletionAvailability
-  // skipped clang_getCompletionNumAnnotations
-  // skipped clang_getCompletionAnnotation
-  // skipped clang_getCompletionParent
-  // skipped clang_getCompletionBriefComment
-  // skipped clang_getCursorCompletionString
+  /**
+   * For debug / testing
+   */
+  enableStackTraces: () => void;
+
+  // executeOnThread
+
+  // skipped getCompletionChunkKind
+  // skipped getCompletionChunkText
+  // skipped getCompletionChunkCompletionString
+  // skipped getNumCompletionChunks
+  // skipped getCompletionPriority
+  // skipped getCompletionAvailability
+  // skipped getCompletionNumAnnotations
+  // skipped getCompletionAnnotation
+  // skipped getCompletionParent
+  // skipped getCompletionBriefComment
+  // skipped getCursorCompletionString
   // skipped CXCodeCompleteResults
-  // skipped clang_getCompletionNumFixIts
-  // skipped clang_getCompletionFixIt
+  // skipped getCompletionNumFixIts
+  // skipped getCompletionFixIt
   // skipped CXCodeComplete_Flags
   // skipped CXCompletionContext
-  // skipped clang_defaultCodeCompleteOptions
-  // skipped clang_codeCompleteAt
-  // skipped clang_sortCodeCompletionResults
-  // skipped clang_disposeCodeCompleteResults
-  // skipped clang_codeCompleteGetNumDiagnostics
-  // skipped clang_codeCompleteGetDiagnostic
-  // skipped clang_codeCompleteGetContexts
-  // skipped clang_codeCompleteGetContainerKind
-  // skipped clang_codeCompleteGetContainerUSR
-  // skipped clang_codeCompleteGetObjCSelector
-  // skipped clang_getClangVersion
-  // skipped clang_toggleCrashRecovery
-  // skipped clang_getInclusions
+  // skipped defaultCodeCompleteOptions
+  // skipped codeCompleteAt
+  // skipped sortCodeCompletionResults
+  // skipped disposeCodeCompleteResults
+  // skipped codeCompleteGetNumDiagnostics
+  // skipped codeCompleteGetDiagnostic
+  // skipped codeCompleteGetContexts
+  // skipped codeCompleteGetContainerKind
+  // skipped codeCompleteGetContainerUSR
+  // skipped codeCompleteGetObjCSelector
+  // skipped getClangVersion
+  // skipped toggleCrashRecovery
+  // skipped getInclusions
   // skipped CXEvalResultKind
-  // skipped clang_Cursor_Evaluate
-  // skipped clang_EvalResult_getKind
-  // skipped clang_EvalResult_getAsInt
-  // skipped clang_EvalResult_getAsLongLong
-  // skipped clang_EvalResult_isUnsignedInt
-  // skipped clang_EvalResult_getAsUnsigned
-  // skipped clang_EvalResult_getAsDouble
-  // skipped clang_EvalResult_getAsStr
-  // skipped clang_EvalResult_dispose
-  // skipped clang_getRemappings
-  // skipped clang_getRemappingsFromFileList
-  // skipped clang_remap_getNumFiles
-  // skipped clang_remap_getFilenames
-  // skipped clang_remap_dispose
+  // skipped Cursor_Evaluate
+  // skipped EvalResult_getKind
+  // skipped EvalResult_getAsInt
+  // skipped EvalResult_getAsLongLong
+  // skipped EvalResult_isUnsignedInt
+  // skipped EvalResult_getAsUnsigned
+  // skipped EvalResult_getAsDouble
+  // skipped EvalResult_getAsStr
+  // skipped EvalResult_dispose
+  // skipped getRemappings
+  // skipped getRemappingsFromFileList
+  // skipped remap_getNumFiles
+  // skipped remap_getFilenames
+  // skipped remap_dispose
 
   // skipped CXCursorAndRangeVisitor
 
-  // skipped clang_findReferencesInFile
-  // skipped clang_findIncludesInFile
+  // skipped findReferencesInFile
+  // skipped findIncludesInFile
 
   // skipped IndexerCallbacks
-  // skipped clang_index_isEntityObjCContainerKind
-  // skipped clang_index_getObjCContainerDeclInfo
-  // skipped clang_index_getObjCInterfaceDeclInfo
-  // skipped clang_index_getObjCCategoryDeclInfo
-  // skipped clang_index_getObjCProtocolRefListInfo
-  // skipped clang_index_getObjCPropertyDeclInfo
-  // skipped clang_index_getIBOutletCollectionAttrInfo
-  // skipped clang_index_getCXXClassDeclInfo
-  // skipped clang_index_getClientContainer
-  // skipped clang_index_setClientContainer
-  // skipped clang_index_getClientEntity
-  // skipped clang_index_setClientEntity
-  // skipped clang_IndexAction_create
-  // skipped clang_IndexAction_dispose
+  // skipped index_isEntityObjCContainerKind
+  // skipped index_getObjCContainerDeclInfo
+  // skipped index_getObjCInterfaceDeclInfo
+  // skipped index_getObjCCategoryDeclInfo
+  // skipped index_getObjCProtocolRefListInfo
+  // skipped index_getObjCPropertyDeclInfo
+  // skipped index_getIBOutletCollectionAttrInfo
+  // skipped index_getCXXClassDeclInfo
+  // skipped index_getClientContainer
+  // skipped index_setClientContainer
+  // skipped index_getClientEntity
+  // skipped index_setClientEntity
+  // skipped IndexAction_create
+  // skipped IndexAction_dispose
   // skipped CXIndexOptFlags
-  // skipped clang_indexSourceFile
-  // skipped clang_indexSourceFileFullArgv
-  // skipped clang_indexTranslationUnit
-  // skipped clang_indexLoc_getFileLocation
-  // skipped clang_indexLoc_getCXSourceLocation
-  // skipped clang_Type_visitFields
+  // skipped indexSourceFile
+  // skipped indexSourceFileFullArgv
+  // skipped indexTranslationUnit
+  // skipped indexLoc_getFileLocation
+  // skipped indexLoc_getCXSourceLocation
+  // skipped Type_visitFields
 
   isNullPointer: (pointer: any) => boolean;
 
@@ -2160,7 +2160,7 @@ export type LibClang = EmscriptenModule & {
    * cursor should proceed after visiting a particular child cursor.
    *
    * A value of this enumeration type should be returned by each
-   * {@link CXCursorVisitor} to indicate how {@link LibClang.clang_visitChildren | clang_visitChildren()} proceed.
+   * {@link CXCursorVisitor} to indicate how {@link LibClang.visitChildren | visitChildren()} proceed.
    */
   CXChildVisitResult: CXChildVisitResult;
 
@@ -2176,7 +2176,7 @@ export type LibClang = EmscriptenModule & {
 
   /**
    * Describes the kind of error that occurred (if any) in a call to
-   * {@link clang_loadDiagnostics}.
+   * {@link loadDiagnostics}.
    */
   CXLoadDiag_Error: CXLoadDiag_Error;
 
@@ -2200,7 +2200,7 @@ export type LibClang = EmscriptenModule & {
 
   /**
    * Describes the kind of error that occurred (if any) in a call to
-   * {@link LibClang.clang_saveTranslationUnit | clang_saveTranslationUnit()}.
+   * {@link LibClang.saveTranslationUnit | saveTranslationUnit()}.
    */
   CXSaveError: CXSaveError;
 
@@ -2263,9 +2263,9 @@ export type LibClang = EmscriptenModule & {
   CXTypeNullabilityKind: CXTypeNullabilityKind;
 
   /**
-   * List the possible error codes for {@link LibClang.clang_Type_getSizeOf | clang_Type_getSizeOf},
-   *   {@link LibClang.clang_Type_getAlignOf | clang_Type_getAlignOf}, {@link LibClang.clang_Type_getOffsetOf | clang_Type_getOffsetOf} and
-   *   {@link LibClang.clang_Cursor_getOffsetOf | clang_Cursor_getOffsetOf}.
+   * List the possible error codes for {@link LibClang.Type_getSizeOf | Type_getSizeOf},
+   *   {@link LibClang.Type_getAlignOf | Type_getAlignOf}, {@link LibClang.Type_getOffsetOf | Type_getOffsetOf} and
+   *   {@link LibClang.Cursor_getOffsetOf | Cursor_getOffsetOf}.
    *
    * A value of this enumeration type can be returned if the target type is not
    * a valid argument to sizeof, alignof or offsetof.
