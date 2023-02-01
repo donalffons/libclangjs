@@ -1,7 +1,7 @@
 [![Release libclangjs](https://github.com/donalffons/libclangjs/actions/workflows/build.yml/badge.svg)](https://github.com/donalffons/libclangjs/actions/workflows/build.yml)
 
 <p align="center">
-  <img src="https://github.com/donalffons/libclangjs/raw/master/images/logo-transparent.png" alt="Logo" width="50%">
+  <img src="https://github.com/donalffons/libclangjs/raw/master/main/logo-transparent.png" alt="Logo" width="50%">
 
   <h3 align="center">Libclangjs</h3>
 
