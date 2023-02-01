@@ -43,7 +43,7 @@ init().then(clang => {
   const cursor = clang.getTranslationUnitCursor(tu);
 
   clang.visitChildren(cursor, (c, p) => {
-    console.log(clang.getCursorKindSpelling(clang.getCursorKind(c)), clang.getCursorSpelling(c), clang.getPresumedLocation(clang.getCursorLocation(c)), "\n");
+    console.log(clang.getCursorKindSpelling(clang.getCursorKind(c)), clang.getCursorSpelling(c), clang.getPresumedLocation(clang.getCursorLocation(c)));
     return clang.CXChildVisitResult.Recurse;
   });
 
@@ -54,8 +54,13 @@ init().then(clang => {
 Output
 
 ```txt
-???
+ClassDecl TestClass { filename: '/home/web_user/main.cpp', line: 1, column: 7 }
+CXXAccessSpecifier  { filename: '/home/web_user/main.cpp', line: 2, column: 1 }
+CXXConstructor TestClass { filename: '/home/web_user/main.cpp', line: 3, column: 3 }
+CXXDestructor ~TestClass { filename: '/home/web_user/main.cpp', line: 4, column: 3 }
 ```
+
+The execution will take several seconds to complete. A big part of that time is taken by the call to `init`. Subsequent function calls should run fast - but so far no benchmarking against the native version has been done.
 
 ## Contribution and release workflow
 
