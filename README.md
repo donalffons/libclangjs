@@ -37,7 +37,7 @@ import init from "libclangjs/node.js";
 const cwd = "/home/web_user";
 
 init().then(clang => {
-  clang.FS.mount(clang.NODEFS, { root: "." }, cwd);
+  clang.FS.mount(clang.NODEFS, { root: "." }, cwd); // Share the current directory with libclang
   const index = clang.createIndex(1, 1);
   const tu = clang.parseTranslationUnit(index, `${cwd}/main.cpp`, null, null, 0);
   const cursor = clang.getTranslationUnitCursor(tu);
