@@ -16,9 +16,9 @@ target_link_libraries(libclangjs libclang)
 
 set(LINK_FLAGS "")
 if(${ENVIRONMENT} STREQUAL "node")
-  set(LINK_FLAGS "${LINK_FLAGS} -lnodefs.js -sEXPORTED_FUNCTIONS=NODEFS -sPTHREAD_POOL_SIZE='require(\"os\").cpus().length'")
+  set(LINK_FLAGS "${LINK_FLAGS} -lnodefs.js -sEXPORTED_FUNCTIONS=NODEFS -sPTHREAD_POOL_SIZE='require(\"os\").cpus().length' -sEXPORT_ES6=0")
 else()
-  set(LINK_FLAGS "-sPTHREAD_POOL_SIZE='navigator.hardwareConcurrency'")
+  set(LINK_FLAGS "-sEXPORTED_FUNCTIONS=FS -sPTHREAD_POOL_SIZE='navigator.hardwareConcurrency' -sEXPORT_ES6=1")
 endif()
 
 set_target_properties(
