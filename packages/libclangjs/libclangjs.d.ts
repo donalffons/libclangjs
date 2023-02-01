@@ -2064,7 +2064,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * For debug / testing
    */
-  clang_getCursorKindSpelling: (Kind: EnumValue<EnumValue<CXCursorKind>>) => string;
+  clang_getCursorKindSpelling: (Kind: EnumValue<CXCursorKind>) => string;
 
   // skipped clang_getDefinitionSpellingAndExtent
   // skipped clang_getDefinitionSpellingAndExtent
