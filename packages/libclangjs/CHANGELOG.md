@@ -1,5 +1,13 @@
 # libclangjs
 
+## 0.2.3
+
+### Patch Changes
+
+- a72b45b: fix signature of clang_getCursorKindSpelling
+- d0c76f8: Add constructor and name properties to type definitions for EnumValue
+- 7a3e0cd: remove "clang\_" prefix for brevity
+
 ## 0.2.2
 
 ### Patch Changes
