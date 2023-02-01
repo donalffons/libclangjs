@@ -50,9 +50,9 @@ export type CXUnsavedFile = {
  * cursor, and retrieving cursors for any child nodes of a particular cursor.
  *
  * Cursors can be produced in two specific ways.
- * clang_getTranslationUnitCursor() produces a cursor for a translation unit,
- * from which one can use clang_visitChildren() to explore the rest of the
- * translation unit. clang_getCursor() maps from a physical source location
+ * getTranslationUnitCursor() produces a cursor for a translation unit,
+ * from which one can use visitChildren() to explore the rest of the
+ * translation unit. getCursor() maps from a physical source location
  * to the entity that resides at that location, allowing one to map from the
  * source code into the AST.
  */
@@ -65,7 +65,7 @@ export type CXCursor = {
  * Identifies a specific source location within a translation
  * unit.
  *
- * Use {@link LibClang.clang_getExpansionLocation | clang_getExpansionLocation()} or {@link LibClang.clang_getSpellingLocation | clang_getSpellingLocation()}
+ * Use {@link LibClang.getExpansionLocation | getExpansionLocation()} or {@link LibClang.getSpellingLocation | getSpellingLocation()}
  * to map a source location to a particular file, line, and column.
  */
 export type CXSourceLocation = {
@@ -75,7 +75,7 @@ export type CXSourceLocation = {
 /**
  * Identifies a half-open character range in the source code.
  *
- * Use {@link LibClang.clang_getRangeStart | clang_getRangeStart()} and {@link LibClang.clang_getRangeEnd | clang_getRangeEnd()} to retrieve the
+ * Use {@link LibClang.getRangeStart | getRangeStart()} and {@link LibClang.getRangeEnd | getRangeEnd()} to retrieve the
  * starting and end locations from a source range, respectively.
  */
 export type CXSourceRange = {
@@ -109,7 +109,7 @@ export type CXType = {
 
 /**
  * Opaque pointer representing a policy that controls pretty printing
- * for {@link LibClang.clang_getCursorPrettyPrinted | clang_getCursorPrettyPrinted}.
+ * for {@link LibClang.getCursorPrettyPrinted | getCursorPrettyPrinted}.
  */
 export type CXPrintingPolicy = {};
 

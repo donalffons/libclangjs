@@ -1,5 +1,8 @@
 
 export type EnumValue<T> = {
+  constructor: {
+    name: string;
+  };
   value: number;
   /**
    * @private
@@ -36,8 +39,8 @@ export type CXGlobalOptFlags = {
    * Used to indicate that threads that libclang creates for indexing
    * purposes should use background priority.
    *
-   * Affects #clang_indexSourceFile, #clang_indexTranslationUnit,
-   * #clang_parseTranslationUnit, #clang_saveTranslationUnit.
+   * Affects #indexSourceFile, #indexTranslationUnit,
+   * #parseTranslationUnit, #saveTranslationUnit.
    */
   ThreadBackgroundPriorityForIndexing: EnumValue<CXGlobalOptFlags>;
 
@@ -45,8 +48,8 @@ export type CXGlobalOptFlags = {
    * Used to indicate that threads that libclang creates for editing
    * purposes should use background priority.
    *
-   * Affects #clang_reparseTranslationUnit, #clang_codeCompleteAt,
-   * #clang_annotateTokens
+   * Affects #reparseTranslationUnit, #codeCompleteAt,
+   * #annotateTokens
    */
   ThreadBackgroundPriorityForEditing: EnumValue<CXGlobalOptFlags>;
 
@@ -236,8 +239,8 @@ export type CXCursorKind = {
    * argument-dependent lookup (e.g., the "swap" function at the end of the
    * example).
    *
-   * The functions {@link LibClang.clang_getNumOverloadedDecls | clang_getNumOverloadedDecls()} and
-   * {@link LibClang.clang_getOverloadedDecl | clang_getOverloadedDecl()} can be used to retrieve the definitions
+   * The functions {@link LibClang.getNumOverloadedDecls | getNumOverloadedDecls()} and
+   * {@link LibClang.getOverloadedDecl | getOverloadedDecl()} can be used to retrieve the definitions
    * referenced by this cursor.
    */
   OverloadedDeclRef: EnumValue<CXCursorKind>;
@@ -1146,7 +1149,7 @@ export type CXTranslationUnit_Flags = {
    * initial includes at the top of the main file (what we refer to as
    * the "preamble" of the file). In subsequent parses, if the
    * preamble or the files in it have not changed, \c
-   * clang_reparseTranslationUnit() will re-use the implicit
+   * reparseTranslationUnit() will re-use the implicit
    * precompiled header to improve parsing performance.
    */
   PrecompiledPreamble: EnumValue<CXTranslationUnit_Flags>;
@@ -1163,7 +1166,7 @@ export type CXTranslationUnit_Flags = {
 
   /**
    * Used to indicate that the translation unit will be serialized with
-   * \c clang_saveTranslationUnit.
+   * \c saveTranslationUnit.
    *
    * This option is typically used when parsing a header with the intent of
    * producing a precompiled header.
@@ -1239,8 +1242,8 @@ export type CXTranslationUnit_Flags = {
   /**
    * Used to indicate that non-errors from included files should be ignored.
    *
-   * If set, clang_getDiagnosticSetFromTU() will not report e.g. warnings from
-   * included files anymore. This speeds up clang_getDiagnosticSetFromTU() for
+   * If set, getDiagnosticSetFromTU() will not report e.g. warnings from
+   * included files anymore. This speeds up getDiagnosticSetFromTU() for
    * the case where these warnings are not of interest, as for an IDE for
    * example, which typically shows only the diagnostics in the main file.
    */
@@ -1279,7 +1282,7 @@ export type CXSaveError = {
    * to save the translation unit.
    *
    * Errors that prevent the translation unit from being saved can be
-   * extracted using {@link LibClang.clang_getNumDiagnostics | clang_getNumDiagnostics()} and {@link LibClang.clang_getNumDiagnostics | clang_getNumDiagnostics()}.
+   * extracted using {@link LibClang.getNumDiagnostics | getNumDiagnostics()} and {@link LibClang.getNumDiagnostics | getNumDiagnostics()}.
    */
   TranslationErrors: EnumValue<CXSaveError>;
 
@@ -1773,7 +1776,7 @@ export type CXCompletionChunkKind = {
    *
    * The Optional chunk is the only kind of chunk that has a code-completion
    * string for its representation, which is accessible via
-   * {@link LibClang.clang_getCompletionChunkCompletionString | clang_getCompletionChunkCompletionString()}. The code-completion string
+   * {@link LibClang.getCompletionChunkCompletionString | getCompletionChunkCompletionString()}. The code-completion string
    * describes an additional part of the template that is completely optional.
    * For example, optional chunks can be used to describe the placeholders for
    * arguments that match up with defaulted function parameters, e.g. given:
