@@ -1,5 +1,14 @@
 # libclangjs
 
+## 0.2.5
+
+### Patch Changes
+
+- eba5145: Add docs on how to use web version
+- 22f1d14: export FS object and use ESM in web builds
+- e55730e: fix incorrect asset name in worker file for web build
+- 4b56730: Add note on how to use SharedArrayBuffer
+
 ## 0.2.4
 
 ### Patch Changes
