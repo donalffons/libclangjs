@@ -12,6 +12,6 @@ target_link_libraries(test-cmake
 
 set_target_properties(
   test-cmake PROPERTIES
-  COMPILE_FLAGS "-O3 -pthread"
-  LINK_FLAGS "-O3 -pthread -lembind -sALLOW_MEMORY_GROWTH=1 -sENVIRONMENT=node,worker"
+  COMPILE_FLAGS "-pthread"
+  LINK_FLAGS "-pthread -lembind -sALLOW_MEMORY_GROWTH=1 -sENVIRONMENT=node,worker"
 )
