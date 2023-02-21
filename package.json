@@ -8,7 +8,7 @@
     "download-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r gs://libclangjs-turborepo-remote-cache node_modules/.cache/turbo",
     "prepare": "husky install"
   },
-  "packageManager": "pnpm@7.25.1",
+  "packageManager": "pnpm@7.27.1",
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
     "turbo": "^1.8.1",
