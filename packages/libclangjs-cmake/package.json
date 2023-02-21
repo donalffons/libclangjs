@@ -7,6 +7,7 @@
   },
   "description": "CMake package for developing with libclangjs",
   "scripts": {
+    "clean": "ts-node clean.ts",
     "build": "ts-node build.ts"
   },
   "dependencies": {
