@@ -1,9 +1,6 @@
 name: Release libclangjs
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -43,6 +40,7 @@ jobs:
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
+        if: github.ref == 'refs/heads/main'
         uses: changesets/action@v1
         with:
           publish: pnpm changeset publish
