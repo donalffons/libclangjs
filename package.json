@@ -5,11 +5,13 @@
     "clean": "turbo run clean",
     "dev": "turbo run dev",
     "upload-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r node_modules/.cache/turbo gs://libclangjs-turborepo-remote-cache",
-    "download-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r gs://libclangjs-turborepo-remote-cache node_modules/.cache/turbo"
+    "download-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r gs://libclangjs-turborepo-remote-cache node_modules/.cache/turbo",
+    "prepare": "husky install"
   },
   "packageManager": "pnpm@7.25.1",
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
-    "turbo": "^1.7.0"
+    "turbo": "^1.7.0",
+    "husky": "^8.0.0"
   }
 }
