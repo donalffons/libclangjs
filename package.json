@@ -6,6 +6,7 @@
     "dev": "turbo run dev",
     "upload-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r node_modules/.cache/turbo gs://libclangjs-turborepo-remote-cache",
     "download-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r gs://libclangjs-turborepo-remote-cache node_modules/.cache/turbo",
+    "clear-build-cache": "gsutil -m rm gs://libclangjs-turborepo-remote-cache/** || true",
     "prepare": "husky install"
   },
   "packageManager": "pnpm@7.27.1",
