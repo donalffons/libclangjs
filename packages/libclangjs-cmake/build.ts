@@ -23,12 +23,13 @@ const configureAndRunBuild = () => {
     if (res.code !== 0) throw new Error(res.stderr);
   }
   {
-    // Configure
+    // Copy assets
     fs.rmSync("dist", { recursive: true, force: true });
     fs.mkdirSync(path.join("dist", "lib"), { recursive: true });
     fs.copyFileSync(path.join(buildPath, "liblibclangjs-cmake.a"), path.join(distPath, "lib", "liblibclangjs-cmake.a"));
     fs.copyFileSync(path.join(__dirname, "libclangjs-cmakeConfig.cmake"), path.join(distPath, "libclangjs-cmakeConfig.cmake"));
     fs.cpSync(path.join(__dirname, "node_modules", "llvm-project-emscripten", "dist"), path.join(distPath, "llvm-project-emscripten"), { recursive: true });
+    fs.copyFileSync(path.join(__dirname, "package.json"), path.join(distPath, "package.json"));
   }
 };
 
