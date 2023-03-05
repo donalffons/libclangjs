@@ -1,5 +1,14 @@
 # libclangjs
 
+## 0.3.0
+
+### Minor Changes
+
+- 0d967de: Add husky to automate build cache pushing
+- ffd3679: Include emscripten version (3.1.31) in build cache
+- 0d967de: Release cmake package to allow integration into other C/C++ projects
+- 0d967de: Run tests on non-main branches
+
 ## 0.2.5
 
 ### Patch Changes
