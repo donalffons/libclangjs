@@ -29,6 +29,8 @@ const configureAndRunBuild = () => {
     fs.copyFileSync(path.join(buildPath, "liblibclangjs-cmake.a"), path.join(distPath, "lib", "liblibclangjs-cmake.a"));
     fs.copyFileSync(path.join(__dirname, "libclangjs-cmakeConfig.cmake"), path.join(distPath, "libclangjs-cmakeConfig.cmake"));
     fs.cpSync(path.join(__dirname, "node_modules", "llvm-project-emscripten", "dist"), path.join(distPath, "llvm-project-emscripten"), { recursive: true });
+    const { publishConfig, devDependencies, scripts, ...packageJsonContent } = JSON.parse(fs.readFileSync(path.join(__dirname, "package.json"), { encoding: "utf-8" }));
+    fs.writeFileSync(path.join(distPath, "package.json"), JSON.stringify(packageJsonContent), { encoding: "utf-8" });
   }
 };
 
