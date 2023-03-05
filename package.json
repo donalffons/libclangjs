@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "build": "turbo run build",
-    "test": "turbo run test",
-    "clean": "turbo run clean",
-    "dev": "turbo run dev",
+    "build": "EMSCRIPTEN_VERSION=\"$(emcc -dumpversion)\" turbo run build",
+    "test": "EMSCRIPTEN_VERSION=\"$(emcc -dumpversion)\" turbo run test",
+    "clean": "EMSCRIPTEN_VERSION=\"$(emcc -dumpversion)\" turbo run clean",
+    "dev": "EMSCRIPTEN_VERSION=\"$(emcc -dumpversion)\" turbo run dev",
     "upload-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r node_modules/.cache/turbo gs://libclangjs-turborepo-remote-cache",
     "download-build-cache": "mkdir -p node_modules/.cache/turbo && gsutil -m rsync -r gs://libclangjs-turborepo-remote-cache node_modules/.cache/turbo",
     "clear-build-cache": "gsutil -m rm gs://libclangjs-turborepo-remote-cache/** || true",
