@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-act
+pnpm download-build-cache || true
+pnpm build
+pnpm test
+pnpm upload-build-cache || true
