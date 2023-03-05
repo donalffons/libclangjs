@@ -117,7 +117,7 @@ The execution will take several seconds to complete. A big part of that time is 
 
 # Extending / Integrating with other C/C++ code
 
-Check out [Libclangjs-cmake on NPM] (https://www.npmjs.com/package/libclangjs-cmake) and [this test](https://github.com/donalffons/libclangjs/tree/main/tests/test-cmake) for an example on how this can be achieved.
+Check out [Libclangjs-cmake on NPM](https://www.npmjs.com/package/libclangjs-cmake) and [this test](https://github.com/donalffons/libclangjs/tree/main/tests/test-cmake) for an example on how this can be achieved.
 
 # Contribution and release workflow
 
