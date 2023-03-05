@@ -31,6 +31,7 @@ const configureAndRunBuild = () => {
     fs.cpSync(path.join(__dirname, "node_modules", "llvm-project-emscripten", "dist"), path.join(distPath, "llvm-project-emscripten"), { recursive: true });
     const { publishConfig, devDependencies, scripts, ...packageJsonContent } = JSON.parse(fs.readFileSync(path.join(__dirname, "package.json"), { encoding: "utf-8" }));
     fs.writeFileSync(path.join(distPath, "package.json"), JSON.stringify(packageJsonContent), { encoding: "utf-8" });
+    fs.copyFileSync(path.join(__dirname, "README.md"), path.join(distPath, "README.md"));
   }
 };
 

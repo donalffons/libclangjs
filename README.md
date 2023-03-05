@@ -115,6 +115,10 @@ CXXDestructor ~TestClass { filename: '/home/web_user/main.cpp', line: 4, column:
 
 The execution will take several seconds to complete. A big part of that time is taken by the call to `init`. Subsequent function calls should run fast - but so far no benchmarking against the native version has been done.
 
+# Extending / Integrating with other C/C++ code
+
+Check out [Libclangjs-cmake on NPM] (https://www.npmjs.com/package/libclangjs-cmake) and [this test](https://github.com/donalffons/libclangjs/tree/main/tests/test-cmake) for an example on how this can be achieved.
+
 # Contribution and release workflow
 
 This project ist using [Changesets](https://github.com/changesets) for publishing and managing versions.
