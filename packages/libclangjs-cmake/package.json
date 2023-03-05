@@ -10,7 +10,7 @@
     "clean": "ts-node clean.ts",
     "build": "ts-node build.ts"
   },
-  "dependencies": {
+  "devDependencies": {
     "@types/node": "^18.11.18",
     "@types/shelljs": "^0.8.11",
     "libclangjs": "workspace:*",
