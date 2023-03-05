@@ -1,5 +1,11 @@
 # libclangjs-cmake
 
+## 0.3.2
+
+### Patch Changes
+
+- 3d5b833: use more modern cmake syntax in docs
+
 ## 0.3.1
 
 ### Patch Changes
