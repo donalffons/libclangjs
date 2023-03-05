@@ -72,8 +72,8 @@ Configure and build your project.
 
 ```sh
 $ mkdir build && cd build
-$ emcmake cmake .. -Dlibclangjs-cmake_DIR=./node_modules/libclangjs-cmake
-$ emmake make
+$ emcmake cmake -B build -Dlibclangjs-cmake_DIR=./node_modules/libclangjs-cmake
+$ cmake --build build
 ```
 
 Now, you can simply run the application.
