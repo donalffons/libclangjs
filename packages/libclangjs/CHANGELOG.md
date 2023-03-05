@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.3.1
+
+### Patch Changes
+
+- 2547c97: Add simple documentation on how to integrate / extend using libclangjs-cmake
+
 ## 0.3.0
 
 ### Minor Changes
