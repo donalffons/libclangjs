@@ -1,8 +1,10 @@
 #!/bin/bash
 set -e
 
+export HUSKY=0
+
 npm install -g pnpm
-pnpm install
+pnpm install --frozen-lockfile
 pnpm download-build-cache
 pnpm run build
 pnpm run test
