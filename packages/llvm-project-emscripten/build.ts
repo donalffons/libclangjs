@@ -22,6 +22,7 @@ const distPath = path.join(__dirname, "dist");
       "-DLLVM_TARGETS_TO_BUILD=WebAssembly",
       "-DLLVM_INCLUDE_TESTS=OFF",
       "-DLLVM_ENABLE_PROJECTS=clang",
+      "-DLLVM_ENABLE_PIC=OFF"
     ].join(" ")}
     `, {
     env: {
