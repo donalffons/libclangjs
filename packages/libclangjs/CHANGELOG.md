@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.3.2
+
+### Patch Changes
+
+- bac88d6: Fix typo in readme
+
 ## 0.3.1
 
 ### Patch Changes
