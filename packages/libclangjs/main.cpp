@@ -157,9 +157,9 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       "getExpansionLocation",
       emscripten::optional_override([](CXSourceLocation location) {
         emscripten::val ret = emscripten::val::object();
-        CXFile *file = new CXFile(); // TODO: Memory leak
+        CXFile file = nullptr;
         unsigned line, column, offset;
-        clang_getExpansionLocation(location, file, &line, &column, &offset);
+        clang_getExpansionLocation(location, &file, &line, &column, &offset);
         ret.set("file", Pointer({file}));
         ret.set("line", line);
         ret.set("column", column);
@@ -182,9 +182,10 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       "getInstantiationLocation",
       emscripten::optional_override([](CXSourceLocation location) {
         emscripten::val ret = emscripten::val::object();
-        CXFile *file = new CXFile(); // TODO: Memory leak
+        CXFile file = nullptr;
         unsigned line, column, offset;
-        clang_getInstantiationLocation(location, file, &line, &column, &offset);
+        clang_getInstantiationLocation(location, &file, &line, &column,
+                                       &offset);
         ret.set("file", Pointer({file}));
         ret.set("line", line);
         ret.set("column", column);
@@ -195,9 +196,9 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       "getSpellingLocation",
       emscripten::optional_override([](CXSourceLocation location) {
         emscripten::val ret = emscripten::val::object();
-        CXFile *file = new CXFile(); // TODO: Memory leak
+        CXFile file = nullptr;
         unsigned line, column, offset;
-        clang_getSpellingLocation(location, file, &line, &column, &offset);
+        clang_getSpellingLocation(location, &file, &line, &column, &offset);
         ret.set("file", Pointer({file}));
         ret.set("line", line);
         ret.set("column", column);
@@ -208,9 +209,9 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       "getFileLocation",
       emscripten::optional_override([](CXSourceLocation location) {
         emscripten::val ret = emscripten::val::object();
-        CXFile *file = new CXFile(); // TODO: Memory leak
+        CXFile file = nullptr;
         unsigned line, column, offset;
-        clang_getFileLocation(location, file, &line, &column, &offset);
+        clang_getFileLocation(location, &file, &line, &column, &offset);
         ret.set("file", Pointer({file}));
         ret.set("line", line);
         ret.set("column", column);
