@@ -9,10 +9,10 @@
     "clear-build-cache": "gsutil -m rm gs://libclangjs-turborepo-remote-cache/** || true",
     "prepare": "husky install"
   },
-  "packageManager": "pnpm@7.28.0",
+  "packageManager": "pnpm@8.6.10",
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
     "husky": "^8.0.3",
-    "turbo": "^1.8.3"
+    "turbo": "^1.10.12"
   }
 }
