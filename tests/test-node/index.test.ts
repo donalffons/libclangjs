@@ -137,6 +137,16 @@ test("Can correctly traverse identify C++ code", () => {
   expect(allFound).toBe(true);
 });
 
+test("Can get file names from cursors", () => {
+  const cursor = clang.getTranslationUnitCursor(tu);
+  clang.visitChildren(cursor, (child, parent) => {
+    const sourceLoc = clang.getSpellingLocation(clang.getCursorLocation(child));
+    const fileName = clang.getFileName(sourceLoc.file);
+    expect(["home/web_user/main.cpp", "home/web_user/header.hpp", "home/web_user/dir/anotherHeader.hpp"]).toContain(fileName);
+    return clang.CXChildVisitResult.Continue;
+  });
+});
+
 test("Can shutdown all threads", () => {
   clang.PThread.terminateAllThreads();
 });

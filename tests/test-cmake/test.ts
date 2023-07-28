@@ -8,7 +8,7 @@ const configureAndRunBuild = () => {
   {
     fs.rmSync("build", { recursive: true, force: true });
     fs.mkdirSync("build", { recursive: true });
-    fs.cpSync(path.join(__dirname, "node_modules", "libclangjs-cmake", "dist"), path.join(buildPath, "libclangjs-cmake"), { recursive: true });
+    fs.cpSync(path.join(__dirname, "node_modules", "libclangjs-cmake"), path.join(buildPath, "libclangjs-cmake"), { recursive: true });
   }
   {
     // Configure
