@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.5.0
+
+### Minor Changes
+
+- 8c8cd55: make null strings return null instead of garbage
+
 ## 0.4.0
 
 ### Minor Changes
