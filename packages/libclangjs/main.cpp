@@ -47,6 +47,14 @@ std::string cxStringToStdString(CXString str) {
   return result;
 }
 
+emscripten::val cxStringToStdStringOrNull(CXString str) {
+  if (clang_getCString(str) == nullptr) {
+    return emscripten::val::null();
+  } else {
+    return emscripten::val(cxStringToStdStringOrNull(str));
+  }
+}
+
 EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function(
       "createIndex",
@@ -85,7 +93,7 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       }));
   emscripten::function(
       "getFileName", emscripten::optional_override([](Pointer &SFile) {
-        return cxStringToStdString(clang_getFileName(SFile.ptr));
+        return cxStringToStdStringOrNull(clang_getFileName(SFile.ptr));
       }));
   emscripten::function("getFileTime",
                        emscripten::optional_override([](Pointer &SFile) {
@@ -121,7 +129,7 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       }));
   emscripten::function("File_tryGetRealPathName",
                        emscripten::optional_override([](Pointer &file) {
-                         return cxStringToStdString(
+                         return cxStringToStdStringOrNull(
                              clang_File_tryGetRealPathName(file.ptr));
                        }));
   emscripten::class_<CXSourceLocation>("CXSourceLocation")
@@ -173,7 +181,7 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
         CXString filename;
         unsigned line, column;
         clang_getPresumedLocation(location, &filename, &line, &column);
-        ret.set("filename", cxStringToStdString(filename));
+        ret.set("filename", cxStringToStdStringOrNull(filename));
         ret.set("line", line);
         ret.set("column", column);
         return ret;
@@ -273,7 +281,7 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   // skipped clang_getDiagnosticFixIt
   emscripten::function("getTranslationUnitSpelling",
                        emscripten::optional_override([](Pointer &CTUnit) {
-                         return cxStringToStdString(
+                         return cxStringToStdStringOrNull(
                              clang_getTranslationUnitSpelling(
                                  static_cast<CXTranslationUnit>(CTUnit.ptr)));
                        }));
@@ -991,10 +999,10 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       .value("Unexposed", CXCallingConv_Unexposed);
   emscripten::class_<CXType>("CXType").property("kind", &CXType::kind);
   emscripten::function("getCursorType", &clang_getCursorType);
-  emscripten::function("getTypeSpelling",
-                       emscripten::optional_override([](CXType CT) {
-                         return cxStringToStdString(clang_getTypeSpelling(CT));
-                       }));
+  emscripten::function(
+      "getTypeSpelling", emscripten::optional_override([](CXType CT) {
+        return cxStringToStdStringOrNull(clang_getTypeSpelling(CT));
+      }));
   emscripten::function("getTypedefDeclUnderlyingType",
                        &clang_getTypedefDeclUnderlyingType);
   emscripten::function("getEnumDeclIntegerType", &clang_getEnumDeclIntegerType);
@@ -1039,23 +1047,23 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function("isRestrictQualifiedType",
                        &clang_isRestrictQualifiedType);
   emscripten::function("getAddressSpace", &clang_getAddressSpace);
-  emscripten::function("getTypedefName",
-                       emscripten::optional_override([](CXType CT) {
-                         return cxStringToStdString(clang_getTypedefName(CT));
-                       }));
+  emscripten::function(
+      "getTypedefName", emscripten::optional_override([](CXType CT) {
+        return cxStringToStdStringOrNull(clang_getTypedefName(CT));
+      }));
   emscripten::function("getPointeeType", &clang_getPointeeType);
   emscripten::function("getTypeDeclaration", &clang_getTypeDeclaration);
   emscripten::function(
       "getDeclObjCTypeEncoding", emscripten::optional_override([](CXCursor C) {
-        return cxStringToStdString(clang_getDeclObjCTypeEncoding(C));
+        return cxStringToStdStringOrNull(clang_getDeclObjCTypeEncoding(C));
       }));
   emscripten::function(
       "Type_getObjCEncoding", emscripten::optional_override([](CXType type) {
-        return cxStringToStdString(clang_Type_getObjCEncoding(type));
+        return cxStringToStdStringOrNull(clang_Type_getObjCEncoding(type));
       }));
   emscripten::function(
       "getTypeKindSpelling", emscripten::optional_override([](CXTypeKind K) {
-        return cxStringToStdString(clang_getTypeKindSpelling(K));
+        return cxStringToStdStringOrNull(clang_getTypeKindSpelling(K));
       }));
   emscripten::function("getFunctionTypeCallingConv",
                        &clang_getFunctionTypeCallingConv);
@@ -1173,14 +1181,14 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
             &callback);
       }));
   // skipped clang_visitChildrenWithBlock
-  emscripten::function("getCursorUSR",
-                       emscripten::optional_override([](CXCursor C) {
-                         return cxStringToStdString(clang_getCursorUSR(C));
-                       }));
+  emscripten::function(
+      "getCursorUSR", emscripten::optional_override([](CXCursor C) {
+        return cxStringToStdStringOrNull(clang_getCursorUSR(C));
+      }));
   emscripten::function(
       "constructUSR_ObjCClass",
       emscripten::optional_override([](emscripten::val class_name) {
-        return cxStringToStdString(clang_constructUSR_ObjCClass(
+        return cxStringToStdStringOrNull(clang_constructUSR_ObjCClass(
             class_name.isNull() ? nullptr
                                 : class_name.as<std::string>().c_str()));
       }));
@@ -1188,7 +1196,7 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
       "constructUSR_ObjCCategory",
       emscripten::optional_override([](emscripten::val class_name,
                                        emscripten::val category_name) {
-        return cxStringToStdString(clang_constructUSR_ObjCCategory(
+        return cxStringToStdStringOrNull(clang_constructUSR_ObjCCategory(
             class_name.isNull() ? nullptr
                                 : class_name.as<std::string>().c_str(),
             category_name.isNull() ? nullptr
@@ -1197,17 +1205,17 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function(
       "constructUSR_ObjCProtocol",
       emscripten::optional_override([](emscripten::val protocol_name) {
-        return cxStringToStdString(clang_constructUSR_ObjCProtocol(
+        return cxStringToStdStringOrNull(clang_constructUSR_ObjCProtocol(
             protocol_name.isNull() ? nullptr
                                    : protocol_name.as<std::string>().c_str()));
       }));
   // skipped clang_constructUSR_ObjCIvar
   // skipped clang_constructUSR_ObjCMethod
   // skipped clang_constructUSR_ObjCProperty
-  emscripten::function("getCursorSpelling",
-                       emscripten::optional_override([](CXCursor C) {
-                         return cxStringToStdString(clang_getCursorSpelling(C));
-                       }));
+  emscripten::function(
+      "getCursorSpelling", emscripten::optional_override([](CXCursor C) {
+        return cxStringToStdStringOrNull(clang_getCursorSpelling(C));
+      }));
   emscripten::function("Cursor_getSpellingNameRange",
                        &clang_Cursor_getSpellingNameRange);
   emscripten::enum_<CXPrintingPolicyProperty>("CXPrintingPolicyProperty")
@@ -1265,12 +1273,12 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function(
       "getCursorPrettyPrinted",
       emscripten::optional_override([](CXCursor Cursor, Pointer Policy) {
-        return cxStringToStdString(
+        return cxStringToStdStringOrNull(
             clang_getCursorPrettyPrinted(Cursor, Policy.ptr));
       }));
   emscripten::function("getCursorDisplayName",
                        emscripten::optional_override([](CXCursor Cursor) {
-                         return cxStringToStdString(
+                         return cxStringToStdStringOrNull(
                              clang_getCursorDisplayName(Cursor));
                        }));
   emscripten::function("getCursorReferenced", &clang_getCursorReferenced);
@@ -1300,12 +1308,12 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
                        &clang_Cursor_getObjCPropertyAttributes);
   emscripten::function("Cursor_getObjCPropertyGetterName",
                        emscripten::optional_override([](CXCursor C) {
-                         return cxStringToStdString(
+                         return cxStringToStdStringOrNull(
                              clang_Cursor_getObjCPropertyGetterName(C));
                        }));
   emscripten::function("Cursor_getObjCPropertySetterName",
                        emscripten::optional_override([](CXCursor C) {
-                         return cxStringToStdString(
+                         return cxStringToStdStringOrNull(
                              clang_Cursor_getObjCPropertySetterName(C));
                        }));
   emscripten::enum_<CXObjCDeclQualifierKind>("CXObjCDeclQualifierKind")
@@ -1324,16 +1332,16 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function("Cursor_getCommentRange", &clang_Cursor_getCommentRange);
   emscripten::function(
       "Cursor_getRawCommentText", emscripten::optional_override([](CXCursor C) {
-        return cxStringToStdString(clang_Cursor_getRawCommentText(C));
+        return cxStringToStdStringOrNull(clang_Cursor_getRawCommentText(C));
       }));
   emscripten::function("Cursor_getBriefCommentText",
                        emscripten::optional_override([](CXCursor C) {
-                         return cxStringToStdString(
+                         return cxStringToStdStringOrNull(
                              clang_Cursor_getBriefCommentText(C));
                        }));
   emscripten::function(
       "Cursor_getMangling", emscripten::optional_override([](CXCursor C) {
-        return cxStringToStdString(clang_Cursor_getMangling(C));
+        return cxStringToStdStringOrNull(clang_Cursor_getMangling(C));
       }));
   // skipped clang_Cursor_getCXXManglings
   // skipped clang_Cursor_getObjCManglings
@@ -1357,11 +1365,11 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
                        }));
   emscripten::function(
       "Module_getName", emscripten::optional_override([](Pointer Module) {
-        return cxStringToStdString(clang_Module_getName(Module.ptr));
+        return cxStringToStdStringOrNull(clang_Module_getName(Module.ptr));
       }));
   emscripten::function(
       "Module_getFullName", emscripten::optional_override([](Pointer Module) {
-        return cxStringToStdString(clang_Module_getFullName(Module.ptr));
+        return cxStringToStdStringOrNull(clang_Module_getFullName(Module.ptr));
       }));
   emscripten::function("Module_isSystem",
                        emscripten::optional_override([](Pointer Module) {
@@ -1423,7 +1431,7 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function(
       "getTokenSpelling",
       emscripten::optional_override([](Pointer TU, CXToken Token) {
-        return cxStringToStdString(clang_getTokenSpelling(
+        return cxStringToStdStringOrNull(clang_getTokenSpelling(
             static_cast<CXTranslationUnit>(TU.ptr), Token));
       }));
   emscripten::function(
@@ -1443,7 +1451,7 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   // skipped clang_disposeTokens
   emscripten::function("getCursorKindSpelling",
                        emscripten::optional_override([](CXCursorKind Kind) {
-                         return cxStringToStdString(
+                         return cxStringToStdStringOrNull(
                              clang_getCursorKindSpelling(Kind));
                        }));
   // skipped clang_getDefinitionSpellingAndExtent

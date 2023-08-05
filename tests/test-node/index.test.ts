@@ -147,6 +147,29 @@ test("Can get file names from cursors", () => {
   });
 });
 
+test("Can read comments", () => {
+  const cursor = clang.getTranslationUnitCursor(tu);
+  let foundBriefComment = false;
+  let skippedNotBriefComment = false;
+  clang.visitChildren(cursor, (child, parent) => {
+    const spelling = clang.getCursorSpelling(child);
+    const cursorKind = clang.getCursorKind(child);
+    if (spelling === "TestClass" && cursorKind.value === clang.CXCursorKind.Constructor.value) {
+      expect(foundBriefComment).toBe(false);
+      expect(clang.Cursor_getBriefCommentText(child)).toBe("Look ma! A constructor!");
+      foundBriefComment = true;
+    }
+    if (spelling === "~TestClass" && cursorKind.value === clang.CXCursorKind.Destructor.value) {
+      expect(skippedNotBriefComment).toBe(false);
+      expect(clang.Cursor_getBriefCommentText(child)).toBe(null);
+      skippedNotBriefComment = true;
+    }
+    return clang.CXChildVisitResult.Continue;
+  });
+  expect(foundBriefComment).toBe(true);
+  expect(skippedNotBriefComment).toBe(true);
+});
+
 test("Can shutdown all threads", () => {
   clang.PThread.terminateAllThreads();
 });

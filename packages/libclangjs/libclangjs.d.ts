@@ -106,7 +106,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * Retrieve the complete file and path name of the given file.
    */
-  getFileName: (SFile: CXFile) => string;
+  getFileName: (SFile: CXFile) => string | null;
 
   /**
    * Retrieve the last modification time of the given file.
@@ -158,7 +158,7 @@ export type LibClang = EmscriptenModule & {
    *
    * An empty string may be returned. Use \c getFileName() in that case.
    */
-  File_tryGetRealPathName: (file: CXFile) => string;
+  File_tryGetRealPathName: (file: CXFile) => string | null;
 
   /**
    * Retrieve a NULL (invalid) source location.
@@ -291,7 +291,7 @@ export type LibClang = EmscriptenModule & {
    * source location. For an invalid source location, zero is returned.
    */
   getPresumedLocation: (location: CXSourceLocation) => {
-    filename: string;
+    filename: string | null;
     line: number;
     column: number;
   };
@@ -441,7 +441,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * Get the original translation unit source file name.
    */
-  getTranslationUnitSpelling: (CTUnit: CXTranslationUnit) => string;
+  getTranslationUnitSpelling: (CTUnit: CXTranslationUnit) => string | null;
 
   /**
    * Return the CXTranslationUnit for a given source file and the provided
@@ -946,7 +946,7 @@ export type LibClang = EmscriptenModule & {
    *
    * If the type is invalid, an empty string is returned.
    */
-  getTypeSpelling: (CT: CXType) => string;
+  getTypeSpelling: (CT: CXType) => string | null;
 
   /**
    * Retrieve the underlying type of a typedef declaration.
@@ -1168,7 +1168,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * Returns the typedef name of the given type.
    */
-  getTypedefName: (CT: CXType) => string;
+  getTypedefName: (CT: CXType) => string | null;
 
   /**
    * For pointer types, returns the type of the pointee.
@@ -1183,17 +1183,17 @@ export type LibClang = EmscriptenModule & {
   /**
    * Returns the Objective-C type encoding for the specified declaration.
    */
-  getDeclObjCTypeEncoding: (C: CXCursor) => string;
+  getDeclObjCTypeEncoding: (C: CXCursor) => string | null;
 
   /**
    * Returns the Objective-C type encoding for the specified CXType.
    */
-  Type_getObjCEncoding: (type: CXType) => string;
+  Type_getObjCEncoding: (type: CXType) => string | null;
 
   /**
    * Retrieve the spelling of a given CXTypeKind.
    */
-  getTypeKindSpelling: (kind: EnumValue<CXTypeKind>) => string;
+  getTypeKindSpelling: (kind: EnumValue<CXTypeKind>) => string | null;
 
   /**
    * Retrieve the calling convention associated with a function type.
@@ -1564,28 +1564,28 @@ export type LibClang = EmscriptenModule & {
    * compared across translation units to determine, e.g., when references in
    * one translation refer to an entity defined in another translation unit.
    */
-  getCursorUSR: (C: CXCursor) => string;
+  getCursorUSR: (C: CXCursor) => string | null;
 
   /**
    * Construct a USR for a specified Objective-C class.
    */
-  constructUSR_ObjCClass: (class_name: string | null) => string;
+  constructUSR_ObjCClass: (class_name: string | null) => string | null;
 
   /**
    * Construct a USR for a specified Objective-C category.
    */
-  constructUSR_ObjCCategory: (class_name: string | null, category_name: string | null) => string;
+  constructUSR_ObjCCategory: (class_name: string | null, category_name: string | null) => string | null;
 
   /**
    * Construct a USR for a specified Objective-C protocol.
    */
-  constructUSR_ObjCProtocol: (protocol_name: string | null) => string;
+  constructUSR_ObjCProtocol: (protocol_name: string | null) => string | null;
 
   // skipped constructUSR_ObjCIvar
   // skipped constructUSR_ObjCMethod
   // skipped constructUSR_ObjCProperty
 
-  getCursorSpelling: (cursor: CXCursor) => string;
+  getCursorSpelling: (cursor: CXCursor) => string | null;
 
   /**
    * Retrieve a range for a piece that forms the cursors spelling name.
@@ -1634,7 +1634,7 @@ export type LibClang = EmscriptenModule & {
    * @returns The pretty printed declaration or the empty string for
    * other cursors.
    */
-  getCursorPrettyPrinted: (Cursor: CXCursor, Policy: CXPrintingPolicy) => string;
+  getCursorPrettyPrinted: (Cursor: CXCursor, Policy: CXPrintingPolicy) => string | null;
 
   /**
    * Retrieve the display name for the entity referenced by this cursor.
@@ -1643,7 +1643,7 @@ export type LibClang = EmscriptenModule & {
    * such as the parameters of a function or template or the arguments of a
    * class template specialization.
    */
-  getCursorDisplayName: (c: CXCursor) => string;
+  getCursorDisplayName: (c: CXCursor) => string | null;
 
   /** For a cursor that is a reference, retrieve a cursor representing the
    * entity that it references.
@@ -1764,13 +1764,13 @@ export type LibClang = EmscriptenModule & {
    * Given a cursor that represents a property declaration, return the
    * name of the method that implements the getter.
    */
-  Cursor_getObjCPropertyGetterName: (C: CXCursor) => string;
+  Cursor_getObjCPropertyGetterName: (C: CXCursor) => string | null;
 
   /**
    * Given a cursor that represents a property declaration, return the
    * name of the method that implements the setter, if any.
    */
-  Cursor_getObjCPropertySetterName: (C: CXCursor) => string;
+  Cursor_getObjCPropertySetterName: (C: CXCursor) => string | null;
 
   /**
    * Given a cursor that represents an Objective-C method or parameter
@@ -1805,19 +1805,19 @@ export type LibClang = EmscriptenModule & {
    * Given a cursor that represents a declaration, return the associated
    * comment text, including comment markers.
    */
-  Cursor_getRawCommentText: (C: CXCursor) => string;
+  Cursor_getRawCommentText: (C: CXCursor) => string | null;
 
   /**
    * Given a cursor that represents a documentable entity (e.g.,
    * declaration), return the associated \paragraph; otherwise return the
    * first paragraph.
    */
-  Cursor_getBriefCommentText: (C: CXCursor) => string;
+  Cursor_getBriefCommentText: (C: CXCursor) => string | null;
 
   /**
    * Retrieve the CXString representing the mangled name of the cursor.
    */
-  Cursor_getMangling: (C: CXCursor) => string;
+  Cursor_getMangling: (C: CXCursor) => string | null;
 
   // skipped Cursor_getCXXManglings
   // skipped Cursor_getObjCManglings
@@ -1854,14 +1854,14 @@ export type LibClang = EmscriptenModule & {
    * @returns the name of the module, e.g. for the 'std.vector' sub-module it
    * will return "vector".
    */
-  Module_getName: (Module: CXModule) => string;
+  Module_getName: (Module: CXModule) => string | null;
 
   /**
    * @param Module a module object.
    *
    * @returns the full name of the module, e.g. "std.vector".
    */
-  Module_getFullName: (Module: CXModule) => string;
+  Module_getFullName: (Module: CXModule) => string | null;
 
   /**
    * @param Module a module object.
@@ -2045,7 +2045,7 @@ export type LibClang = EmscriptenModule & {
   * The spelling of a token is the textual representation of that token, e.g.,
   * the text of an identifier or keyword.
   */
-  getTokenSpelling: (TU: CXTranslationUnit, T: CXToken) => string;
+  getTokenSpelling: (TU: CXTranslationUnit, T: CXToken) => string | null;
 
   /**
   * Retrieve the source location of the given token.
@@ -2064,7 +2064,7 @@ export type LibClang = EmscriptenModule & {
   /**
    * For debug / testing
    */
-  getCursorKindSpelling: (Kind: EnumValue<CXCursorKind>) => string;
+  getCursorKindSpelling: (Kind: EnumValue<CXCursorKind>) => string | null;
 
   // skipped getDefinitionSpellingAndExtent
   // skipped getDefinitionSpellingAndExtent
