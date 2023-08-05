@@ -1,5 +1,11 @@
 # libclangjs
 
+## 0.4.0
+
+### Minor Changes
+
+- 396f8be: Fix crash when getting file names, add test
+
 ## 0.3.2
 
 ### Patch Changes
