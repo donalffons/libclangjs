@@ -47,6 +47,14 @@ std::string cxStringToStdString(CXString str) {
   return result;
 }
 
+emscripten::val cxStringToStdStringOrNull(CXString str) {
+  if (clang_getCString(str) == nullptr) {
+    return emscripten::val::null();
+  } else {
+    return emscripten::val(cxStringToStdString(str));
+  }
+}
+
 EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function(
       "createIndex",
@@ -1324,11 +1332,11 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
   emscripten::function("Cursor_getCommentRange", &clang_Cursor_getCommentRange);
   emscripten::function(
       "Cursor_getRawCommentText", emscripten::optional_override([](CXCursor C) {
-        return cxStringToStdString(clang_Cursor_getRawCommentText(C));
+        return cxStringToStdStringOrNull(clang_Cursor_getRawCommentText(C));
       }));
   emscripten::function("Cursor_getBriefCommentText",
                        emscripten::optional_override([](CXCursor C) {
-                         return cxStringToStdString(
+                         return cxStringToStdStringOrNull(
                              clang_Cursor_getBriefCommentText(C));
                        }));
   emscripten::function(
