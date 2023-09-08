@@ -3,7 +3,6 @@
 #include <emscripten.h>
 #include <emscripten/bind.h>
 #include <emscripten/val.h>
-#include <iostream>
 #include <string.h>
 #include <string>
 #include <vector>
@@ -359,13 +358,11 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
                     : convertJSStringArray(command_line_args);
             unsigned numConvertedUnsavedFiles = 0;
             CXUnsavedFile *convertedUnsavedFiles = nullptr;
-            if (unsaved_files.isNull() || unsaved_files.isUndefined()) {
-              unsaved_files = emscripten::val::array();
+            if (!(unsaved_files.isNull() || unsaved_files.isUndefined())) {
+              auto f = convertUnsavedFiles(unsaved_files);
+              numConvertedUnsavedFiles = f.size();
+              convertedUnsavedFiles = &f[0];
             }
-            auto f = convertUnsavedFiles(unsaved_files);
-            numConvertedUnsavedFiles = f.size();
-            convertedUnsavedFiles =
-                numConvertedUnsavedFiles > 0 ? &f[0] : nullptr;
             return Pointer({clang_parseTranslationUnit(
                 CIdx.ptr,
                 (source_filename.isNull() || source_filename.isUndefined())
@@ -417,13 +414,11 @@ EMSCRIPTEN_BINDINGS(libclagjs) {
           [](Pointer TU, emscripten::val unsaved_files, unsigned options) {
             unsigned numConvertedUnsavedFiles = 0;
             CXUnsavedFile *convertedUnsavedFiles = nullptr;
-            if (unsaved_files.isNull() || unsaved_files.isUndefined()) {
-              unsaved_files = emscripten::val::array();
+            if (!(unsaved_files.isNull() || unsaved_files.isUndefined())) {
+              auto f = convertUnsavedFiles(unsaved_files);
+              numConvertedUnsavedFiles = f.size();
+              convertedUnsavedFiles = &f[0];
             }
-            auto f = convertUnsavedFiles(unsaved_files);
-            numConvertedUnsavedFiles = f.size();
-            convertedUnsavedFiles =
-                numConvertedUnsavedFiles > 0 ? &f[0] : nullptr;
             return clang_reparseTranslationUnit(
                 static_cast<CXTranslationUnit>(TU.ptr),
                 numConvertedUnsavedFiles, convertedUnsavedFiles, options);

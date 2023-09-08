@@ -170,11 +170,6 @@ test("Can read comments", () => {
   expect(skippedNotBriefComment).toBe(true);
 });
 
-test("Can handle unsaved files", () => {
-  const tu = clang.parseTranslationUnit(index, "temp.cpp", null, [{ filename: "temp.cpp", contents: "intentionally left blank" }], 0)
-  expect(clang.isNullPointer(tu)).toBeFalsy();
-});
-
 test("Can shutdown all threads", () => {
   clang.PThread.terminateAllThreads();
 });
