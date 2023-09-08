@@ -1,5 +1,11 @@
 # libclangjs-cmake
 
+## 0.5.1
+
+### Patch Changes
+
+- 486d2db: fix handling of unsaved files
+
 ## 0.5.0
 
 ### Minor Changes
